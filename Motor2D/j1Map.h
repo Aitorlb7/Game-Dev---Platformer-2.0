@@ -7,7 +7,6 @@
 #include "p2SString.h"
 #include "j1Module.h"
 #include "j1App.h"
-
 #include "j1Textures.h"
 
 enum type {
@@ -19,11 +18,11 @@ enum type {
 struct Properties
 {
 	p2SString	name;
-	type		v_type;
+	type		p_type;
 	union {
-		bool	v_bool;
-		int		v_int;
-		float	v_float;
+		int		p_int;
+		bool	p_bool;
+		float	p_float;
 	} value;
 };
 
@@ -90,6 +89,7 @@ struct MapData
 	MapTypes			type;
 	p2List<TileSet*>	tilesets;
 	p2List<MapLayer*>	layers;
+	p2List<Collider*>	colliders;
 };
 
 // ----------------------------------------------------
@@ -124,6 +124,8 @@ private:
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
 	bool LoadProperties(pugi::xml_node& node, Properties& properties);
+	bool LoadColliders(pugi::xml_node& node);
+
 
 	TileSet* GetTilesetFromTileId(int id) const;
 

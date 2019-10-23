@@ -48,6 +48,7 @@ public:
 	j1Collisions();
 	~j1Collisions();
 
+	bool Awake();
 	bool PreUpdate();
 	bool Update(float dt);
 	bool PostUpdate(float dt);

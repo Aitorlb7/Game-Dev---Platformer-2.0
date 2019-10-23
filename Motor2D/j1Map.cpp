@@ -33,14 +33,14 @@ void j1Map::Draw()
 	if(map_loaded == false)
 		return;
 
-	// TODO 4: Make sure we draw all the layers and not just the first one
-	p2List_item<MapLayer*>* layer = data.layers.start;
-	while (layer != nullptr) {
+	p2List_item<MapLayer*>* newLayer = data.layers.start;
+	while (newLayer != nullptr)	//Iterate layers
+	{
 		for (int y = 0; y < data.height; ++y)
 		{
 			for (int x = 0; x < data.width; ++x)
 			{
-				int tile_id = layer->data->Get(x, y);
+				int tile_id = newLayer->data->Get(x, y);
 				if (tile_id > 0)
 				{
 					TileSet* tileset = GetTilesetFromTileId(tile_id);
@@ -54,29 +54,27 @@ void j1Map::Draw()
 				}
 			}
 		}
-		layer = layer->next;
+		newLayer = newLayer->next;
 	}
 }
 
 TileSet* j1Map::GetTilesetFromTileId(int id) const
 {
-	// TODO 3: Complete this method so we pick the right
-	// Tileset based on a tile id //data.tilesets.start->data
 	TileSet* ret = nullptr;
-	
-	p2List_item<TileSet*>* i = data.tilesets.start;
-	while (i->next != nullptr) {
+	p2List_item<TileSet*>* iterator = data.tilesets.start;
+	while (iterator->next != nullptr) 
+	{
 
-		if (id >= i->data->firstgid && id < i->next->data->firstgid) {
-			ret = i->data;
+		if (id >= iterator->data->firstgid && id < iterator->next->data->firstgid) {
+			ret = iterator->data;
 			break;
 		}
-		i = i->next;
+		iterator = iterator->next;
 	}
-	if (ret == nullptr) {
+	if (ret == nullptr) 
+	{
 		ret = data.tilesets.end->data;
 	}
-
 	return ret;
 }
 
@@ -222,6 +220,17 @@ bool j1Map::Load(const char* file_name)
 
 		if(ret == true)
 			data.layers.add(lay);
+	}
+	// Load Colliders info ----------------------------------------------
+	pugi::xml_node object;
+	p2SString object_name;
+	for (object = map_file.child("map").child("objectgroup"); object && ret; object = object.next_sibling("objectgroup"))
+	{
+		object_name = object.attribute("name").as_string();
+		if (object_name == "Collision")
+		{
+			LoadColliders(object);
+		}
 	}
 
 	if(ret == true)
@@ -419,26 +428,58 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 bool j1Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 {
 	bool ret = false;
-
-	// TODO 6: Fill in the method to fill the custom properties from 
-	// an xml_node
 	pugi::xml_node property_node = node.child("properties").child("property");
 	while (property_node != nullptr) {
 		properties.name = node.attribute("name").as_string();
 
 		if (node.attribute("type").as_string() == "bool") {
-			properties.v_type = TYPE_BOOL;
-			properties.value.v_bool = node.attribute("value").as_bool();
+			properties.p_type = TYPE_BOOL;
+			properties.value.p_bool = node.attribute("value").as_bool();
 		}
 		else if (node.attribute("type").as_string() == "float") {
-			properties.v_type = TYPE_FLOAT;
-			properties.value.v_float = node.attribute("value").as_float();
+			properties.p_type = TYPE_FLOAT;
+			properties.value.p_float = node.attribute("value").as_float();
 		}
 		else if (node.attribute("type").as_string() == "int") {
-			properties.v_type = TYPE_INT;
-			properties.value.v_int = node.attribute("value").as_int();
+			properties.p_type = TYPE_INT;
+			properties.value.p_int = node.attribute("value").as_int();
 		}
 		property_node = property_node.next_sibling();
 	}
+	return ret;
+}
+// Load Colliders
+bool j1Map::LoadColliders(pugi::xml_node& node)
+{
+	bool ret = true;
+	pugi::xml_node object;
+	COLLIDER_TYPE collider_type;
+	p2SString type;
+	SDL_Rect shape;
+
+	for (object = node.child("object"); object; object = object.next_sibling("object"))
+	{
+		type = object.attribute("type").as_string();
+		if (type == "floor")
+		{
+			collider_type = COLLIDER_UNPENETRABLE;
+		}
+		else if (type == "jumpable")
+		{
+			collider_type = COLLIDER_PENETRABLE;
+		}
+		else
+		{
+			LOG("Collider type undefined");
+			continue;
+		}
+		shape.x = object.attribute("x").as_int();
+		shape.y = object.attribute("y").as_int();
+		shape.w = object.attribute("width").as_int();
+		shape.h = object.attribute("height").as_int();
+
+		data.colliders.add(App->collisions->AddCollider(shape, collider_type));
+	}
+
 	return ret;
 }

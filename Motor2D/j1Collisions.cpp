@@ -27,7 +27,10 @@ j1Collisions::j1Collisions()
 
 
 }
-
+bool j1Collisions::Awake()
+{
+	return true;
+}
 // Destructor
 j1Collisions::~j1Collisions()
 {}
