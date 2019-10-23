@@ -1,0 +1,40 @@
+<!-- Config file for the game -->
+
+<config>
+  <app>
+    <title>Game Development Platformer</title>
+    <organization>UPC</organization>
+  </app>
+	
+  <renderer>
+    <vsync value="false"/>
+  </renderer>
+
+  <window>
+    <resolution width="1080" height="720" scale="1"/>
+    <fullscreen value="false"/>
+    <borderless value="false"/>
+    <resizable value="false"/>
+    <fullscreen_window value="false"/>
+  </window>
+
+  <file_system>
+    <path>data.zip</path>
+  </file_system>
+
+  <map>
+    <folder>maps/</folder>
+  </map>
+  
+  <player>
+    <gravity value="65"/>
+    <animation_speed value="5"/>
+    <jump_speed x="0" y="-30"/>
+    <run_speed x="360" y="0"/>
+    <dash_speed x="750" y="0"/>
+    <!--<dashingColliderDifference value="0"/>
+    <colOffset x="11" y="9"/>
+    <dashtime value="500"/>-->
+  </player>
+
+</config>
