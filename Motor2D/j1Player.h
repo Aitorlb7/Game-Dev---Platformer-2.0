@@ -40,7 +40,6 @@ public:
 	void CheckAnimation(); // It will check and if needed change any animation
 	bool PositionCameraOnPlayer();
 	/*iPoint dashDirection(player_state);*/ //Check the player direction to dash forwards
-	void Player_Move();
 
 	Animation*			current_anim;
 	Animation			idle_anim;
@@ -69,7 +68,6 @@ public:
 	p2Point<float>		dash_speed;
 
 	float				gravity;
-	float				animation_speed;
 
 	Collider*			player_col = nullptr;
 	SDL_Rect			visual_col;

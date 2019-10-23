@@ -9,35 +9,10 @@
 #include "j1Map.h"
 #include "j1Collisions.h"
 
-j1Player::~j1Player()
-{
-	name.create("player");
-}
-
-bool j1Player::Awake(pugi::xml_node& config)
-{
-	bool ret = true;
-
-	//gravity = config.child("gravity").attribute("value").as_float();
-
-	//position.x = config.child("position").attribute("x").as_float();
-	//position.y = config.child("position").attribute("y").as_float();
-
-	//run_speed.x = config.child("run_speed").attribute("x").as_float();
-	//run_speed.y = config.child("run_speed").attribute("y").as_float();
-
-	//jump_speed.x = config.child("jump_speed").attribute("x").as_float();
-	//jump_speed.y = config.child("jump_speed").attribute("y").as_float();
-
-	//dash_speed.x = config.child("dash_speed").attribute("x").as_float();
-	//dash_speed.y = config.child("dash_speed").attribute("y").as_float();
-
-	//animation_speed = config.child("animation_speed").attribute("value").as_float();
-
-	return ret;
-}
 j1Player::j1Player() : j1Module()
 {
+	name.create("player");
+
 	idle_anim.PushBack({ 14, 6, 19, 30 });
 	idle_anim.PushBack({ 64, 6, 19, 30 });
 	idle_anim.PushBack({ 114, 6, 19, 30 });
@@ -54,24 +29,49 @@ j1Player::j1Player() : j1Module()
 
 	jump_anim.PushBack({ 117, 79, 19, 30 });
 
-	crouch_anim.PushBack({215,14,20,22});
-	crouch_anim.PushBack({265,14,20,22});
-	crouch_anim.PushBack({315,14,20,22});
+	crouch_anim.PushBack({ 215,6,20,30 });
+	crouch_anim.PushBack({ 265,6,20,30 });
+	crouch_anim.PushBack({ 315,6,20,30 });
 	crouch_anim.speed = 0.03f;
 
-	crouchwalk_anim.PushBack({168,351,19,18});
-	crouchwalk_anim.PushBack({218,351,19,18});
-	crouchwalk_anim.speed = 0.01f;	
-	
-	fall_anim.PushBack({68,112,18,31});
-	fall_anim.PushBack({118,112,18,31});
+	crouchwalk_anim.PushBack({ 168,351,19,18 });
+	crouchwalk_anim.PushBack({ 218,351,19,18 });
+	crouchwalk_anim.speed = 0.01f;
+
+	fall_anim.PushBack({ 68,112,18,31 });
+	fall_anim.PushBack({ 118,112,18,31 });
 	fall_anim.speed = 0.03f;
 
-	dash_anim.PushBack({205,571,30,20});
-	dash_anim.PushBack({242,571,30,20});
-	dash_anim.PushBack({280,571,30,20});
-	dash_anim.PushBack({324,571,30,20});
+	dash_anim.PushBack({ 205,571,30,20 });
+	dash_anim.PushBack({ 242,571,30,20 });
+	dash_anim.PushBack({ 280,571,30,20 });
+	dash_anim.PushBack({ 324,571,30,20 });
 	dash_anim.speed = 0.05f;
+	dash_anim.lock = true;
+}
+j1Player::~j1Player()
+{
+}
+
+bool j1Player::Awake(pugi::xml_node& config)
+{
+	bool ret = true;
+
+	gravity = config.child("gravity").attribute("value").as_float();
+
+	position.x = config.child("position").attribute("x").as_float();
+	position.y = config.child("position").attribute("y").as_float();
+
+	run_speed.x = config.child("run_speed").attribute("x").as_float();
+	run_speed.y = config.child("run_speed").attribute("y").as_float();
+
+	jump_speed.x = config.child("jump_speed").attribute("x").as_float();
+	jump_speed.y = config.child("jump_speed").attribute("y").as_float();
+
+	dash_speed.x = config.child("dash_speed").attribute("x").as_float();
+	dash_speed.y = config.child("dash_speed").attribute("y").as_float();
+
+	return ret;
 }
 
 
@@ -82,25 +82,10 @@ bool j1Player::Start()
 	graphics = App->tex->Load("textures/Player_Spritesheet.png");
 	dead = false;
 	is_grounded = true;
-	//player_col = App->collisions->AddCollider({ position.x, position.y, 18, 27 }, COLLIDER_PLAYER, this);
+	is_dashing = false;
 	current_anim = &idle_anim;
 
-	gravity = 10;
-
-	position.x = 100;
-	position.y = 450;
-
-	run_speed.x = 5;
-	run_speed.y = 0;
-
-	jump_speed.x = 0;
-	jump_speed.y = -50;
-
-	dash_speed.x = 50;
-	dash_speed.y = 0;
-
-	
-
+	player_col = App->collisions->AddCollider({ (int)position.x, (int)position.y, 18, 27 }, COLLIDER_PLAYER, this);
 
 	return true;
 }
@@ -146,52 +131,24 @@ bool j1Player::PreUpdate()
 					pState = IDLE;
 				}
 			}
-			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
 			{
-				if (is_dashing == false)
-				{
-					if (pState == JUMPING || pState == FALLING)
-					{
-						if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
-						{
-							pState = DASHING;
-						}
-						else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
-						{
-							if (pState == DASHING)
-							{
-								pState = FALLING;
-
-							}
-						}
-					}
-					else
-					{
-						pState = JUMPING;
-					}
-				}
-				else if (App->input->GetKey(SDL_SCANCODE_W) == KEY_UP)
-				{
-					pState = FALLING;
-				}
+				pState = JUMPING;
 			}
-		}
-		//else // Grounded = false
-		//{
-		//	pState = FALLING;
-		//}
-
-		/*if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
+		}		
+		else // Grounded = false
 		{
 			pState = FALLING;
-		}*/
+		}
+
+		if (is_dashing == false)
+		{
+			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+			{
+				pState = DASHING;
+			}
+		}
 	}
-
-
-
-
-
-
 	return true;
 }
 
@@ -216,6 +173,11 @@ bool j1Player::Update(float dt)
 		break;
 	case CROUCHING:
 		current_anim = &crouch_anim;
+		player_col->rect.h = 20;
+		break;
+	case DASHING:
+		player_velocity.x += dash_speed.x;
+		current_anim = &dash_anim;
 		break;
 	case JUMPING:
 		is_jumping = true;
@@ -228,11 +190,11 @@ bool j1Player::Update(float dt)
 			v.y = (jump_force * 2 / 3) / 2;
 		}*/
 	case FALLING:
-		position.y += 5.0f;
+		position.y += gravity;
 		break;
 	}
 	position.x += player_velocity.x;
-	position.y += player_velocity.x;
+	position.y += player_velocity.y;
 	return true;
 }
 
@@ -240,15 +202,15 @@ bool j1Player::PostUpdate()
 {
 	App->render->Blit(graphics, position.x, position.y,&current_anim->GetCurrentFrame());
 	App->render->DrawQuad(current_anim->GetCurrentFrame(), 255, 0, 0, 0, true);
-	/*PositionCameraOnPlayer();*/
+	PositionCameraOnPlayer();
 	return true;
 }
 
 
 bool j1Player::PositionCameraOnPlayer()
 {
-	App->render->camera.x = position.x - App->render->camera.w / 3;
-	if (App->render->camera.x < 0)
+	App->render->camera.x = position.x - (App->render->camera.w / 3);
+	if (App->render->camera.x >= 0)
 	{
 		App->render->camera.x = 0;
 		App->render->camera.y = position.y - App->render->camera.h / 2;
@@ -258,11 +220,6 @@ bool j1Player::PositionCameraOnPlayer()
 		App->render->camera.y =App->map->data.height * App->map->data.tile_height - App->win->height;
 	}
 	return true;
-}
-
-void j1Player::Player_Move()
-{
-
 }
 
 //iPoint dashDirection(player_state pState)
