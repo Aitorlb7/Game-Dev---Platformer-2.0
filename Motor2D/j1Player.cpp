@@ -156,6 +156,8 @@ bool j1Player::PreUpdate()
 
 bool j1Player::Update(float dt)
 {
+	player_col->SetPos(position.x, position.y);
+
 	switch (pState)
 	{
 	case IDLE:
@@ -201,7 +203,6 @@ bool j1Player::Update(float dt)
 bool j1Player::PostUpdate()
 {
 	App->render->Blit(graphics, position.x, position.y,&current_anim->GetCurrentFrame());
-	App->render->DrawQuad(current_anim->GetCurrentFrame(), 255, 0, 0, 0, true);
 	PositionCameraOnPlayer();
 	return true;
 }
@@ -209,15 +210,16 @@ bool j1Player::PostUpdate()
 
 bool j1Player::PositionCameraOnPlayer()
 {
-	App->render->camera.x = position.x - (App->render->camera.w / 3);
+	App->render->camera.x = -position.x + App->render->camera.w / 3;
+	App->render->camera.y = -position.y + App->render->camera.h;
+
 	if (App->render->camera.x >= 0)
 	{
 		App->render->camera.x = 0;
-		App->render->camera.y = position.y - App->render->camera.h / 2;
 	}
-	if ((App->render->camera.y + App->win->height) > (App->map->data.height * App->map->data.tile_height))
+	if (App->render->camera.y >= 0)
 	{
-		App->render->camera.y =App->map->data.height * App->map->data.tile_height - App->win->height;
+		App->render->camera.y = 0;
 	}
 	return true;
 }

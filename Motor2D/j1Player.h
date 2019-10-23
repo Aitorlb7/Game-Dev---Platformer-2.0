@@ -70,8 +70,6 @@ public:
 	float				gravity;
 
 	Collider*			player_col = nullptr;
-	SDL_Rect			visual_col;
-
 
 };
 #endif // __j1PLAYER_H__
