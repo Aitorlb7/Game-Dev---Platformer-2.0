@@ -18,30 +18,22 @@ bool j1Player::Awake(pugi::xml_node& config)
 {
 	bool ret = true;
 
-	gravity = config.child("gravity").attribute("value").as_float();
+	//gravity = config.child("gravity").attribute("value").as_float();
 
-	position.x = config.child("position").attribute("x").as_float();
-	position.y = config.child("position").attribute("y").as_float();
+	//position.x = config.child("position").attribute("x").as_float();
+	//position.y = config.child("position").attribute("y").as_float();
 
-	run_speed.x = config.child("run_speed").attribute("x").as_float();
-	run_speed.y = config.child("run_speed").attribute("y").as_float();
+	//run_speed.x = config.child("run_speed").attribute("x").as_float();
+	//run_speed.y = config.child("run_speed").attribute("y").as_float();
 
-	jump_speed.x = config.child("jump_speed").attribute("x").as_float();
-	jump_speed.y = config.child("jump_speed").attribute("y").as_float();
+	//jump_speed.x = config.child("jump_speed").attribute("x").as_float();
+	//jump_speed.y = config.child("jump_speed").attribute("y").as_float();
 
-	dash_speed.x = config.child("dash_speed").attribute("x").as_float();
-	dash_speed.y = config.child("dash_speed").attribute("y").as_float();
+	//dash_speed.x = config.child("dash_speed").attribute("x").as_float();
+	//dash_speed.y = config.child("dash_speed").attribute("y").as_float();
 
-	animation_speed = config.child("animation_speed").attribute("value").as_float();
+	//animation_speed = config.child("animation_speed").attribute("value").as_float();
 
-	if (gravity == NULL)
-	{
-		return ret;
-	}
-	//SightCollider.x = 0;
-	//SightCollider.y = 0;
-	//SightCollider.w = 1;
-	//SightCollider.h = 1;
 	return ret;
 }
 j1Player::j1Player() : j1Module()
@@ -89,13 +81,33 @@ bool j1Player::Start()
 {
 	graphics = App->tex->Load("textures/Player_Spritesheet.png");
 	dead = false;
+	is_grounded = true;
 	//player_col = App->collisions->AddCollider({ position.x, position.y, 18, 27 }, COLLIDER_PLAYER, this);
 	current_anim = &idle_anim;
+
+	gravity = 10;
+
+	position.x = 100;
+	position.y = 450;
+
+	run_speed.x = 5;
+	run_speed.y = 0;
+
+	jump_speed.x = 0;
+	jump_speed.y = -50;
+
+	dash_speed.x = 50;
+	dash_speed.y = 0;
+
+	
+
+
 	return true;
 }
 
 bool j1Player::PreUpdate()
 {
+	pState = IDLE;
 	if (dead == false)
 	{
 		if (is_grounded == true)
@@ -105,7 +117,7 @@ bool j1Player::PreUpdate()
 				pState = RIGHT;
 
 			}
-			else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_UP)
+			else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 			{
 				if (pState == RIGHT)
 				{
@@ -134,13 +146,13 @@ bool j1Player::PreUpdate()
 					pState = IDLE;
 				}
 			}
-			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 			{
 				if (is_dashing == false)
 				{
 					if (pState == JUMPING || pState == FALLING)
 					{
-						if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+						if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
 						{
 							pState = DASHING;
 						}
@@ -164,22 +176,28 @@ bool j1Player::PreUpdate()
 				}
 			}
 		}
-		else // Grounded = false
-		{
-			pState = FALLING;
-		}
+		//else // Grounded = false
+		//{
+		//	pState = FALLING;
+		//}
 
-		if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
+		/*if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
 		{
 			pState = FALLING;
-		}
+		}*/
 	}
+
+
+
+
+
+
 	return true;
 }
 
 
 
-bool j1Player::Update()
+bool j1Player::Update(float dt)
 {
 	switch (pState)
 	{
@@ -187,18 +205,23 @@ bool j1Player::Update()
 		player_velocity.x = 0;
 		player_velocity.y = 0;
 		current_anim = &idle_anim;
+		break;
 	case RIGHT:
-		player_velocity = run_speed;
+		player_velocity.x = run_speed.x;
 		current_anim = &run_anim;
+		break;
 	case LEFT:
 		player_velocity.x = -run_speed.x;
 		current_anim = &run_anim;
+		break;
 	case CROUCHING:
 		current_anim = &crouch_anim;
+		break;
 	case JUMPING:
 		is_jumping = true;
 		player_velocity = jump_speed;
 		current_anim = &jump_anim;
+		break;
 		// If player release space in mid jump, the character won't reach max height
 		/*if (!double_jump && v.y > (jump_force * 2 / 3) / 2)
 		{
@@ -206,7 +229,10 @@ bool j1Player::Update()
 		}*/
 	case FALLING:
 		position.y += 5.0f;
+		break;
 	}
+	position.x += player_velocity.x;
+	position.y += player_velocity.x;
 	return true;
 }
 
