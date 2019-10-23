@@ -87,14 +87,13 @@ j1Player::j1Player() : j1Module()
 
 bool j1Player::Start()
 {
-	/*if (graphics == nullptr)
-	{
-		
-	}*/
 	graphics = App->tex->Load("textures/Player_Spritesheet.png");
+	dead = false;
+	//player_col = App->collisions->AddCollider({ position.x, position.y, 18, 27 }, COLLIDER_PLAYER, this);
 	current_anim = &idle_anim;
 	return true;
 }
+
 bool j1Player::PreUpdate()
 {
 	if (dead == false)
@@ -144,7 +143,6 @@ bool j1Player::PreUpdate()
 						if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 						{
 							pState = DASHING;
-							/*player_velocity = dashDirection(pState);*/
 						}
 						else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
 						{
@@ -167,6 +165,11 @@ bool j1Player::PreUpdate()
 			}
 		}
 		else // Grounded = false
+		{
+			pState = FALLING;
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
 		{
 			pState = FALLING;
 		}
@@ -202,11 +205,11 @@ bool j1Player::Update()
 			v.y = (jump_force * 2 / 3) / 2;
 		}*/
 	case FALLING:
-		player_velocity.x = jump_speed.x;
-		player_velocity.y = gravity;
+		position.y += 5.0f;
 	}
 	return true;
 }
+
 bool j1Player::PostUpdate()
 {
 	App->render->Blit(graphics, position.x, position.y,&current_anim->GetCurrentFrame());
@@ -231,6 +234,10 @@ bool j1Player::PositionCameraOnPlayer()
 	return true;
 }
 
+void j1Player::Player_Move()
+{
+
+}
 
 //iPoint dashDirection(player_state pState)
 //{
