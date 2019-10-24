@@ -12,6 +12,7 @@
 j1Scene::j1Scene() : j1Module()
 {
 	name.create("scene");
+
 	Parallax_rect[0] = { 0,0,5000,532 };
 	Parallax_rect[1] = { 0,534,5000,249 };
 	Parallax_rect[2] = { 0,782,5000,748 };
@@ -22,10 +23,12 @@ j1Scene::~j1Scene()
 {}
 
 // Called before render is available
-bool j1Scene::Awake()
+bool j1Scene::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Scene");
 	bool ret = true;
+
+	soundtrack[0] = config.child("Music1").attribute("source").as_string();
 
 	return ret;
 }
@@ -35,12 +38,14 @@ bool j1Scene::Start()
 {
 	App->map->Load("Level1.tmx");
 	graphics = App->tex->Load("textures/Parallax.png");
+	App->audio->PlayMusic(soundtrack[0].GetString(), -1);
 	return true;
 }
 
 // Called each loop iteration
 bool j1Scene::PreUpdate()
 {
+	//App->audio->LoadFx(soundtrack[0].GetString());
 	return true;
 }
 

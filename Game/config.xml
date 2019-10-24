@@ -24,7 +24,11 @@
 
   <map>
     <folder>maps/</folder>
-  </map>
+  </map>  
+  
+  <scene>
+    <Music1 source="audio/music/Music1.wav"/>
+  </scene>
   
   <player>
     <gravity value="3"/>
