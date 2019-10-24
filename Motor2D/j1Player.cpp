@@ -66,8 +66,7 @@ bool j1Player::Awake(pugi::xml_node& config)
 	run_speed.x = config.child("run_speed").attribute("x").as_float();
 	run_speed.y = config.child("run_speed").attribute("y").as_float();
 
-	jump_speed.x = config.child("jump_speed").attribute("x").as_float();
-	jump_speed.y = config.child("jump_speed").attribute("y").as_float();
+	jump_acceleration = config.child("jump_acceleration").attribute("value").as_float();
 
 	dash_speed.x = config.child("dash_speed").attribute("x").as_float();
 	dash_speed.y = config.child("dash_speed").attribute("y").as_float();
@@ -94,8 +93,8 @@ bool j1Player::Start()
 
 	current_anim = &idle_anim;
 
-	player_col = App->collisions->AddCollider({ (int)position.x, (int)position.y, 18, 27 }, COLLIDER_PLAYER, this);
-
+	player_col = App->collisions->AddCollider({ (int)position.x, (int)position.y, 20, 40}, COLLIDER_PLAYER, this);
+	
 	App->audio->LoadFx(jump_SFX.GetString());
 	App->audio->LoadFx(dash_SFX.GetString());
 	App->audio->LoadFx(run_SFX.GetString());
@@ -110,12 +109,13 @@ bool j1Player::PreUpdate()
 	{
 		if (is_grounded == true)
 		{
+			pState = IDLE;
 			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 			{
 				pState = RIGHT;
 
 			}
-			else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+			else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_UP)
 			{
 				if (pState == RIGHT)
 				{
@@ -149,6 +149,13 @@ bool j1Player::PreUpdate()
 				pState = JUMPING;
 				is_jumping = true;
 			}
+			else if (App->input->GetKey(SDL_SCANCODE_W) == KEY_UP)
+			{
+				if (pState == JUMPING)
+				{
+					pState = STOP_JUMPING;
+				}
+			}
 		}		
 		else // Grounded = false
 		{
@@ -171,7 +178,7 @@ bool j1Player::PreUpdate()
 bool j1Player::Update(float dt)
 {
 	player_col->SetPos(position.x, position.y);
-
+	before_colliding = position;
 	switch (pState)
 	{
 	case IDLE:
@@ -197,20 +204,17 @@ bool j1Player::Update(float dt)
 		break;
 	case JUMPING:
 		
-		jumpInit_pos = position.y;
+		player_velocity.y = -jump_acceleration;
 		current_anim = &jump_anim;
-		if (is_jumping)
-		{
-			jumpMovement();
-		}
+		
 		break;
-		// If player release space in mid jump, the character won't reach max height
-		/*if (!double_jump && v.y > (jump_force * 2 / 3) / 2)
+	case STOP_JUMPING:
+		if (player_velocity.y > (jump_acceleration * 2 / 3) / 2)
 		{
-			v.y = (jump_force * 2 / 3) / 2;
-		}*/
+			player_velocity.y = (jump_acceleration * 2 / 3) / 2;
+		}
 	case FALLING:
-		position.y += gravity;
+		player_velocity.y = 1;
 		break;
 	}
 	position.x += player_velocity.x;
@@ -225,7 +229,86 @@ bool j1Player::PostUpdate()
 	return true;
 }
 
+void j1Player::Player_Colliding(Collider* C1, Collider* C2)
+{
+	if (C2->type == COLLIDER_TYPE::COLLIDER_PLAYER)
+	{
+		return;
+	}
+	
+	if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_UNPENETRABLE)
+	{
+		//Collision from below
+		if (C2->rect.y + C2->rect.h - App->player->before_colliding.y < 0) //need to review -- Purpouse: Dont act when it collides from top
+		{
+			if (App->player->before_colliding.y < (C2->rect.y + C2->rect.h))
+			{
+				App->player->position.y = C2->rect.y + C2->rect.h;
+			}
+		}
 
+		//Collision from top
+		else if ((App->player->before_colliding.y + App->player->player_col->rect.y) > (C2->rect.y))
+		{
+			App->player->position.y = C2->rect.y - App->player->player_col->rect.h + 1;
+			if (player_velocity.y > 0)
+			{
+				player_velocity.y = 0;
+			}
+			is_grounded = true;
+
+		}
+		//Collision from the right
+		else if (App->player->position.y + (App->player->player_col->rect.h * 3.0f / 4.0f) > C2->rect.y + C2->rect.h
+			&& App->player->position.y + (App->player->player_col->rect.h * 3.0f / 4.0f) < C2->rect.y)
+		{
+			if ((App->player->player_col->rect.x + App->player->player_col->rect.w) < (C2->rect.x + C2->rect.w / 2))
+			{
+				App->player->position.x = C2->rect.x - App->player->player_col->rect.w;
+			}
+			//Collision from the left
+			else if (App->player->player_col->rect.x < (C2->rect.x + C2->rect.w))
+			{
+				App->player->position.x = C2->rect.x + C2->rect.w - 20;
+			}
+		}
+	}
+	else if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_PENETRABLE)
+	{
+		//Collision from below
+		if (App->player->before_colliding.y > (C2->rect.y - 1))
+		{
+			App->player->position.y = C2->rect.y ;
+
+		}
+		//Collision from top
+		else if ((App->player->before_colliding.y + App->player->player_col->rect.y) < (C2->rect.y))
+		{
+			App->player->position.y = C2->rect.y;
+			if (player_velocity.y > 0)
+			{
+				player_velocity.y = 0;
+			}
+			is_grounded = true;
+
+		}
+		////Collision from the right
+		//if ((App->player->player_col->rect.x + App->player->player_col->rect.w) < (C2->rect.x + C2->rect.w / 2))
+		//{
+		//	App->player->position.x = C2->rect.x - App->player->player_col->rect.w;
+		//}
+		////Collision from the left
+		//else if (App->player->player_col->rect.x < (C2->rect.x + C2->rect.w))
+		//{
+		//	App->player->position.x = C2->rect.x + C2->rect.w - 20;
+		//}
+	}
+
+}
+
+
+
+// Keep the camera focused on the player
 bool j1Player::PositionCameraOnPlayer()
 {
 	App->render->camera.x = -position.x + App->render->camera.w / 3;
@@ -245,11 +328,6 @@ bool j1Player::PositionCameraOnPlayer()
 void j1Player::jumpMovement()
 {
 
-	player_velocity = jump_speed;
-	if (position.y - jumpInit_pos >= 100)
-	{
-		is_jumping = false;
-	}
 }
 
 //iPoint dashDirection(player_state pState)
