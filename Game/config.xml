@@ -28,13 +28,13 @@
   
   <player>
     <gravity value="3"/>
-    <position x="100" y="480"/>
-    <jump_speed x="0" y="-2"/>
+    <position x="100" y="300"/>
+    <jump_acceleration value="7"/>
     <run_speed x="1" y="0"/>
     <dash_speed x="50" y="0"/>
     <is_dashing value="false"/>
     <is_jumping value="false"/>
-    <is_grounded value="true"/>
+    <is_grounded value="false"/>
     <is_dead value="false"/>
     <jump_SFX source="audio/fx/Jump.wav"/>
     <dash_SFX source="audio/fx/Dash.wav"/>

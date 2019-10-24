@@ -18,6 +18,7 @@ enum player_state
 	CROUCHING,
 	DASHING,
 	JUMPING,
+	STOP_JUMPING,
 	FALLING,
 };
 
@@ -34,6 +35,8 @@ public:
 	bool Update(float dt);
 	bool PostUpdate();
 	//bool CleanUp();
+
+	void j1Player::Player_Colliding(Collider* c1, Collider* c2);
 	void CheckAnimation(); // It will check and if needed change any animation
 	void jumpMovement();
 	bool PositionCameraOnPlayer();
@@ -54,14 +57,17 @@ public:
 
 	int jumpInit_pos;
 
+	p2Point<float>		before_colliding;
 	p2Point<float>		position;
+
 	p2Point<float>		player_velocity;
 	p2Point<float>		run_speed;
 
-	p2Point<float>		jump_speed;
+	
 	p2Point<float>		dash_speed;
 
 	float				gravity;
+	float				jump_acceleration;
 
 	Collider*			player_col = nullptr;
 
