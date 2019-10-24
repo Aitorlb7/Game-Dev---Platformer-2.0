@@ -45,7 +45,6 @@ bool j1Scene::Start()
 // Called each loop iteration
 bool j1Scene::PreUpdate()
 {
-	//App->audio->LoadFx(soundtrack[0].GetString());
 	return true;
 }
 
