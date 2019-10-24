@@ -192,8 +192,11 @@ bool j1Player::Update(float dt)
 	switch (pState)
 	{
 	case IDLE:
-		player_velocity.x = 0;
-		player_velocity.y = 0;
+		if (is_dashing == false)
+		{
+			player_velocity.x = 0;
+			player_velocity.y = 0;
+		}
 		player_col->rect.h = 40;
 		current_anim = &idle_anim;
 		break;
@@ -212,7 +215,7 @@ bool j1Player::Update(float dt)
 		able_superjump = true;
 		break;
 	case DASHING:
-		player_velocity.x += dash_speed.x;
+		is_dashing = true;
 		current_anim = &dash_anim;
 		break;
 	case JUMPING:		
@@ -228,6 +231,7 @@ bool j1Player::Update(float dt)
 		break;
 	}
 	jumpMovement(); 
+	Dash_Movement();
 	position.x += player_velocity.x;
 	position.y += player_velocity.y;
 	return true;
@@ -261,7 +265,7 @@ void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 		//Collision from top
 		else if ((App->player->before_colliding.y + App->player->player_col->rect.y) > (C2->rect.y))
 		{
-			/*App->player->position.y = C2->rect.y - App->player->player_col->rect.h + 1;*/
+			/*App->player->position.y = C2->rect.y - App->player->player_col->rect.h + 1;*/ // LA HE COMENTADO PARA QUE VAYA EL JUMP (NO SÉ SI HACE ALGO ÚTIL)
 			if (player_velocity.y > 0)
 			{
 				player_velocity.y = 0;
@@ -354,6 +358,23 @@ void j1Player::jumpMovement()
 		{
 			pState = STOP_JUMPING;
 		}		
+	}
+	
+}
+
+void j1Player::Dash_Movement()
+{
+	if (is_dashing == true)
+	{
+		if (player_velocity.x > 8)
+		{
+			is_dashing = false;
+		}
+		else
+		{
+			player_velocity.x += 0.3f;
+			current_anim = &dash_anim;
+		}
 	}
 	
 }
