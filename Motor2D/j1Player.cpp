@@ -93,7 +93,7 @@ bool j1Player::Start()
 
 	current_anim = &idle_anim;
 
-	player_col = App->collisions->AddCollider({ (int)position.x, (int)position.y, 20, 60}, COLLIDER_PLAYER, this);
+	player_col = App->collisions->AddCollider({ (int)position.x, (int)position.y, 20, 40}, COLLIDER_PLAYER, this);
 	
 	App->audio->LoadFx(jump_SFX.GetString());
 	App->audio->LoadFx(dash_SFX.GetString());
@@ -109,6 +109,7 @@ bool j1Player::PreUpdate()
 	{
 		if (is_grounded == true)
 		{
+			pState = IDLE;
 			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 			{
 				pState = RIGHT;
@@ -143,7 +144,7 @@ bool j1Player::PreUpdate()
 					pState = IDLE;
 				}
 			}
-			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
 			{
 				pState = JUMPING;
 				is_jumping = true;
@@ -203,7 +204,7 @@ bool j1Player::Update(float dt)
 		break;
 	case JUMPING:
 		
-		player_velocity.y = jump_acceleration;
+		player_velocity.y = -jump_acceleration;
 		current_anim = &jump_anim;
 		
 		break;
@@ -230,7 +231,7 @@ bool j1Player::PostUpdate()
 
 void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 {
-	if (C1->type == COLLIDER_TYPE::COLLIDER_PLAYER)
+	if (C2->type == COLLIDER_TYPE::COLLIDER_PLAYER)
 	{
 		return;
 	}
@@ -238,11 +239,14 @@ void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 	if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_UNPENETRABLE)
 	{
 		//Collision from below
-		if (App->player->before_colliding.y < (C2->rect.y + C2->rect.h - 1))
+		if (C2->rect.y + C2->rect.h - App->player->before_colliding.y < 0) //need to review -- Purpouse: Dont act when it collides from top
 		{
-			App->player->position.y = C2->rect.y + C2->rect.h;
-
+			if (App->player->before_colliding.y < (C2->rect.y + C2->rect.h))
+			{
+				App->player->position.y = C2->rect.y + C2->rect.h;
+			}
 		}
+
 		//Collision from top
 		else if ((App->player->before_colliding.y + App->player->player_col->rect.y) > (C2->rect.y))
 		{
@@ -255,26 +259,30 @@ void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 
 		}
 		//Collision from the right
-		if ((App->player->player_col->rect.x + App->player->player_col->rect.w) < (C2->rect.x + C2->rect.w / 2)) 
+		else if (App->player->position.y + (App->player->player_col->rect.h * 3.0f / 4.0f) > C2->rect.y + C2->rect.h
+			&& App->player->position.y + (App->player->player_col->rect.h * 3.0f / 4.0f) < C2->rect.y)
 		{
-			App->player->position.x = C2->rect.x - App->player->player_col->rect.w ;
-		}
-		//Collision from the left
-		else if (App->player->player_col->rect.x < (C2->rect.x + C2->rect.w)) 
-		{
-			App->player->position.x = C2->rect.x + C2->rect.w - 20;
+			if ((App->player->player_col->rect.x + App->player->player_col->rect.w) < (C2->rect.x + C2->rect.w / 2))
+			{
+				App->player->position.x = C2->rect.x - App->player->player_col->rect.w;
+			}
+			//Collision from the left
+			else if (App->player->player_col->rect.x < (C2->rect.x + C2->rect.w))
+			{
+				App->player->position.x = C2->rect.x + C2->rect.w - 20;
+			}
 		}
 	}
 	else if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_PENETRABLE)
 	{
 		//Collision from below
-		if (App->player->before_colliding.y < (C2->rect.y - 1))
+		if (App->player->before_colliding.y > (C2->rect.y - 1))
 		{
 			App->player->position.y = C2->rect.y ;
 
 		}
 		//Collision from top
-		else if ((App->player->before_colliding.y + App->player->player_col->rect.y) > (C2->rect.y))
+		else if ((App->player->before_colliding.y + App->player->player_col->rect.y) < (C2->rect.y))
 		{
 			App->player->position.y = C2->rect.y;
 			if (player_velocity.y > 0)
