@@ -92,7 +92,7 @@ bool j1Collisions::Update(float dt)
 	return true;
 }
 
-bool j1Collisions::PostUpdate(float dt)
+bool j1Collisions::PostUpdate()
 {
 	DebugDraw();
 
@@ -198,6 +198,5 @@ bool Collider::CheckCollision(const SDL_Rect& r) const
 
 bool Collider::Update()
 {
-
 	return true;
 }

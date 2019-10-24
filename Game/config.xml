@@ -36,6 +36,10 @@
     <is_jumping value="false"/>
     <is_grounded value="true"/>
     <is_dead value="false"/>
+    <jump_SFX source="audio/fx/Jump.wav"/>
+    <dash_SFX source="audio/fx/Dash.wav"/>
+    <run_SFX source="audio/fx/Walk.wav"/>
+    <spritesheet source="textures/Player_Spritesheet.png"/>
   </player>
 
 </config>

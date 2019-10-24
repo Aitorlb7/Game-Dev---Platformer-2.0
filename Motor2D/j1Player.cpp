@@ -5,6 +5,7 @@
 #include "j1Textures.h"
 #include "j1Input.h"
 #include "j1App.h"
+#include "j1Audio.h"
 #include "j1Module.h"
 #include "j1Map.h"
 #include "j1Collisions.h"
@@ -71,6 +72,16 @@ bool j1Player::Awake(pugi::xml_node& config)
 	dash_speed.x = config.child("dash_speed").attribute("x").as_float();
 	dash_speed.y = config.child("dash_speed").attribute("y").as_float();
 
+	is_grounded = config.child("is_grounded").attribute("value").as_bool();
+	is_dead = config.child("is_dead").attribute("value").as_bool();
+	is_dashing = config.child("is_dashing").attribute("value").as_bool();
+
+	jump_SFX = config.child("jump_SFX").attribute("source").as_string();
+	dash_SFX = config.child("dash_SFX").attribute("source").as_string();
+	run_SFX = config.child("run_SFX").attribute("source").as_string();
+
+	spritesheet = config.child("spritesheet").attribute("source").as_string();
+
 	return ret;
 }
 
@@ -79,13 +90,15 @@ bool j1Player::Awake(pugi::xml_node& config)
 
 bool j1Player::Start()
 {
-	graphics = App->tex->Load("textures/Player_Spritesheet.png");
-	dead = false;
-	is_grounded = true;
-	is_dashing = false;
+	graphics = App->tex->Load(spritesheet.GetString());
+
 	current_anim = &idle_anim;
 
 	player_col = App->collisions->AddCollider({ (int)position.x, (int)position.y, 18, 27 }, COLLIDER_PLAYER, this);
+
+	App->audio->LoadFx(jump_SFX.GetString());
+	App->audio->LoadFx(dash_SFX.GetString());
+	App->audio->LoadFx(run_SFX.GetString());
 
 	return true;
 }
@@ -93,7 +106,7 @@ bool j1Player::Start()
 bool j1Player::PreUpdate()
 {
 	pState = IDLE;
-	if (dead == false)
+	if (is_dead == false)
 	{
 		if (is_grounded == true)
 		{
@@ -134,6 +147,7 @@ bool j1Player::PreUpdate()
 			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
 			{
 				pState = JUMPING;
+				is_jumping = true;
 			}
 		}		
 		else // Grounded = false
@@ -182,9 +196,13 @@ bool j1Player::Update(float dt)
 		current_anim = &dash_anim;
 		break;
 	case JUMPING:
-		is_jumping = true;
-		player_velocity = jump_speed;
+		
+		jumpInit_pos = position.y;
 		current_anim = &jump_anim;
+		if (is_jumping)
+		{
+			jumpMovement();
+		}
 		break;
 		// If player release space in mid jump, the character won't reach max height
 		/*if (!double_jump && v.y > (jump_force * 2 / 3) / 2)
@@ -222,6 +240,16 @@ bool j1Player::PositionCameraOnPlayer()
 		App->render->camera.y = 0;
 	}
 	return true;
+}
+
+void j1Player::jumpMovement()
+{
+
+	player_velocity = jump_speed;
+	if (position.y - jumpInit_pos >= 100)
+	{
+		is_jumping = false;
+	}
 }
 
 //iPoint dashDirection(player_state pState)

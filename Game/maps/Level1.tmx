@@ -5085,7 +5085,7 @@
   <object id="14" type="jumpable" x="1859" y="159" width="120" height="31"/>
   <object id="15" type="jumpable" x="1249" y="192" width="122" height="31"/>
  </objectgroup>
- <layer id="7" name="Water" width="110" height="23">
+ <layer id="7" name="Water" width="110" height="23" visible="0">
   <data>
    <tile/>
    <tile/>

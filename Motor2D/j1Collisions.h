@@ -51,7 +51,7 @@ public:
 	bool Awake();
 	bool PreUpdate();
 	bool Update(float dt);
-	bool PostUpdate(float dt);
+	bool PostUpdate();
 	bool CleanUp();
 
 	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type, j1Module* callback = nullptr);
