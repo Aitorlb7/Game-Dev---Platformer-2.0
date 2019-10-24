@@ -53,6 +53,7 @@ public:
 	bool				is_dashing;
 	bool				is_jumping;
 	bool				is_grounded;
+	bool				able_superjump = false;
 
 
 	int jumpInit_pos;
@@ -62,12 +63,13 @@ public:
 
 	p2Point<float>		player_velocity;
 	p2Point<float>		run_speed;
+	p2Point<float>		max_speed;
 
 	
 	p2Point<float>		dash_speed;
 
 	float				gravity;
-	float				jump_acceleration;
+	float				jump_force;
 
 	Collider*			player_col = nullptr;
 

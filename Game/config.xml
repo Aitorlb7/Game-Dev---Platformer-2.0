@@ -31,14 +31,14 @@
   </scene>
   
   <player>
-    <gravity value="3"/>
+    <gravity value="0.01f"/>
     <position x="100" y="300"/>
-    <jump_acceleration value="7"/>
+    <jump_force value="-1.5f"/>
     <run_speed x="1" y="0"/>
     <dash_speed x="50" y="0"/>
     <is_dashing value="false"/>
     <is_jumping value="false"/>
-    <is_grounded value="false"/>
+    <is_grounded value="true"/>
     <is_dead value="false"/>
     <jump_SFX source="audio/fx/Jump.wav"/>
     <dash_SFX source="audio/fx/Dash.wav"/>

@@ -66,7 +66,7 @@ bool j1Player::Awake(pugi::xml_node& config)
 	run_speed.x = config.child("run_speed").attribute("x").as_float();
 	run_speed.y = config.child("run_speed").attribute("y").as_float();
 
-	jump_acceleration = config.child("jump_acceleration").attribute("value").as_float();
+	jump_force = config.child("jump_force").attribute("value").as_float();
 
 	dash_speed.x = config.child("dash_speed").attribute("x").as_float();
 	dash_speed.y = config.child("dash_speed").attribute("y").as_float();
@@ -104,10 +104,9 @@ bool j1Player::Start()
 
 bool j1Player::PreUpdate()
 {
-	pState = IDLE;
 	if (is_dead == false)
 	{
-		if (is_grounded == true)
+		if (is_grounded == true && is_jumping == false)
 		{
 			pState = IDLE;
 			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
@@ -139,28 +138,39 @@ bool j1Player::PreUpdate()
 			}
 			else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_UP)
 			{
-				if (pState == CROUCHING)
-				{
-					pState = IDLE;
-				}
+				able_superjump = false;
+				pState = IDLE;
 			}
 			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
 			{
-				pState = JUMPING;
-				is_jumping = true;
-			}
-			else if (App->input->GetKey(SDL_SCANCODE_W) == KEY_UP)
-			{
-				if (pState == JUMPING)
+				App->audio->PlayFx(App->audio->LoadFx(jump_SFX.GetString()));
+				if (able_superjump == true)
 				{
-					pState = STOP_JUMPING;
+					player_velocity.y = jump_force * 1.5f;
+					able_superjump = false;
 				}
+				else
+				{
+					player_velocity.y = jump_force;
+				}
+				pState = JUMPING;
 			}
-		}		
-		else // Grounded = false
+		}	
+
+		if (is_jumping == false && is_grounded == false)
 		{
 			pState = FALLING;
+			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+			{
+				player_velocity.x = run_speed.x * 0.5f;
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+			{
+				player_velocity.x = -run_speed.x * 0.5f;
+			}
 		}
+
 
 		if (is_dashing == false)
 		{
@@ -184,6 +194,7 @@ bool j1Player::Update(float dt)
 	case IDLE:
 		player_velocity.x = 0;
 		player_velocity.y = 0;
+		player_col->rect.h = 40;
 		current_anim = &idle_anim;
 		break;
 	case RIGHT:
@@ -197,26 +208,26 @@ bool j1Player::Update(float dt)
 	case CROUCHING:
 		current_anim = &crouch_anim;
 		player_col->rect.h = 20;
+		player_col->SetPos(position.x, position.y + 20);
+		able_superjump = true;
 		break;
 	case DASHING:
 		player_velocity.x += dash_speed.x;
 		current_anim = &dash_anim;
 		break;
-	case JUMPING:
-		
-		player_velocity.y = -jump_acceleration;
-		current_anim = &jump_anim;
-		
+	case JUMPING:		
+		is_jumping = true;
+		is_grounded = false;
 		break;
 	case STOP_JUMPING:
-		if (player_velocity.y > (jump_acceleration * 2 / 3) / 2)
-		{
-			player_velocity.y = (jump_acceleration * 2 / 3) / 2;
-		}
+		//player_velocity.y = 0;
+		is_jumping == false;
 	case FALLING:
-		player_velocity.y = 1;
+		player_velocity.y += gravity;
+		current_anim = &fall_anim;
 		break;
 	}
+	jumpMovement(); 
 	position.x += player_velocity.x;
 	position.y += player_velocity.y;
 	return true;
@@ -250,7 +261,7 @@ void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 		//Collision from top
 		else if ((App->player->before_colliding.y + App->player->player_col->rect.y) > (C2->rect.y))
 		{
-			App->player->position.y = C2->rect.y - App->player->player_col->rect.h + 1;
+			/*App->player->position.y = C2->rect.y - App->player->player_col->rect.h + 1;*/
 			if (player_velocity.y > 0)
 			{
 				player_velocity.y = 0;
@@ -327,7 +338,24 @@ bool j1Player::PositionCameraOnPlayer()
 
 void j1Player::jumpMovement()
 {
-
+	if (is_jumping == true)
+	{
+		if (player_velocity.y < 0)
+		{
+			player_velocity.y += gravity;
+			current_anim = &jump_anim;
+		}
+		else
+		{
+			is_jumping = false;
+		}
+		
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_UP)
+		{
+			pState = STOP_JUMPING;
+		}		
+	}
+	
 }
 
 //iPoint dashDirection(player_state pState)
