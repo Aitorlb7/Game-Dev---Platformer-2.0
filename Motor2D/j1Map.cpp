@@ -165,6 +165,17 @@ bool j1Map::CleanUp()
 	}
 	data.layers.clear();
 
+	// Remove all colliders
+	p2List_item<Collider*>* item3;
+	item3 = data.colliders.start;
+
+	while (item3 != NULL)
+	{
+		item3->data->to_delete = true;
+		item3 = item3->next;
+	}
+	data.colliders.clear();
+
 	// Clean up the pugui tree
 	map_file.reset();
 
@@ -175,9 +186,9 @@ bool j1Map::CleanUp()
 bool j1Map::Load(const char* file_name)
 {
 	bool ret = true;
-	p2SString tmp("maps\\%s", folder.GetString(), file_name);
+	p2SString tmp("%s%s", folder.GetString(), file_name);
 
-	pugi::xml_parse_result result = map_file.load_file("maps/Level1.tmx");
+	pugi::xml_parse_result result = map_file.load_file(tmp.GetString());
 
 	if(result == NULL)
 	{

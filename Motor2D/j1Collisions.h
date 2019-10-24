@@ -58,7 +58,7 @@ public:
 	bool EraseCollider(Collider* collider);
 	void DebugDraw();
 
-private:
+
 
 	Collider* colliders[MAX_COLLIDERS];
 	bool matrix[COLLIDER_MAX][COLLIDER_MAX];

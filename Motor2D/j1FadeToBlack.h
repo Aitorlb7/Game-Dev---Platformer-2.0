@@ -12,7 +12,7 @@ public:
 
 	bool Start();
 	bool Update(float dt);
-	bool FadeToBlack(const char* mapname, float time = 2.0f);
+	bool FadeToBlack(const char* map_name, float time);
 
 private:
 
