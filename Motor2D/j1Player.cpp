@@ -92,7 +92,7 @@ bool j1Player::Start()
 {
 	graphics = App->tex->Load(spritesheet.GetString());
 	current_anim = &idle_anim;
-	player_col = App->collisions->AddCollider({ (int)position.x, (int)position.y, 20, 35}, COLLIDER_PLAYER, this);
+	player_col = App->collisions->AddCollider({ (int)position.x, (int)position.y, 30, 47}, COLLIDER_PLAYER, this);
 	is_dead = false;
 	is_grounded = false;
 	is_jumping == false;
@@ -200,7 +200,7 @@ bool j1Player::Update(float dt)
 			player_velocity.x = 0;
 			player_velocity.y = 0;
 		}
-		player_col->rect.h = 40;
+		//player_col->rect.h = 40;
 		current_anim = &idle_anim;
 		break;
 	case RIGHT:
@@ -213,8 +213,8 @@ bool j1Player::Update(float dt)
 		break;
 	case CROUCHING:
 		current_anim = &crouch_anim;
-		player_col->rect.h = 20;
-		player_col->SetPos(position.x, position.y + 20);
+		//player_col->rect.h = 20;
+		//player_col->SetPos(position.x, position.y + 20);
 		able_superjump = true;
 		break;
 	case DASHING:
@@ -283,19 +283,14 @@ void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 	if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_UNPENETRABLE)
 	{
 		//Collision from below
-		if (C2->rect.y + C2->rect.h - App->player->before_colliding.y < 0) //need to review -- Purpouse: Dont act when it collides from top
+		if (App->player->before_colliding.y < (C2->rect.y + C2->rect.h) && (App->player->before_colliding.y + App->player->player_col->rect.h)>(C2->rect.y+C2->rect.h))
 		{
-			if (App->player->before_colliding.y < (C2->rect.y + C2->rect.h))
-			{
-				App->player->position.y = C2->rect.y + C2->rect.h;
-			}
+			player_velocity.y = 0;
+			App->player->position.y = C2->rect.y + C2->rect.h;
 		}
-
 		//Collision from top
-		//else if ((App->player->before_colliding.y + App->player->player_col->rect.y) > (C2->rect.y))
-		else if ((App->player->before_colliding.y + App->player->player_col->rect.h) > (C2->rect.y))
+		if ((App->player->before_colliding.y + App->player->player_col->rect.h) > (C2->rect.y))
 		{
-			/*App->player->position.y = C2->rect.y - App->player->player_col->rect.h + 1;*/ // LA HE COMENTADO PARA QUE VAYA EL JUMP (NO SÉ SI HACE ALGO ÚTIL)
 			if (player_velocity.y > 0)
 			{
 				player_velocity.y = 0;
@@ -304,32 +299,31 @@ void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 
 		}
 		//Collision from the right
-		else if (App->player->position.y + (App->player->player_col->rect.h * 3.0f / 4.0f) > C2->rect.y + C2->rect.h
-			&& App->player->position.y + (App->player->player_col->rect.h * 3.0f / 4.0f) < C2->rect.y)
+		else if ((App->player->player_col->rect.x + App->player->player_col->rect.w) > (C2->rect.x))
 		{
-			if ((App->player->player_col->rect.x + App->player->player_col->rect.w) < (C2->rect.x + C2->rect.w / 2))
-			{
-				App->player->position.x = C2->rect.x - App->player->player_col->rect.w;
-			}
-			//Collision from the left
-			else if (App->player->player_col->rect.x < (C2->rect.x + C2->rect.w))
-			{
-				App->player->position.x = C2->rect.x + C2->rect.w - 20;
-			}
+			App->player->position.x = C2->rect.x - App->player->player_col->rect.w;
 		}
+		//Collision from the left
+		else if (App->player->player_col->rect.x < (C2->rect.x + C2->rect.w))
+		{
+			App->player->position.x = C2->rect.x + C2->rect.w;
+		}
+		
+		
 	}
 	else if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_PENETRABLE)
 	{
 		//Collision from below
-		if (App->player->before_colliding.y > (C2->rect.y - 1))
+		if (App->player->before_colliding.y + App->player->player_col->rect.h < C2->rect.y)
 		{
 			App->player->position.y = C2->rect.y;
+			player_velocity.y = 0;
+			is_grounded = true;
 
 		}
 		//Collision from top
-		else if ((App->player->before_colliding.y + App->player->player_col->rect.y) < (C2->rect.y))
+		if ((App->player->before_colliding.y + App->player->player_col->rect.h) > (C2->rect.y))
 		{
-			App->player->position.y = C2->rect.y;
 			if (player_velocity.y > 0)
 			{
 				player_velocity.y = 0;
@@ -337,16 +331,6 @@ void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 			is_grounded = true;
 
 		}
-		////Collision from the right
-		//if ((App->player->player_col->rect.x + App->player->player_col->rect.w) < (C2->rect.x + C2->rect.w / 2))
-		//{
-		//	App->player->position.x = C2->rect.x - App->player->player_col->rect.w;
-		//}
-		////Collision from the left
-		//else if (App->player->player_col->rect.x < (C2->rect.x + C2->rect.w))
-		//{
-		//	App->player->position.x = C2->rect.x + C2->rect.w - 20;
-		//}
 	}
 
 }
