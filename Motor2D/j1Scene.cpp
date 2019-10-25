@@ -73,10 +73,10 @@ bool j1Scene::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		App->render->camera.x -= 1;
 
-	App->render->Blit(graphics, -100, -200, &Parallax_rect[2], SDL_FLIP_NONE, 1.2f, false, false);
-	App->render->Blit(graphics, -100, 240, &Parallax_rect[1], SDL_FLIP_NONE, 1.15f, false, false);
-	App->render->Blit(graphics, -100, 270, &Parallax_rect[1], SDL_FLIP_NONE, 1.1f, false, false);
-	App->render->Blit(graphics, -100, 300, &Parallax_rect[0], SDL_FLIP_NONE, 1.05f, false, false);
+	App->render->Blit(graphics, -100, -200, &Parallax_rect[2], SDL_FLIP_NONE,false, 1.2f, false, false);
+	App->render->Blit(graphics, -100, 240, &Parallax_rect[1], SDL_FLIP_NONE,false, 1.15f, false, false);
+	App->render->Blit(graphics, -100, 270, &Parallax_rect[1], SDL_FLIP_NONE,false, 1.1f, false, false);
+	App->render->Blit(graphics, -100, 300, &Parallax_rect[0], SDL_FLIP_NONE,false, 1.05f, false, false);
 	App->map->Draw();
 
 	int x, y;
