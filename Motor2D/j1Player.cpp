@@ -252,11 +252,11 @@ bool j1Player::PostUpdate()
 {
 	if(flip)
 	{
-		App->render->Blit(graphics, position.x, position.y,&current_anim->GetCurrentFrame(), SDL_FLIP_HORIZONTAL);
+		App->render->Blit(graphics, position.x, position.y,&current_anim->GetCurrentFrame(), SDL_FLIP_HORIZONTAL, true);
 	}
 	else
 	{
-		App->render->Blit(graphics, position.x, position.y, &current_anim->GetCurrentFrame(), SDL_FLIP_NONE);
+		App->render->Blit(graphics, position.x, position.y, &current_anim->GetCurrentFrame(), SDL_FLIP_NONE, true);
 	}
 	PositionCameraOnPlayer();
 	return true;
