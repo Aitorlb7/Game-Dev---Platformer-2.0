@@ -18,7 +18,7 @@ j1Player::j1Player() : j1Module()
 	idle_anim.PushBack({ 64, 6, 19, 30 });
 	idle_anim.PushBack({ 114, 6, 19, 30 });
 	idle_anim.PushBack({ 164, 6, 20, 30 });
-	idle_anim.speed = 0.3f;
+	idle_anim.speed = 0.05f;
 
 	run_anim.PushBack({ 67, 45, 20, 28 });
 	run_anim.PushBack({ 116, 45, 20, 28 });
@@ -26,28 +26,28 @@ j1Player::j1Player() : j1Module()
 	run_anim.PushBack({ 217, 45, 23, 28 });
 	run_anim.PushBack({ 266, 45, 20, 28 });
 	run_anim.PushBack({ 316, 45, 20, 28 });
-	run_anim.speed = 0.5f;
+	run_anim.speed = 0.05f;
 
 	jump_anim.PushBack({ 117, 79, 19, 30 });
 
 	crouch_anim.PushBack({ 215,6,20,30 });
 	crouch_anim.PushBack({ 265,6,20,30 });
 	crouch_anim.PushBack({ 315,6,20,30 });
-	crouch_anim.speed = 0.3f;
+	crouch_anim.speed = 0.03f;
 
 	crouchwalk_anim.PushBack({ 168,351,19,18 });
 	crouchwalk_anim.PushBack({ 218,351,19,18 });
-	crouchwalk_anim.speed = 0.1f;
+	crouchwalk_anim.speed = 0.01f;
 
 	fall_anim.PushBack({ 68,112,18,31 });
 	fall_anim.PushBack({ 118,112,18,31 });
-	fall_anim.speed = 0.1f;
+	fall_anim.speed = 0.03f;
 
 	dash_anim.PushBack({ 205,571,30,20 });
 	dash_anim.PushBack({ 242,571,30,20 });
 	dash_anim.PushBack({ 280,571,30,20 });
 	dash_anim.PushBack({ 324,571,30,20 });
-	dash_anim.speed = 0.8f;
+	dash_anim.speed = 0.08f;
 	dash_anim.lock = true;
 }
 j1Player::~j1Player()

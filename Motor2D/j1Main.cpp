@@ -27,11 +27,11 @@ int main(int argc, char* args[])
 {
 	LOG("Engine starting ... %d");
 
-	const int FPS = 60;
-	const int frameDelay = 1000 / FPS;
+	//const int FPS = 60;
+	//const int frameDelay = 1000 / FPS;
 
-	Uint32 frameStart;
-	int frameTime;
+	//Uint32 frameStart;
+	//int frameTime;
 
 
 	MainState state = MainState::CREATE;
@@ -39,7 +39,7 @@ int main(int argc, char* args[])
 
 	while(state != EXIT)
 	{
-		frameStart = SDL_GetTicks();
+		//frameStart = SDL_GetTicks();
 
 		switch(state)
 		{
@@ -112,11 +112,11 @@ int main(int argc, char* args[])
 			state = EXIT;
 			break;
 		}
-		frameTime = SDL_GetTicks() - frameStart;
-		if (frameDelay > frameTime)
-		{
-			SDL_Delay(frameDelay - frameTime);
-		}
+		//frameTime = SDL_GetTicks() - frameStart;
+		//if (frameDelay > frameTime)
+		//{
+		//	SDL_Delay(frameDelay - frameTime);
+		//}
 	}
 
 	LOG("... Bye! :)\n");
