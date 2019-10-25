@@ -18,7 +18,7 @@ j1Player::j1Player() : j1Module()
 	idle_anim.PushBack({ 64, 6, 19, 30 });
 	idle_anim.PushBack({ 114, 6, 19, 30 });
 	idle_anim.PushBack({ 164, 6, 20, 30 });
-	idle_anim.speed = 0.05f;
+	idle_anim.speed = 0.3f;
 
 	run_anim.PushBack({ 67, 45, 20, 28 });
 	run_anim.PushBack({ 116, 45, 20, 28 });
@@ -26,28 +26,28 @@ j1Player::j1Player() : j1Module()
 	run_anim.PushBack({ 217, 45, 23, 28 });
 	run_anim.PushBack({ 266, 45, 20, 28 });
 	run_anim.PushBack({ 316, 45, 20, 28 });
-	run_anim.speed = 0.05f;
+	run_anim.speed = 0.5f;
 
 	jump_anim.PushBack({ 117, 79, 19, 30 });
 
 	crouch_anim.PushBack({ 215,6,20,30 });
 	crouch_anim.PushBack({ 265,6,20,30 });
 	crouch_anim.PushBack({ 315,6,20,30 });
-	crouch_anim.speed = 0.03f;
+	crouch_anim.speed = 0.3f;
 
 	crouchwalk_anim.PushBack({ 168,351,19,18 });
 	crouchwalk_anim.PushBack({ 218,351,19,18 });
-	crouchwalk_anim.speed = 0.01f;
+	crouchwalk_anim.speed = 0.1f;
 
 	fall_anim.PushBack({ 68,112,18,31 });
 	fall_anim.PushBack({ 118,112,18,31 });
-	fall_anim.speed = 0.03f;
+	fall_anim.speed = 0.1f;
 
 	dash_anim.PushBack({ 205,571,30,20 });
 	dash_anim.PushBack({ 242,571,30,20 });
 	dash_anim.PushBack({ 280,571,30,20 });
 	dash_anim.PushBack({ 324,571,30,20 });
-	dash_anim.speed = 0.05f;
+	dash_anim.speed = 0.8f;
 	dash_anim.lock = true;
 }
 j1Player::~j1Player()
@@ -70,6 +70,7 @@ bool j1Player::Awake(pugi::xml_node& config)
 
 	dash_speed.x = config.child("dash_speed").attribute("x").as_float();
 	dash_speed.y = config.child("dash_speed").attribute("y").as_float();
+	dash_acceleration = config.child("dash_acceleration").attribute("value").as_float();
 
 	is_grounded = config.child("is_grounded").attribute("value").as_bool();
 	is_dead = config.child("is_dead").attribute("value").as_bool();
@@ -399,12 +400,12 @@ void j1Player::Dash_Movement()
 		{
 			if (player_velocity.x > dash_speed.x)
 			{
-				player_velocity.x = player_velocity.x / 10;
+				player_velocity.x = player_velocity.x / 6;
 				is_dashing = false;
 			}
 			else
 			{
-				player_velocity.x += 0.2f;
+				player_velocity.x += dash_acceleration;
 				current_anim = &dash_anim;
 			}
 		}
@@ -412,16 +413,15 @@ void j1Player::Dash_Movement()
 		{
 			if (player_velocity.x < -dash_speed.x)
 			{
-				player_velocity.x = player_velocity.x / 10;
+				player_velocity.x = player_velocity.x / 6;
 				is_dashing = false;
 			}
 			else
 			{
-				player_velocity.x -= 0.2f;
+				player_velocity.x -= dash_acceleration;
 				current_anim = &dash_anim;
 			}
-		}
-		
+		}		
 	}
 	
 }
