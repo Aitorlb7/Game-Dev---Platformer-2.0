@@ -293,7 +293,7 @@ void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 		//Collision from below
 		if (App->player->before_colliding.y > (C2->rect.y - 1))
 		{
-			App->player->position.y = C2->rect.y ;
+			App->player->position.y = C2->rect.y;
 
 		}
 		//Collision from top
@@ -368,11 +368,12 @@ void j1Player::Dash_Movement()
 	{
 		if (player_velocity.x > 8)
 		{
+			player_velocity.x = 0;
 			is_dashing = false;
 		}
 		else
 		{
-			player_velocity.x += 0.3f;
+			player_velocity.x += 0.2f;
 			current_anim = &dash_anim;
 		}
 	}
