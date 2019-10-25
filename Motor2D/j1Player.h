@@ -65,13 +65,12 @@ public:
 
 	p2Point<float>		player_velocity;
 	p2Point<float>		run_speed;
-	p2Point<float>		max_speed;
-
-	
+	p2Point<float>		max_speed;	
 	p2Point<float>		dash_speed;
 
 	float				gravity;
 	float				jump_force;
+	float				dash_acceleration;
 
 	Collider*			player_col = nullptr;
 
