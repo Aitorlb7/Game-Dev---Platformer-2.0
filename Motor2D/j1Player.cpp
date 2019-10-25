@@ -395,31 +395,33 @@ void j1Player::Dash_Movement()
 {
 	if (is_dashing == true)
 	{
-		if (player_velocity.x > dash_speed.x)
+		if (flip == false)//Right Dash
 		{
-			player_velocity.x = 0;
-			is_dashing = false;
+			if (player_velocity.x > dash_speed.x)
+			{
+				player_velocity.x = player_velocity.x / 10;
+				is_dashing = false;
+			}
+			else
+			{
+				player_velocity.x += 0.2f;
+				current_anim = &dash_anim;
+			}
 		}
-		else
+		else//Left Dash
 		{
-			player_velocity.x += 0.2f;
-			current_anim = &dash_anim;
+			if (player_velocity.x < -dash_speed.x)
+			{
+				player_velocity.x = player_velocity.x / 10;
+				is_dashing = false;
+			}
+			else
+			{
+				player_velocity.x -= 0.2f;
+				current_anim = &dash_anim;
+			}
 		}
+		
 	}
 	
 }
-
-//iPoint dashDirection(player_state pState)
-//{
-//	iPoint newDash;
-//	if (pState == RIGHT)
-//	{
-//		return App->player->dash_speed;
-//	}
-//	else if (pState == LEFT)
-//	{
-//		newDash.x = -App->player->dash_speed.x;
-//		newDash.y = -App->player->dash_speed.y;
-//		return newDash;
-//	}
-//}
