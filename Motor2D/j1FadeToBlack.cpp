@@ -41,9 +41,10 @@ bool j1FadeToBlack::Update(float dt)
 	case fade_step::fade_to_black:
 	{
 		if (now >= total_time)
-		{
+		{			
 			App->map->CleanUp();
 			App->map->Load(map); 
+			App->player->Start();
 			// -------------------
 			total_time += total_time;
 			start_time = SDL_GetTicks();

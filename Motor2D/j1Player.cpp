@@ -90,11 +90,13 @@ bool j1Player::Awake(pugi::xml_node& config)
 bool j1Player::Start()
 {
 	graphics = App->tex->Load(spritesheet.GetString());
-
 	current_anim = &idle_anim;
+	player_col = App->collisions->AddCollider({ (int)position.x, (int)position.y, 20, 35}, COLLIDER_PLAYER, this);
+	is_dead = false;
+	is_grounded = false;
+	is_jumping == false;
+	position = { 100,300 };
 
-	player_col = App->collisions->AddCollider({ (int)position.x, (int)position.y, 20, 40}, COLLIDER_PLAYER, this);
-	
 	App->audio->LoadFx(jump_SFX.GetString());
 	App->audio->LoadFx(dash_SFX.GetString());
 	App->audio->LoadFx(run_SFX.GetString());
@@ -230,6 +232,15 @@ bool j1Player::Update(float dt)
 		current_anim = &fall_anim;
 		break;
 	}
+	if(player_velocity.x < 0)
+	{
+		flip = true;
+	}
+	else if (player_velocity.x > 0)
+	{
+		flip = false;
+	}
+
 	jumpMovement(); 
 	Dash_Movement();
 	position.x += player_velocity.x;
@@ -239,8 +250,25 @@ bool j1Player::Update(float dt)
 
 bool j1Player::PostUpdate()
 {
-	App->render->Blit(graphics, position.x, position.y,&current_anim->GetCurrentFrame());
+	if(flip)
+	{
+		App->render->Blit(graphics, position.x, position.y,&current_anim->GetCurrentFrame(), SDL_FLIP_HORIZONTAL);
+	}
+	else
+	{
+		App->render->Blit(graphics, position.x, position.y, &current_anim->GetCurrentFrame(), SDL_FLIP_NONE);
+	}
 	PositionCameraOnPlayer();
+	return true;
+}
+
+bool j1Player::CleanUp()
+{
+	/*App->tex->UnLoad(graphics);
+	graphics = nullptr;
+	player_col->to_delete;
+	*/
+	
 	return true;
 }
 
@@ -263,7 +291,8 @@ void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 		}
 
 		//Collision from top
-		else if ((App->player->before_colliding.y + App->player->player_col->rect.y) > (C2->rect.y))
+		//else if ((App->player->before_colliding.y + App->player->player_col->rect.y) > (C2->rect.y))
+		else if ((App->player->before_colliding.y + App->player->player_col->rect.h) > (C2->rect.y))
 		{
 			/*App->player->position.y = C2->rect.y - App->player->player_col->rect.h + 1;*/ // LA HE COMENTADO PARA QUE VAYA EL JUMP (NO SÉ SI HACE ALGO ÚTIL)
 			if (player_velocity.y > 0)

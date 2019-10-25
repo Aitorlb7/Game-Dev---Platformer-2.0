@@ -34,7 +34,7 @@ public:
 	bool PreUpdate();
 	bool Update(float dt);
 	bool PostUpdate();
-	//bool CleanUp();
+	bool CleanUp();
 
 	void j1Player::Player_Colliding(Collider* c1, Collider* c2);
 	void CheckAnimation(); // It will check and if needed change any animation
