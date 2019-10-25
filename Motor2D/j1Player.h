@@ -55,6 +55,7 @@ public:
 	bool				is_jumping;
 	bool				is_grounded;
 	bool				able_superjump = false;
+	bool				flip = false;
 
 
 	int jumpInit_pos;
