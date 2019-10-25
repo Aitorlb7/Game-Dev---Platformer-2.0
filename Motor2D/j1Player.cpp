@@ -366,7 +366,7 @@ void j1Player::Dash_Movement()
 {
 	if (is_dashing == true)
 	{
-		if (player_velocity.x > 8)
+		if (player_velocity.x > dash_speed.x)
 		{
 			player_velocity.x = 0;
 			is_dashing = false;
