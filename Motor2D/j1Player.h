@@ -39,6 +39,7 @@ public:
 	void j1Player::Player_Colliding(Collider* c1, Collider* c2);
 	void CheckAnimation(); // It will check and if needed change any animation
 	void jumpMovement();
+	void Load_Level();
 	void Dash_Movement();
 	bool PositionCameraOnPlayer();
 	/*iPoint dashDirection(player_state);*/ //Check the player direction to dash forwards

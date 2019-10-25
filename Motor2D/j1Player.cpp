@@ -9,6 +9,7 @@
 #include "j1Module.h"
 #include "j1Map.h"
 #include "j1Collisions.h"
+#include "j1FadeToBlack.h"
 
 j1Player::j1Player() : j1Module()
 {
@@ -179,10 +180,12 @@ bool j1Player::PreUpdate()
 		{
 			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 			{
+				App->audio->PlayFx(App->audio->LoadFx(dash_SFX.GetString()));
 				pState = DASHING;
 			}
 		}
 	}
+
 	return true;
 }
 
@@ -231,6 +234,10 @@ bool j1Player::Update(float dt)
 	case FALLING:
 		player_velocity.y += gravity;
 		current_anim = &fall_anim;
+		if (position.y > 1000)
+		{
+			is_dead = true;
+		}
 		break;
 	}
 	if(player_velocity.x < 0)
@@ -244,6 +251,7 @@ bool j1Player::Update(float dt)
 
 	jumpMovement(); 
 	Dash_Movement();
+	Load_Level();
 	position.x += player_velocity.x;
 	position.y += player_velocity.y;
 	return true;
@@ -341,16 +349,21 @@ void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 bool j1Player::PositionCameraOnPlayer()
 {
 	App->render->camera.x = -position.x + App->render->camera.w / 3;
-	App->render->camera.y = -position.y + App->render->camera.h;
+	//App->render->camera.y = -position.y + App->render->camera.h;
 
 	if (App->render->camera.x >= 0)
 	{
 		App->render->camera.x = 0;
 	}
-	if (App->render->camera.y >= 0)
+	if (App->render->camera.x <= -2400)
+	{
+		App->render->camera.x = -2400;
+	}
+
+	/*if (App->render->camera.y >= 0)
 	{
 		App->render->camera.y = 0;
-	}
+	}*/
 	return true;
 }
 
@@ -408,4 +421,15 @@ void j1Player::Dash_Movement()
 		}		
 	}
 	
+}
+void j1Player::Load_Level()
+{
+	if(is_dead == true)
+	{
+		App->fade_to_black->FadeToBlack("Level1.tmx", 1.0f);
+	}
+	if (position.x > 3500)
+	{
+		/*App->fade_to_black->FadeToBlack("Level2.tmx", 3.0f);*/
+	}
 }
