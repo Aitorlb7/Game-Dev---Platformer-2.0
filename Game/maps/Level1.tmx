@@ -5090,7 +5090,6 @@
   <object id="25" type="jumpable" x="2243.33" y="514" width="87.0114" height="40.25"/>
   <object id="26" type="jumpable" x="962" y="225" width="122" height="31"/>
   <object id="27" type="jumpable" x="543.636" y="380.727" width="64.7273" height="23.5455"/>
-  <object id="28" type="jumpable" x="545.636" y="406.394" width="97.7273" height="23.5455"/>
   <object id="29" type="jumpable" x="414.636" y="319.061" width="65.7273" height="23.5455"/>
   <object id="30" type="jumpable" x="544.97" y="319.061" width="93.0606" height="23.5455"/>
   <object id="31" type="jumpable" x="542.303" y="254.061" width="60.7273" height="18.8788"/>
@@ -5100,7 +5099,7 @@
   <object id="35" type="jumpable" x="2660.83" y="481" width="115.011" height="49.25"/>
   <object id="36" type="jumpable" x="2884.83" y="385.5" width="182.511" height="49.25"/>
   <object id="37" type="floor" x="3271" y="389" width="375" height="351"/>
-  <object id="38" type="floor" x="316" y="399" width="181" height="27"/>
+  <object id="38" type="jumpable" x="385" y="409" width="98" height="27"/>
  </objectgroup>
  <layer id="2" name="Tree" width="110" height="23">
   <data>
