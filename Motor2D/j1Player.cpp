@@ -113,7 +113,7 @@ bool j1Player::PreUpdate()
 		if (is_grounded == true && is_jumping == false)
 		{
 			pState = IDLE;
-			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && is_dashing == false)
 			{
 				pState = RIGHT;
 
@@ -125,7 +125,7 @@ bool j1Player::PreUpdate()
 					pState = IDLE;
 				}
 			}
-			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && is_dashing == false)
 			{
 				pState = LEFT;
 			}
@@ -425,8 +425,8 @@ void j1Player::Load_Level()
 	{
 		App->fade_to_black->FadeToBlack("Level1.tmx", 3.0f);
 	}
-	if (position.x > 3500)
-	{
-		/*App->fade_to_black->FadeToBlack("Level2.tmx", 3.0f);*/
-	}
+	//if (position.x > 3500)
+	//{
+	//	/*App->fade_to_black->FadeToBlack("Level2.tmx", 3.0f);*/
+	//}
 }

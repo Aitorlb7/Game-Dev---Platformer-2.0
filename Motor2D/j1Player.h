@@ -57,7 +57,7 @@ public:
 	bool				is_grounded;
 	bool				able_superjump = false;
 	bool				flip = false;
-
+	bool				god_mode;
 
 	int jumpInit_pos;
 
