@@ -20,6 +20,7 @@ enum player_state
 	JUMPING,
 	STOP_JUMPING,
 	FALLING,
+	GOD,
 };
 
 class j1Player : public j1Module
@@ -41,6 +42,7 @@ public:
 	void Load_Level();
 	void Dash_Movement();
 	bool PositionCameraOnPlayer();
+	void God_Mode();
 	/*iPoint dashDirection(player_state);*/ //Check the player direction to dash forwards
 
 
@@ -56,8 +58,7 @@ public:
 	bool				is_grounded;
 	bool				able_superjump = false;
 	bool				flip = false;
-	bool				god_mode;
-
+	bool				god_mode = false;
 	int					jumpInit_pos;
 
 	p2Point<float>		before_colliding;
@@ -85,6 +86,7 @@ public:
 	Animation			crouchwalk_anim;
 	Animation			dash_anim;
 	Animation			fall_anim;
+	Animation			god_anim;
 
 	p2SString			jump_SFX;
 	p2SString			run_SFX;

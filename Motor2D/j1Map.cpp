@@ -185,7 +185,6 @@ bool j1Map::CleanUp()
 // Load new map
 bool j1Map::Load(const char* file_name)
 {
-	data.map_name = file_name;
 	bool ret = true;
 	p2SString tmp("%s%s", folder.GetString(), file_name);
 

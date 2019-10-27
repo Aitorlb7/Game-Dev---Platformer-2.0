@@ -15,6 +15,9 @@ j1Player::j1Player() : j1Module()
 {
 	name.create("player");
 
+	god_anim.PushBack({ 350, 6, 19, 30 });
+
+
 	idle_anim.PushBack({ 14, 6, 19, 30 });
 	idle_anim.PushBack({ 64, 6, 19, 30 });
 	idle_anim.PushBack({ 114, 6, 19, 30 });
@@ -107,8 +110,13 @@ bool j1Player::Start()
 
 bool j1Player::PreUpdate()
 {
-	if (is_dead == false)
+	if (is_dead == false && god_mode == false)
 	{
+		if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+		{
+			god_mode = true;
+		}
+
 		if (is_grounded  && !is_jumping && !is_dashing)
 		{
 			pState = IDLE;
@@ -162,8 +170,7 @@ bool j1Player::PreUpdate()
 
 		if (is_jumping == false && is_grounded == false)
 		{
-			pState = FALLING;
-			
+			pState = FALLING;		
 		}
 
 
@@ -176,7 +183,6 @@ bool j1Player::PreUpdate()
 			}
 		}
 	}
-
 	return true;
 }
 
@@ -225,7 +231,7 @@ bool j1Player::Update(float dt)
 		break;
 	case STOP_JUMPING:
 		//player_velocity.y = 0;
-		is_jumping == false;
+		is_jumping = false;
 	case FALLING:
 		player_velocity.y += gravity;
 		current_anim = &fall_anim;
@@ -240,6 +246,8 @@ bool j1Player::Update(float dt)
 			is_dead = true;
 
 		break;
+	case GOD:
+		break;
 	}
 
 	if(player_velocity.x < 0)
@@ -249,6 +257,7 @@ bool j1Player::Update(float dt)
 
 	jumpMovement(); 
 	Dash_Movement();
+	God_Mode();
 	Load_Level();
 
 	if (before_colliding.x < App->render->camera.x && flip)
@@ -294,7 +303,7 @@ bool j1Player::CleanUp()
 
 void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 {
-	if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_UNPENETRABLE)
+	if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_UNPENETRABLE && god_mode == false)
 	{
 		//Collision from below
 		if (App->player->before_colliding.y < (C2->rect.y + C2->rect.h) && (App->player->before_colliding.y + App->player->player_col->rect.h)>(C2->rect.y+C2->rect.h))
@@ -329,7 +338,7 @@ void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 			}
 		}
 	}
-	else if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_PENETRABLE)
+	else if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_PENETRABLE && god_mode == false)
 	{
 		//Collision from top and below
 		if ((App->player->before_colliding.y + App->player->player_col->rect.h + 10) > (C2->rect.y)
@@ -420,6 +429,37 @@ void j1Player::Dash_Movement()
 		}		
 	}
 	
+}
+
+void j1Player :: God_Mode()
+{
+	if (is_dead == false && god_mode == true)
+	{
+		current_anim = &god_anim;
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+		{
+			player_velocity.x = run_speed.x;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+		{
+			player_velocity.x = -run_speed.x;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+		{
+			player_velocity.y = -run_speed.x;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+		{
+			player_velocity.y = run_speed.x;
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+		{
+			god_mode = false;
+		}
+
+
+	}	
 }
 void j1Player::Load_Level()
 {
