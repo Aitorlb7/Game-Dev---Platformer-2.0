@@ -37,7 +37,7 @@
     <initial_position x="100" y="300"/>
     <jump_force value="-6.0f"/>
     <run_speed x="4" y="0"/>
-    <dash_speed x="18" y="0"/>
+    <max_speed x="9" y="8"/>
     <is_dashing value="false"/>
     <is_jumping value="false"/>
     <is_grounded value="false"/>
