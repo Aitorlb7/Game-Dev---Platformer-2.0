@@ -15,16 +15,19 @@ j1Collisions::j1Collisions()
 	matrix[COLLIDER_UNPENETRABLE][COLLIDER_PLAYER] = false;
 	matrix[COLLIDER_UNPENETRABLE][COLLIDER_PENETRABLE] = false;
 	matrix[COLLIDER_UNPENETRABLE][COLLIDER_SPIKES] = false;
+	matrix[COLLIDER_UNPENETRABLE][COLLIDER_WIN] = false;
 
 	matrix[COLLIDER_PLAYER][COLLIDER_UNPENETRABLE] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER] = false;
 	matrix[COLLIDER_PLAYER][COLLIDER_PENETRABLE] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_SPIKES] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_WIN] = true;
 
 	matrix[COLLIDER_PENETRABLE][COLLIDER_UNPENETRABLE] = false;
 	matrix[COLLIDER_PENETRABLE][COLLIDER_PLAYER] = false;
 	matrix[COLLIDER_PENETRABLE][COLLIDER_PENETRABLE] = false;
 	matrix[COLLIDER_PENETRABLE][COLLIDER_SPIKES] = false;
+	matrix[COLLIDER_PENETRABLE][COLLIDER_WIN] = false;
 
 
 }
@@ -102,10 +105,7 @@ bool j1Collisions::PostUpdate()
 
 void j1Collisions::DebugDraw()
 {
-	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
-	{
-		debug = !debug;
-	}
+
 	if (debug == false)
 	{
 		return;
@@ -130,8 +130,12 @@ void j1Collisions::DebugDraw()
 			break;
 		case COLLIDER_PENETRABLE: // cyan
 			App->render->DrawQuad(colliders[i]->rect, 0, 255, 255, alpha);
+			break;
 		case COLLIDER_SPIKES: // red
 			App->render->DrawQuad(colliders[i]->rect, 255, 0, 0, alpha);
+			break;
+		case COLLIDER_WIN: // orange
+			App->render->DrawQuad(colliders[i]->rect, 255, 140, 0, alpha);
 			break;
 		}
 	}

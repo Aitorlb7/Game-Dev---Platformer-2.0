@@ -10,6 +10,7 @@
 #include "j1Map.h"
 #include "j1Collisions.h"
 #include "j1FadeToBlack.h"
+#include "j1Scene.h"
 
 j1Player::j1Player() : j1Module()
 {
@@ -356,6 +357,14 @@ void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 	else if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_SPIKES && god_mode == false)
 	{
 		is_dead = true;
+	}
+	else if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_WIN)
+	{
+		if (App->map->data.map_name == "Level1.tmx")
+			App->fade_to_black->FadeToBlack("Level2.tmx", 3.0f);
+		if (App->map->data.map_name == "Level2.tmx")
+			App->scene->ret = false;
+			
 	}
 
 }
