@@ -33,9 +33,9 @@
   <player>
     <gravity value="0.25f"/>
     <dash_acceleration value="0.9f"/>
-    <position x="100" y="300"/>
-    <initial_position x="100" y="300"/>
-    <jump_force value="-6.0f"/>
+    <position x="100" y="0"/>
+    <initial_position x="100" y="0"/>
+    <jump_force value="-7.0f"/>
     <run_speed x="4" y="0"/>
     <max_speed x="9" y="8"/>
     <is_dashing value="false"/>

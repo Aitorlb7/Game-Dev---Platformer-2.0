@@ -194,7 +194,6 @@ bool j1Player::PreUpdate()
 
 bool j1Player::Update(float dt)
 {
-
 	before_colliding = position;
 	if (!is_dashing && !is_jumping)
 		is_grounded = false;
@@ -259,12 +258,22 @@ bool j1Player::Update(float dt)
 	Dash_Movement();
 	Load_Level();
 	God_Mode();
-
-	if (before_colliding.x < App->render->camera.x && flip)
+	// Limit of the screen left border
+	if (before_colliding.x < App->render->camera.x && flip) 
+	{
 		player_velocity.x = 0;
-	if (!is_dashing)
+	}
+	//Don't move in the y axis while dashing
+	if (!is_dashing && !is_dead)
+	{
 		position.y += player_velocity.y;
-
+	}
+	// Death behaviour
+	else if (is_dead)
+	{
+		position.y -= max_speed.y;
+		current_anim = &god_anim;
+	}
 	position.x += player_velocity.x;
 	player_col->SetPos(position.x, position.y);
 	return true;
@@ -314,10 +323,7 @@ void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 		//Collision from top
 		if ((App->player->before_colliding.y + App->player->player_col->rect.h + max_speed.y ) > (C2->rect.y) && !(App->player->before_colliding.y > C2->rect.y))
 		{
-			if (player_velocity.y > 0)
-			{
-				player_velocity.y = 0;
-			}
+			player_velocity.y = 0;
 			is_grounded = true;
 			
 		}
@@ -325,48 +331,41 @@ void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 			&& (App->player->before_colliding.y  < C2->rect.y + C2->rect.h))
 		{
 			//Collision from the right
-			if ((App->player->player_col->rect.x + App->player->player_col->rect.w + max_speed.x) > (C2->rect.x))
+			if ((App->player->player_col->rect.x + App->player->player_col->rect.w ) > (C2->rect.x) && App->player->player_col->rect.x < (C2->rect.x))
 			{
  				App->player->position.x = C2->rect.x - App->player->player_col->rect.w;
-				if (player_velocity.x > 0)
-				{
-					player_velocity.x = 0;
-				}
+				player_velocity.x = 0;
+
 			}
 			//Collision from the left
-			else if (App->player->player_col->rect.x - max_speed.x < (C2->rect.x + C2->rect.w))
+			else if (App->player->player_col->rect.x  < (C2->rect.x + C2->rect.w) && App->player->player_col->rect.x > (C2->rect.x))
 			{
 				App->player->position.x = C2->rect.x + C2->rect.w;
-				if (player_velocity.x > 0)
-				{
-					player_velocity.x = 0;
-				}
+				player_velocity.x = 0;
+
 			}
 		}
 	}
 	else if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_PENETRABLE && god_mode == false)
 	{
 		//Collision from top and below
-		if ((App->player->before_colliding.y + App->player->player_col->rect.h + max_speed.y ) > (C2->rect.y)
-			&& App->player->before_colliding.y + App->player->player_col->rect.h - max_speed.y < C2->rect.y)
+		if ((App->player->position.y + App->player->player_col->rect.h + max_speed.y ) > (C2->rect.y)
+			&& App->player->position.y + App->player->player_col->rect.h - max_speed.y < C2->rect.y)
 		{
-			if (player_velocity.y > 0)
-			{
-				player_velocity.y = 0;
-			}
+			player_velocity.y = 0;
 			is_grounded = true;
-	
-
 		}
 	}
 	//Collision against spikes
 	else if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_SPIKES && god_mode == false)
 	{
 		is_dead = true;
+
 	}
 	//Win condition
 	else if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_WIN)
 	{
+		
 		if (App->map->data.map_name == "Level1.tmx")
 			App->fade_to_black->FadeToBlack("Level2.tmx", 3.0f);
 		if (App->map->data.map_name == "Level2.tmx")
