@@ -52,11 +52,36 @@ j1Player::j1Player() : j1Module()
 	dash_anim.PushBack({ 242,571,30,20 });
 	dash_anim.PushBack({ 280,571,30,20 });
 	dash_anim.PushBack({ 324,571,30,20 });
-	dash_anim.speed = 0.08f;
+	dash_anim.speed = 0.13f;
 	dash_anim.lock = true;
 }
 j1Player::~j1Player()
 {
+}
+
+bool j1Player::Save(pugi::xml_node& node) const
+{
+	pugi::xml_node coordinates = node.append_child("coordinates");
+
+	coordinates.append_child("position").append_attribute("x") = position.x;
+	coordinates.child("position").append_attribute("y") = position.y;
+
+	node.append_attribute("player_state") = pState;
+
+	return true;
+}
+
+bool j1Player::Load(pugi::xml_node& node)
+{
+	pugi::xml_node coordinates = node.child("coordinates");
+
+	position.x = coordinates.child("position").attribute("x").as_float();
+	position.y = coordinates.child("position").attribute("y").as_float();
+
+	pugi::xml_node state = node.child("state");
+
+	pState = (player_state)node.attribute("player_state").as_int();
+	return true;
 }
 
 bool j1Player::Awake(pugi::xml_node& config)
