@@ -9341,8 +9341,8 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
    <tile gid="57"/>
+   <tile gid="58"/>
    <tile gid="58"/>
    <tile gid="59"/>
    <tile/>
@@ -9451,8 +9451,8 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
    <tile gid="85"/>
+   <tile gid="86"/>
    <tile gid="86"/>
    <tile gid="87"/>
    <tile/>
@@ -9561,10 +9561,10 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
    <tile gid="288"/>
    <tile gid="130"/>
-   <tile gid="289"/>
+   <tile gid="130"/>
+   <tile gid="72"/>
    <tile/>
    <tile/>
    <tile/>
@@ -9671,10 +9671,10 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
    <tile gid="316"/>
-   <tile gid="233"/>
-   <tile gid="317"/>
+   <tile gid="290"/>
+   <tile gid="291"/>
+   <tile gid="319"/>
    <tile/>
    <tile/>
    <tile/>
@@ -9782,8 +9782,8 @@
    <tile gid="385"/>
    <tile gid="386"/>
    <tile gid="386"/>
-   <tile gid="386"/>
-   <tile gid="386"/>
+   <tile gid="318"/>
+   <tile gid="319"/>
    <tile gid="386"/>
    <tile gid="386"/>
    <tile gid="384"/>
@@ -12691,7 +12691,7 @@
    <tile/>
   </data>
  </layer>
- <objectgroup color="#ff0000" id="10" name="Collision">
+ <objectgroup color="#ff0000" id="10" name="Collision" visible="0">
   <properties>
    <property name="speed" type="float" value="1"/>
   </properties>
@@ -12710,7 +12710,7 @@
   <object id="22" type="jumpable" x="2369.5" y="128.5" width="59.5" height="37.75"/>
   <object id="23" type="jumpable" x="2430.25" y="128.5" width="132.5" height="8.25"/>
   <object id="24" type="jumpable" x="2562" y="130" width="59.5" height="37.75"/>
-  <object id="25" type="jumpable" x="2243.33" y="514" width="87.0114" height="40.25"/>
+  <object id="25" type="jumpable" x="2212.33" y="510" width="122.011" height="51.25"/>
   <object id="26" type="jumpable" x="962" y="225" width="122" height="31"/>
   <object id="27" type="jumpable" x="543.636" y="380.727" width="64.7273" height="23.5455"/>
   <object id="29" type="jumpable" x="414.636" y="319.061" width="65.7273" height="23.5455"/>
