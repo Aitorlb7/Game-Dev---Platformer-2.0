@@ -9,7 +9,6 @@
 #include "j1Map.h"
 #include "j1Scene.h"
 #include "j1FadeToBlack.h"
-#include "j1Collisions.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -53,10 +52,10 @@ bool j1Scene::PreUpdate()
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
-	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		App->LoadGame("save_game.xml");
 
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		App->SaveGame("save_game.xml");
 
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
@@ -73,10 +72,6 @@ bool j1Scene::Update(float dt)
 			App->fade_to_black->FadeToBlack("Level1.tmx", 3.0f);
 		if (App->map->data.map_name == "Level2.tmx")
 			App->fade_to_black->FadeToBlack("Level2.tmx", 3.0f);
-	}
-	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
-	{
-		App->collisions->debug = !App->collisions->debug;
 	}
 	//App->render->Blit(graphics, -100, -200, &Parallax_rect[2], SDL_FLIP_NONE,false, 1.2f, false, false);
 	//App->render->Blit(graphics, -100, 240, &Parallax_rect[1], SDL_FLIP_NONE,false, 1.15f, false, false);
@@ -100,7 +95,7 @@ bool j1Scene::Update(float dt)
 // Called each loop iteration
 bool j1Scene::PostUpdate()
 {
-	
+	bool ret = true;
 
 	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
