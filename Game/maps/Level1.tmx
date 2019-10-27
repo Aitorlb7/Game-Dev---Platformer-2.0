@@ -12691,7 +12691,7 @@
    <tile/>
   </data>
  </layer>
- <objectgroup color="#ff0000" id="10" name="Collision" visible="0">
+ <objectgroup color="#ff0000" id="10" name="Collision">
   <properties>
    <property name="speed" type="float" value="1"/>
   </properties>
