@@ -43,12 +43,16 @@ bool j1FadeToBlack::Update(float dt)
 		if (now >= total_time)
 		{			
 			App->map->CleanUp();
-			App->map->Load(map); 
+			App->player->CleanUp();
+			App->map->Load(map);
 			App->player->Start();
 			// -------------------
 			total_time += total_time;
 			start_time = SDL_GetTicks();
+
 			current_step = fade_step::fade_from_black;
+
+
 		}
 	} break;
 
@@ -64,6 +68,8 @@ bool j1FadeToBlack::Update(float dt)
 	// Finally render the black square with alpha on the screen
 	SDL_SetRenderDrawColor(App->render->renderer, 0, 0, 0, (Uint8)(normalized * 255.0f));
 	SDL_RenderFillRect(App->render->renderer, &screen);
+
+	
 
 	return true;;
 }

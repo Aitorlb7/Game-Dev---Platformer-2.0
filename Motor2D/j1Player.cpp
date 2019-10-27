@@ -92,7 +92,6 @@ bool j1Player::Awake(pugi::xml_node& config)
 bool j1Player::Start()
 {
 	graphics = App->tex->Load(spritesheet.GetString());
-	current_anim = &idle_anim;
 	player_col = App->collisions->AddCollider({ (int)position.x, (int)position.y, 30, 47}, COLLIDER_PLAYER, this);
 	is_dead = false;
 	is_grounded = false;
@@ -164,15 +163,7 @@ bool j1Player::PreUpdate()
 		if (is_jumping == false && is_grounded == false)
 		{
 			pState = FALLING;
-			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-			{
-				player_velocity.x = run_speed.x * 0.5f;
-			}
-
-			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-			{
-				player_velocity.x = -run_speed.x * 0.5f;
-			}
+			
 		}
 
 
@@ -196,13 +187,12 @@ bool j1Player::Update(float dt)
 	player_col->SetPos(position.x, position.y);
 	before_colliding = position;
 	if (!is_dashing && !is_jumping)
-	{
 		is_grounded = false;
-	}
+
 	switch (pState)
 	{
 	case IDLE:
-		if (is_dashing == false)
+		if (!is_dashing)
 		{
 			player_velocity.x = 0;
 			player_velocity.y = 0;
@@ -219,6 +209,7 @@ bool j1Player::Update(float dt)
 		current_anim = &run_anim;
 		break;
 	case CROUCHING:
+		player_velocity.x = 0;
 		current_anim = &crouch_anim;
 		//player_col->rect.h = 20;
 		//player_col->SetPos(position.x, position.y + 20);
@@ -238,50 +229,65 @@ bool j1Player::Update(float dt)
 	case FALLING:
 		player_velocity.y += gravity;
 		current_anim = &fall_anim;
+
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+			player_velocity.x = run_speed.x * 0.8f;
+
+		else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+			player_velocity.x = -run_speed.x * 0.8f;
+
 		if (position.y > App->win->height + player_col->rect.h)
-		{
 			is_dead = true;
-		}
+
 		break;
 	}
 
 	if(player_velocity.x < 0)
-	{
 		flip = true;
-	}
 	else if (player_velocity.x > 0)
-	{
 		flip = false;
-	}
 
 	jumpMovement(); 
 	Dash_Movement();
 	Load_Level();
+
+	if (before_colliding.x < App->render->camera.x && flip)
+		player_velocity.x = 0;
+	if (!is_dashing)
+		position.y += player_velocity.y;
+
 	position.x += player_velocity.x;
-	position.y += player_velocity.y;
+	
 	return true;
 }
 
 bool j1Player::PostUpdate()
 {
-	if(flip)
+	if (graphics != nullptr)
 	{
-		App->render->Blit(graphics, position.x, position.y,&current_anim->GetCurrentFrame(), SDL_FLIP_HORIZONTAL, true);
+		if (flip)
+		{
+			App->render->Blit(graphics, position.x, position.y, &current_anim->GetCurrentFrame(), SDL_FLIP_HORIZONTAL, true);
+		}
+		else
+		{
+			App->render->Blit(graphics, position.x, position.y, &current_anim->GetCurrentFrame(), SDL_FLIP_NONE, true);
+		}
+		PositionCameraOnPlayer();
 	}
-	else
-	{
-		App->render->Blit(graphics, position.x, position.y, &current_anim->GetCurrentFrame(), SDL_FLIP_NONE, true);
-	}
-	PositionCameraOnPlayer();
+	
 	return true;
 }
 
 bool j1Player::CleanUp()
 {
-	/*App->tex->UnLoad(graphics);
+	App->tex->UnLoad(graphics);
 	graphics = nullptr;
 	player_col->to_delete;
-	*/
+	
+
+	is_grounded = false;
+	is_jumping == false;
 	
 	return true;
 }
@@ -304,7 +310,7 @@ void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 				player_velocity.y = 0;
 			}
 			is_grounded = true;
-
+			
 		}
 		else if ((App->player->before_colliding.y + App->player->player_col->rect.h + 5) > (C2->rect.y) && (App->player->before_colliding.y - 5 < C2->rect.y + C2->rect.h))
 		{
@@ -334,6 +340,7 @@ void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 				player_velocity.y = 0;
 			}
 			is_grounded = true;
+	
 
 		}
 	}
@@ -346,16 +353,10 @@ void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 bool j1Player::PositionCameraOnPlayer()
 {
 	App->render->camera.x = -position.x + App->render->camera.w / 3;
-	//App->render->camera.y = -position.y + App->render->camera.h;
-
 	if (App->render->camera.x >= 0)
 	{
 		App->render->camera.x = 0;
 	}
-	/*if (App->render->camera.x <= -(int)App->win->width*2)
-	{
-		App->render->camera.x = -(int)App->win->width * 2;
-	}*/
 	if (App->render->camera.x <= -2400)
 	{
 		App->render->camera.x = -2400;
@@ -396,6 +397,7 @@ void j1Player::Dash_Movement()
 			{
 				player_velocity.x = player_velocity.x / 6;
 				is_dashing = false;
+
 			}
 			else
 			{
@@ -421,12 +423,15 @@ void j1Player::Dash_Movement()
 }
 void j1Player::Load_Level()
 {
-	if(is_dead == true)
+	if (is_dead == true)
 	{
-		App->fade_to_black->FadeToBlack("Level1.tmx", 3.0f);
+		if (App->map->data.map_name == "Level1.tmx")
+			App->fade_to_black->FadeToBlack("Level1.tmx", 3.0f);
+		if (App->map->data.map_name == "Level2.tmx")
+			App->fade_to_black->FadeToBlack("Level2.tmx", 3.0f);
 	}
-	//if (position.x > 3500)
+	//if (position.x == (App->map->data.tile_width * App->map->data.width - 200))
 	//{
-	//	/*App->fade_to_black->FadeToBlack("Level2.tmx", 3.0f);*/
+	//	App->fade_to_black->FadeToBlack("Level2.tmx", 3.0f);
 	//}
 }

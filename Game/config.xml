@@ -32,11 +32,11 @@
   
   <player>
     <gravity value="0.01f"/>
-    <dash_acceleration value="0.2f"/>
+    <dash_acceleration value="0.1f"/>
     <position x="100" y="300"/>
     <jump_force value="-1.5f"/>
     <run_speed x="1" y="0"/>
-    <dash_speed x="8" y="0"/> 
+    <dash_speed x="5" y="0"/> 
     <is_dashing value="false"/>
     <is_jumping value="false"/>
     <is_grounded value="false"/>

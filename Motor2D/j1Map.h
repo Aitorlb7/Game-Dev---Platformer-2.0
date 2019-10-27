@@ -81,6 +81,7 @@ enum MapTypes
 // ----------------------------------------------------
 struct MapData
 {
+	p2SString			map_name;
 	int					width;
 	int					height;
 	int					tile_width;

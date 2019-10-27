@@ -37,7 +37,6 @@ public:
 	bool CleanUp();
 
 	void j1Player::Player_Colliding(Collider* c1, Collider* c2);
-	void CheckAnimation(); // It will check and if needed change any animation
 	void jumpMovement();
 	void Load_Level();
 	void Dash_Movement();
@@ -59,7 +58,7 @@ public:
 	bool				flip = false;
 	bool				god_mode;
 
-	int jumpInit_pos;
+	int					jumpInit_pos;
 
 	p2Point<float>		before_colliding;
 	p2Point<float>		position;
@@ -72,6 +71,8 @@ public:
 	float				gravity;
 	float				jump_force;
 	float				dash_acceleration;
+
+	
 
 	Collider*			player_col = nullptr;
 
