@@ -116,8 +116,8 @@ public:
 	// Load new map
 	bool Load(const char* path);
 
-	bool Load_Map(pugi::xml_node&);
-	bool Save_Map(pugi::xml_node&) const;
+	bool Load(pugi::xml_node&);
+	bool Save(pugi::xml_node&) const;
 
 	iPoint MapToWorld(int x, int y) const;
 	iPoint WorldToMap(int x, int y) const;
