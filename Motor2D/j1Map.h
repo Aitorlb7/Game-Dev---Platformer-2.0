@@ -82,7 +82,7 @@ enum MapTypes
 // ----------------------------------------------------
 struct MapData
 {
-	p2SString			map_name;
+	const char*			map_name;
 	int					width;
 	int					height;
 	int					tile_width;
@@ -115,6 +115,9 @@ public:
 
 	// Load new map
 	bool Load(const char* path);
+
+	bool Load_Map(pugi::xml_node&);
+	bool Save_Map(pugi::xml_node&) const;
 
 	iPoint MapToWorld(int x, int y) const;
 	iPoint WorldToMap(int x, int y) const;

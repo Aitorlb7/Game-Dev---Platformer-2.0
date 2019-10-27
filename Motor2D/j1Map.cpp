@@ -4,6 +4,7 @@
 #include "j1Render.h"
 #include "j1Textures.h"
 #include "j1Map.h"
+#include "j1FadeToBlack.h"
 #include "j1Collisions.h"
 #include "j1Window.h"
 #include <math.h>
@@ -503,4 +504,18 @@ bool j1Map::LoadColliders(pugi::xml_node& node)
 	}
 
 	return ret;
+}
+
+bool j1Map::Save_Map(pugi::xml_node& node) const
+{
+	LOG("Saving Map...");
+	node.append_child("map_name").append_attribute("filename") = data.map_name;
+	return true;
+}
+
+bool j1Map::Load_Map(pugi::xml_node& node)
+{
+	LOG("Loading Map...");
+	App->fade_to_black->FadeToBlack(node.child("map_name").attribute("filename").as_string(), 3.0f);
+	return true;
 }
