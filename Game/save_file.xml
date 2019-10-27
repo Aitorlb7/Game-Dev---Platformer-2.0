@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<game_state>
+	<input />
+	<window />
+	<textures />
+	<audio />
+	<map>
+		<map_name filename="Level1.tmx" />
+	</map>
+	<scene />
+	<player player_state="0">
+		<coordinates>
+			<position x="548" y="464" />
+		</coordinates>
+	</player>
+	<:anonymous />
+	<:anonymous />
+	<renderer>
+		<camera x="-188" y="0" />
+	</renderer>
+</game_state>

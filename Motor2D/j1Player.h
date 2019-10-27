@@ -35,8 +35,8 @@ public:
 	bool Update(float dt);
 	bool PostUpdate();
 	bool CleanUp();
-	bool Save_Player(pugi::xml_node&) const;
-	bool Load_Player(pugi::xml_node&);
+	bool Save(pugi::xml_node&) const;
+	bool Load(pugi::xml_node&);
 
 	void j1Player::Player_Colliding(Collider* c1, Collider* c2);
 	void jumpMovement();
