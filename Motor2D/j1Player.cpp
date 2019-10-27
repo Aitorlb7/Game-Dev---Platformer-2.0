@@ -67,6 +67,9 @@ bool j1Player::Awake(pugi::xml_node& config)
 	position.x = config.child("position").attribute("x").as_float();
 	position.y = config.child("position").attribute("y").as_float();
 
+	initial_position.x = config.child("position").attribute("x").as_float();
+	initial_position.y = config.child("position").attribute("y").as_float();
+
 	run_speed.x = config.child("run_speed").attribute("x").as_float();
 	run_speed.y = config.child("run_speed").attribute("y").as_float();
 
@@ -99,8 +102,8 @@ bool j1Player::Start()
 	is_dead = false;
 	is_grounded = false;
 	is_jumping == false;
-	position = { 100,300 };
-
+	flip = false;
+	position = initial_position;
 	App->audio->LoadFx(jump_SFX.GetString());
 	App->audio->LoadFx(dash_SFX.GetString());
 	App->audio->LoadFx(run_SFX.GetString());
@@ -289,9 +292,8 @@ bool j1Player::CleanUp()
 {
 	App->tex->UnLoad(graphics);
 	graphics = nullptr;
-	player_col->to_delete;
-	player_col = nullptr;
-	
+
+	App->collisions->EraseCollider(player_col);
 
 	is_grounded = false;
 	is_jumping == false;
@@ -350,6 +352,10 @@ void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 	
 
 		}
+	}
+	else if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_SPIKES && god_mode == false)
+	{
+		is_dead = true;
 	}
 
 }

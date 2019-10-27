@@ -5072,13 +5072,13 @@
   </data>
  </layer>
  <objectgroup color="#ff0000" id="10" name="Collision">
-  <object id="1" type="floor" x="6" y="516" width="347" height="216"/>
-  <object id="7" type="floor" x="1155" y="641" width="375" height="121"/>
-  <object id="12" type="jumpable" x="2147" y="192" width="56" height="43"/>
+  <object id="1" type="floor" x="0" y="510" width="353" height="222"/>
+  <object id="7" type="floor" x="1155" y="639" width="375" height="123"/>
+  <object id="12" type="jumpable" x="2149" y="191" width="56" height="43"/>
   <object id="14" type="jumpable" x="643.667" y="383.333" width="120" height="31"/>
   <object id="15" type="jumpable" x="292.667" y="382.667" width="122" height="31"/>
   <object id="19" type="mortal" x="193" y="448" width="31" height="66"/>
-  <object id="20" type="floor" x="578" y="609" width="347" height="152"/>
+  <object id="20" type="floor" x="578" y="605" width="347" height="156"/>
   <object id="21" type="jumpable" x="996" y="384.667" width="125.333" height="31"/>
   <object id="22" type="mortal" x="863.333" y="351.667" width="31" height="32.3333"/>
   <object id="23" type="mortal" x="864.333" y="223" width="31" height="32.3333"/>
@@ -5088,21 +5088,21 @@
   <object id="27" type="mortal" x="2783.06" y="194.5" width="190.788" height="31.1667"/>
   <object id="28" type="jumpable" x="1477.33" y="288.667" width="120" height="31"/>
   <object id="29" type="jumpable" x="1762.67" y="256" width="186" height="35.6667"/>
-  <object id="30" type="jumpable" x="2243" y="257.333" width="56" height="43"/>
-  <object id="31" type="jumpable" x="2339" y="321.333" width="56" height="43"/>
-  <object id="32" type="jumpable" x="2116.33" y="610.667" width="56" height="43"/>
-  <object id="33" type="jumpable" x="2628.33" y="545.333" width="56" height="43"/>
-  <object id="34" type="jumpable" x="2788.33" y="482.667" width="117.333" height="43"/>
-  <object id="35" type="jumpable" x="2344.33" y="612.667" width="176" height="31.6667"/>
+  <object id="30" type="jumpable" x="2244" y="255.333" width="56" height="43"/>
+  <object id="31" type="jumpable" x="2339" y="319.333" width="58" height="45"/>
+  <object id="32" type="jumpable" x="2116.33" y="607.667" width="56" height="46"/>
+  <object id="33" type="jumpable" x="2625.33" y="543.333" width="60" height="45"/>
+  <object id="34" type="jumpable" x="2788.33" y="478.667" width="117.333" height="47"/>
+  <object id="35" type="jumpable" x="2338.33" y="610.667" width="188" height="33.6667"/>
   <object id="36" type="jumpable" x="2468.88" y="162.303" width="182" height="37.3636"/>
-  <object id="37" type="floor" x="1667.06" y="581.955" width="375" height="169"/>
-  <object id="38" type="floor" x="3111.23" y="421.409" width="409" height="318"/>
+  <object id="37" type="floor" x="1667.06" y="576.955" width="375" height="174"/>
+  <object id="38" type="floor" x="3106.23" y="419.409" width="414" height="320"/>
   <object id="39" type="mortal" x="1665.73" y="542.5" width="63.4545" height="33.1667"/>
   <object id="40" type="mortal" x="1665.06" y="416.5" width="63.4545" height="30.5"/>
   <object id="41" type="mortal" x="2047.06" y="578.5" width="63.4545" height="30.5"/>
   <object id="42" type="mortal" x="2049.06" y="546.5" width="30.7879" height="27.8333"/>
-  <object id="43" type="mortal" x="2367.73" y="418.5" width="30.7879" height="91.1667"/>
-  <object id="44" type="mortal" x="2467.73" y="417.833" width="30.7879" height="91.1667"/>
+  <object id="43" type="mortal" x="2371.73" y="418.5" width="26.7879" height="91.1667"/>
+  <object id="44" type="mortal" x="2467.73" y="417.833" width="28.7879" height="91.1667"/>
   <object id="45" type="mortal" x="2720.39" y="481.833" width="30.7879" height="29.1667"/>
   <object id="47" type="mortal" x="3200.98" y="386.083" width="30.7879" height="29.1667"/>
   <object id="48" type="mortal" x="3328.98" y="386.75" width="30.7879" height="29.1667"/>

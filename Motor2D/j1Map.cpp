@@ -481,6 +481,10 @@ bool j1Map::LoadColliders(pugi::xml_node& node)
 		{
 			collider_type = COLLIDER_PENETRABLE;
 		}
+		else if (type == "mortal")
+		{
+			collider_type = COLLIDER_SPIKES;
+		}
 		else
 		{
 			LOG("Collider type undefined");

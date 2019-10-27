@@ -62,6 +62,8 @@ public:
 
 	p2Point<float>		before_colliding;
 	p2Point<float>		position;
+	p2Point<float>		initial_position;
+
 
 	p2Point<float>		player_velocity;
 	p2Point<float>		run_speed;

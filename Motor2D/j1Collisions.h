@@ -1,7 +1,7 @@
 #ifndef __j1Collisions_H__
 #define __j1Collisions_H__
 
-#define MAX_COLLIDERS 500
+#define MAX_COLLIDERS 300
 
 #include "j1Map.h"
 #include "j1Module.h"
@@ -13,6 +13,7 @@ enum COLLIDER_TYPE
 	COLLIDER_UNPENETRABLE,
 	COLLIDER_PLAYER,
 	COLLIDER_PENETRABLE,
+	COLLIDER_SPIKES,
 
 	COLLIDER_MAX
 };
