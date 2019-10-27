@@ -76,8 +76,8 @@ bool j1Player::Awake(pugi::xml_node& config)
 
 	jump_force = config.child("jump_force").attribute("value").as_float();
 
-	dash_speed.x = config.child("dash_speed").attribute("x").as_float();
-	dash_speed.y = config.child("dash_speed").attribute("y").as_float();
+	max_speed.x = config.child("max_speed").attribute("x").as_float();
+	max_speed.y = config.child("max_speed").attribute("y").as_float();
 	dash_acceleration = config.child("dash_acceleration").attribute("value").as_float();
 
 	is_grounded = config.child("is_grounded").attribute("value").as_bool();
@@ -237,7 +237,10 @@ bool j1Player::Update(float dt)
 		//player_velocity.y = 0;
 		is_jumping = false;
 	case FALLING:
-		player_velocity.y += gravity;
+		
+		if(player_velocity.y < max_speed.y)
+			player_velocity.y += gravity;
+
 		current_anim = &fall_anim;
 
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
@@ -415,7 +418,7 @@ void j1Player::Dash_Movement()
 	{
 		if (flip == false)//Right Dash
 		{
-			if (player_velocity.x > dash_speed.x)
+			if (player_velocity.x > max_speed.x)
 			{
 				player_velocity.x = player_velocity.x / 6;
 				is_dashing = false;
@@ -429,7 +432,7 @@ void j1Player::Dash_Movement()
 		}
 		else//Left Dash
 		{
-			if (player_velocity.x < -dash_speed.x)
+			if (player_velocity.x < -max_speed.x)
 			{
 				player_velocity.x = player_velocity.x / 6;
 				is_dashing = false;
