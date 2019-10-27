@@ -156,7 +156,7 @@ bool j1Player::PreUpdate()
 				able_superjump = false;
 				pState = IDLE;
 			}
-			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 			{
 				App->audio->PlayFx(App->audio->LoadFx(jump_SFX.GetString()));
 				if (able_superjump == true)
@@ -180,7 +180,7 @@ bool j1Player::PreUpdate()
 
 		if (is_dashing == false)
 		{
-			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+			if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
 			{
 				App->audio->PlayFx(App->audio->LoadFx(dash_SFX.GetString()));
 				pState = DASHING;
@@ -207,7 +207,6 @@ bool j1Player::Update(float dt)
 			player_velocity.x = 0;
 			player_velocity.y = 0;
 		}
-		//player_col->rect.h = 40;
 		current_anim = &idle_anim;
 		break;
 	case RIGHT:
@@ -221,8 +220,6 @@ bool j1Player::Update(float dt)
 	case CROUCHING:
 		player_velocity.x = 0;
 		current_anim = &crouch_anim;
-		//player_col->rect.h = 20;
-		//player_col->SetPos(position.x, position.y + 20);
 		able_superjump = true;
 		break;
 	case DASHING:
@@ -234,7 +231,6 @@ bool j1Player::Update(float dt)
 		is_grounded = false;
 		break;
 	case STOP_JUMPING:
-		//player_velocity.y = 0;
 		is_jumping = false;
 	case FALLING:
 		
@@ -316,7 +312,7 @@ void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 			App->player->position.y = C2->rect.y + C2->rect.h;
 		}
 		//Collision from top
-		if ((App->player->before_colliding.y + App->player->player_col->rect.h ) > (C2->rect.y) && !(App->player->before_colliding.y > C2->rect.y))
+		if ((App->player->before_colliding.y + App->player->player_col->rect.h + max_speed.y ) > (C2->rect.y) && !(App->player->before_colliding.y > C2->rect.y))
 		{
 			if (player_velocity.y > 0)
 			{
@@ -325,28 +321,34 @@ void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 			is_grounded = true;
 			
 		}
-		else if ((App->player->before_colliding.y + App->player->player_col->rect.h ) > (C2->rect.y) && (App->player->before_colliding.y < C2->rect.y + C2->rect.h))
+		else if ((App->player->before_colliding.y + App->player->player_col->rect.h ) > (C2->rect.y )
+			&& (App->player->before_colliding.y  < C2->rect.y + C2->rect.h))
 		{
-			if ((App->player->player_col->rect.x + App->player->player_col->rect.w) > (C2->rect.x))
+			//Collision from the right
+			if ((App->player->player_col->rect.x + App->player->player_col->rect.w + max_speed.x) > (C2->rect.x))
 			{
-				App->player->position.x = C2->rect.x - App->player->player_col->rect.w - 2;
+ 				App->player->position.x = C2->rect.x - App->player->player_col->rect.w;
 				if (player_velocity.x > 0)
 				{
 					player_velocity.x = 0;
 				}
 			}
 			//Collision from the left
-			if (App->player->player_col->rect.x < (C2->rect.x + C2->rect.w))
+			else if (App->player->player_col->rect.x - max_speed.x < (C2->rect.x + C2->rect.w))
 			{
 				App->player->position.x = C2->rect.x + C2->rect.w;
+				if (player_velocity.x > 0)
+				{
+					player_velocity.x = 0;
+				}
 			}
 		}
 	}
 	else if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_PENETRABLE && god_mode == false)
 	{
 		//Collision from top and below
-		if ((App->player->before_colliding.y + App->player->player_col->rect.h + 6 ) > (C2->rect.y)
-			&& App->player->before_colliding.y + App->player->player_col->rect.h - 6< C2->rect.y)
+		if ((App->player->before_colliding.y + App->player->player_col->rect.h + max_speed.y ) > (C2->rect.y)
+			&& App->player->before_colliding.y + App->player->player_col->rect.h - max_speed.y < C2->rect.y)
 		{
 			if (player_velocity.y > 0)
 			{
@@ -357,10 +359,12 @@ void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 
 		}
 	}
+	//Collision against spikes
 	else if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_SPIKES && god_mode == false)
 	{
 		is_dead = true;
 	}
+	//Win condition
 	else if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_WIN)
 	{
 		if (App->map->data.map_name == "Level1.tmx")
@@ -404,7 +408,7 @@ void j1Player::jumpMovement()
 			is_jumping = false;
 		}
 		
-		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_UP)
+		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
 		{
 			pState = STOP_JUMPING;
 		}		
@@ -481,8 +485,4 @@ void j1Player::Load_Level()
 		if (App->map->data.map_name == "Level2.tmx")
 			App->fade_to_black->FadeToBlack("Level2.tmx", 3.0f);
 	}
-	//if (position.x == (App->map->data.tile_width * App->map->data.width - 200))
-	//{
-	//	App->fade_to_black->FadeToBlack("Level2.tmx", 3.0f);
-	//}
 }
