@@ -109,7 +109,7 @@ bool j1Player::PreUpdate()
 {
 	if (is_dead == false)
 	{
-		if (is_grounded == true && is_jumping == false)
+		if (is_grounded  && !is_jumping && !is_dashing)
 		{
 			pState = IDLE;
 			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && is_dashing == false)
@@ -303,7 +303,7 @@ void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 			App->player->position.y = C2->rect.y + C2->rect.h;
 		}
 		//Collision from top
-		if ((App->player->before_colliding.y + App->player->player_col->rect.h) > (C2->rect.y) && !(App->player->before_colliding.y > C2->rect.y))
+		if ((App->player->before_colliding.y + App->player->player_col->rect.h ) > (C2->rect.y) && !(App->player->before_colliding.y > C2->rect.y))
 		{
 			if (player_velocity.y > 0)
 			{
@@ -312,7 +312,7 @@ void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 			is_grounded = true;
 			
 		}
-		else if ((App->player->before_colliding.y + App->player->player_col->rect.h + 5) > (C2->rect.y) && (App->player->before_colliding.y - 5 < C2->rect.y + C2->rect.h))
+		else if ((App->player->before_colliding.y + App->player->player_col->rect.h ) > (C2->rect.y) && (App->player->before_colliding.y < C2->rect.y + C2->rect.h))
 		{
 			if ((App->player->player_col->rect.x + App->player->player_col->rect.w) > (C2->rect.x))
 			{
@@ -332,8 +332,8 @@ void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 	else if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_PENETRABLE)
 	{
 		//Collision from top and below
-		if ((App->player->before_colliding.y + App->player->player_col->rect.h) > (C2->rect.y)
-			&& App->player->before_colliding.y + App->player->player_col->rect.h - 7 < C2->rect.y)
+		if ((App->player->before_colliding.y + App->player->player_col->rect.h + 10) > (C2->rect.y)
+			&& App->player->before_colliding.y + App->player->player_col->rect.h - 10 < C2->rect.y)
 		{
 			if (player_velocity.y > 0)
 			{
@@ -425,6 +425,8 @@ void j1Player::Load_Level()
 {
 	if (is_dead == true)
 	{
+		player_velocity.y = 0;
+		player_velocity.x = 0;
 		if (App->map->data.map_name == "Level1.tmx")
 			App->fade_to_black->FadeToBlack("Level1.tmx", 3.0f);
 		if (App->map->data.map_name == "Level2.tmx")
