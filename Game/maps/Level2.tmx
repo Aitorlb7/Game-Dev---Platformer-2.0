@@ -5107,6 +5107,6 @@
   <object id="47" type="mortal" x="3200.98" y="386.083" width="30.7879" height="29.1667"/>
   <object id="48" type="mortal" x="3328.98" y="386.75" width="30.7879" height="29.1667"/>
   <object id="49" type="mortal" x="1826" y="130" width="60" height="125"/>
-  <object id="50" type="win" x="3488" y="-1" width="68" height="421"/>
+  <object id="50" type="win" x="3488" y="2" width="31" height="416"/>
  </objectgroup>
 </map>
