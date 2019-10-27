@@ -58,21 +58,21 @@ bool j1Scene::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
 		App->SaveGame("save_game.xml");
 
-	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	{
+		App->fade_to_black->FadeToBlack("Level1.tmx", 3.0f);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 	{
 		App->fade_to_black->FadeToBlack("Level2.tmx",3.0f);
 	}
-
-
-	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		App->render->camera.y -= 1;
-
-	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		App->render->camera.x += 1;
-
-	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		App->render->camera.x -= 1;
-
+	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
+	{
+		if (App->map->data.map_name == "Level1.tmx")
+			App->fade_to_black->FadeToBlack("Level1.tmx", 3.0f);
+		if (App->map->data.map_name == "Level2.tmx")
+			App->fade_to_black->FadeToBlack("Level2.tmx", 3.0f);
+	}
 	//App->render->Blit(graphics, -100, -200, &Parallax_rect[2], SDL_FLIP_NONE,false, 1.2f, false, false);
 	//App->render->Blit(graphics, -100, 240, &Parallax_rect[1], SDL_FLIP_NONE,false, 1.15f, false, false);
 	//App->render->Blit(graphics, -100, 270, &Parallax_rect[1], SDL_FLIP_NONE,false, 1.1f, false, false);

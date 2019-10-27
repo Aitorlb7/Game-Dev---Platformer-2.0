@@ -20,7 +20,6 @@ enum player_state
 	JUMPING,
 	STOP_JUMPING,
 	FALLING,
-	GOD,
 };
 
 class j1Player : public j1Module

@@ -110,13 +110,13 @@ bool j1Player::Start()
 
 bool j1Player::PreUpdate()
 {
+	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+	{
+		god_mode = !god_mode;
+	}
 	if (is_dead == false && god_mode == false)
 	{
-		if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
-		{
-			god_mode = true;
-		}
-
+		
 		if (is_grounded  && !is_jumping && !is_dashing)
 		{
 			pState = IDLE;
@@ -190,7 +190,7 @@ bool j1Player::PreUpdate()
 
 bool j1Player::Update(float dt)
 {
-	player_col->SetPos(position.x, position.y);
+
 	before_colliding = position;
 	if (!is_dashing && !is_jumping)
 		is_grounded = false;
@@ -244,9 +244,6 @@ bool j1Player::Update(float dt)
 
 		if (position.y > App->win->height + player_col->rect.h)
 			is_dead = true;
-
-		break;
-	case GOD:
 		break;
 	}
 
@@ -257,8 +254,8 @@ bool j1Player::Update(float dt)
 
 	jumpMovement(); 
 	Dash_Movement();
-	God_Mode();
 	Load_Level();
+	God_Mode();
 
 	if (before_colliding.x < App->render->camera.x && flip)
 		player_velocity.x = 0;
@@ -266,7 +263,7 @@ bool j1Player::Update(float dt)
 		position.y += player_velocity.y;
 
 	position.x += player_velocity.x;
-	
+	player_col->SetPos(position.x, position.y);
 	return true;
 }
 
@@ -293,6 +290,7 @@ bool j1Player::CleanUp()
 	App->tex->UnLoad(graphics);
 	graphics = nullptr;
 	player_col->to_delete;
+	player_col = nullptr;
 	
 
 	is_grounded = false;
@@ -341,8 +339,8 @@ void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 	else if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_PENETRABLE && god_mode == false)
 	{
 		//Collision from top and below
-		if ((App->player->before_colliding.y + App->player->player_col->rect.h + 10) > (C2->rect.y)
-			&& App->player->before_colliding.y + App->player->player_col->rect.h - 10 < C2->rect.y)
+		if ((App->player->before_colliding.y + App->player->player_col->rect.h + 6 ) > (C2->rect.y)
+			&& App->player->before_colliding.y + App->player->player_col->rect.h - 6< C2->rect.y)
 		{
 			if (player_velocity.y > 0)
 			{
@@ -452,13 +450,6 @@ void j1Player :: God_Mode()
 		{
 			player_velocity.y = run_speed.x;
 		}
-
-		if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
-		{
-			god_mode = false;
-		}
-
-
 	}	
 }
 void j1Player::Load_Level()
