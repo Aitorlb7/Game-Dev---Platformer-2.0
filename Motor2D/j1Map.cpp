@@ -485,6 +485,10 @@ bool j1Map::LoadColliders(pugi::xml_node& node)
 		{
 			collider_type = COLLIDER_SPIKES;
 		}
+		else if (type == "win")
+		{
+			collider_type = COLLIDER_WIN;
+		}
 		else
 		{
 			LOG("Collider type undefined");

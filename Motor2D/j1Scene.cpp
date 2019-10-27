@@ -9,6 +9,7 @@
 #include "j1Map.h"
 #include "j1Scene.h"
 #include "j1FadeToBlack.h"
+#include "j1Collisions.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -73,6 +74,10 @@ bool j1Scene::Update(float dt)
 		if (App->map->data.map_name == "Level2.tmx")
 			App->fade_to_black->FadeToBlack("Level2.tmx", 3.0f);
 	}
+	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+	{
+		App->collisions->debug = !App->collisions->debug;
+	}
 	//App->render->Blit(graphics, -100, -200, &Parallax_rect[2], SDL_FLIP_NONE,false, 1.2f, false, false);
 	//App->render->Blit(graphics, -100, 240, &Parallax_rect[1], SDL_FLIP_NONE,false, 1.15f, false, false);
 	//App->render->Blit(graphics, -100, 270, &Parallax_rect[1], SDL_FLIP_NONE,false, 1.1f, false, false);
@@ -95,7 +100,7 @@ bool j1Scene::Update(float dt)
 // Called each loop iteration
 bool j1Scene::PostUpdate()
 {
-	bool ret = true;
+	
 
 	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
