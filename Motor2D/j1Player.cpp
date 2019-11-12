@@ -219,7 +219,6 @@ bool j1Player::PreUpdate()
 
 bool j1Player::Update(float dt)
 {
-	before_colliding = position;
 	if (!is_dashing && !is_jumping)
 		is_grounded = false;
 
@@ -284,7 +283,7 @@ bool j1Player::Update(float dt)
 	Load_Level();
 	God_Mode();
 	// Limit of the screen left border
-	if (before_colliding.x < App->render->camera.x && flip) 
+	if (position.x < App->render->camera.x && flip) 
 	{
 		player_velocity.x = 0;
 	}
@@ -339,33 +338,37 @@ void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 {
 	if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_UNPENETRABLE && god_mode == false)
 	{
-		//Collision from below
-		if (App->player->before_colliding.y < (C2->rect.y + C2->rect.h) && (App->player->before_colliding.y + App->player->player_col->rect.h)>(C2->rect.y+C2->rect.h))
+		if (C1->rect.x + C1->rect.w >= C2->rect.x  && C1->rect.x  <= C2->rect.x + C2->rect.w)
 		{
-			player_velocity.y = 0;
-			App->player->position.y = C2->rect.y + C2->rect.h;
+			//Collision from top
+			if ((C1->rect.y + C1->rect.h) >= (C2->rect.y) && (C1->rect.y < C2->rect.y))
+			{
+				player_velocity.y = 0;
+				position.y = C2->rect.y - C1->rect.h + 1;
+				is_grounded = true;
+
+			}
+			//Collision from below
+			else if (C1->rect.y < (C2->rect.y + C2->rect.h) && (C1->rect.y + C1->rect.h)>(C2->rect.y + C2->rect.h))
+			{
+				player_velocity.y = 0;
+				App->player->position.y = C2->rect.y + C2->rect.h;
+			}
 		}
-		//Collision from top
-		if ((App->player->before_colliding.y + App->player->player_col->rect.h + max_speed.y ) > (C2->rect.y) && !(App->player->before_colliding.y > C2->rect.y))
-		{
-			player_velocity.y = 0;
-			is_grounded = true;
-			
-		}
-		else if ((App->player->before_colliding.y + App->player->player_col->rect.h ) > (C2->rect.y )
-			&& (App->player->before_colliding.y  < C2->rect.y + C2->rect.h))
+		
+		if (C1->rect.y < C2->rect.y + C2->rect.h && C1->rect.y + C1->rect.h  > C2->rect.y && C1->rect.y > C2->rect.y)
 		{
 			//Collision from the right
-			if ((App->player->player_col->rect.x + App->player->player_col->rect.w ) > (C2->rect.x) && App->player->player_col->rect.x < (C2->rect.x))
+			if ((C1->rect.x + C1->rect.w ) > (C2->rect.x) && C1->rect.x < (C2->rect.x))
 			{
- 				App->player->position.x = C2->rect.x - App->player->player_col->rect.w;
+				App->player->position.x = C2->rect.x - C1->rect.w - 1;
 				player_velocity.x = 0;
 
 			}
 			//Collision from the left
-			else if (App->player->player_col->rect.x  < (C2->rect.x + C2->rect.w) && App->player->player_col->rect.x > (C2->rect.x))
+			else if (C1->rect.x  < (C2->rect.x + C2->rect.w) && C1->rect.x > (C2->rect.x))
 			{
-				App->player->position.x = C2->rect.x + C2->rect.w;
+				App->player->position.x = C2->rect.x + C2->rect.w + 1;
 				player_velocity.x = 0;
 
 			}
@@ -374,9 +377,15 @@ void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 	else if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_PENETRABLE && god_mode == false)
 	{
 		//Collision from top and below
-		if ((App->player->position.y + App->player->player_col->rect.h + max_speed.y ) > (C2->rect.y)
-			&& App->player->position.y + App->player->player_col->rect.h - max_speed.y < C2->rect.y)
+		if ((C1->rect.y + C1->rect.h) > C2->rect.y + (C2->rect.h / 2.0f) && (C1->rect.y + C1->rect.h) < C2->rect.y && player_velocity.y >= 0) 
 		{
+			App->player->position.y = C2->rect.y - C1->rect.h + 1;
+			player_velocity.y = 0;
+			is_grounded = true;
+		}
+		else if ((C1->rect.y + C1->rect.h  ) > (C2->rect.y) &&  player_velocity.y >= 0)
+		{
+			App->player->position.y = C2->rect.y - C1->rect.h + 1;
 			player_velocity.y = 0;
 			is_grounded = true;
 		}

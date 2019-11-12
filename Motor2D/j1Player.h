@@ -60,9 +60,10 @@ public:
 	bool				able_superjump = false;
 	bool				flip = false;
 	bool				god_mode = false;
+
 	int					jumpInit_pos;
 
-	p2Point<float>		before_colliding;
+
 	p2Point<float>		position;
 	p2Point<float>		initial_position;
 

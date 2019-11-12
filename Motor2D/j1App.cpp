@@ -219,7 +219,7 @@ void j1App::FinishUpdate()
 		j1PerfTimer	delayTimer;
 		delay = 1000 / max_framerate - last_frame_ms;
 		SDL_Delay(delay);
-		LOG(" We waited for %d milliseconds and got back in %f", delay, delayTimer.ReadMs());
+		//LOG(" We waited for %d milliseconds and got back in %f", delay, delayTimer.ReadMs());
 	}
 
 }
