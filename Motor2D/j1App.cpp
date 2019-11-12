@@ -15,11 +15,13 @@
 #include "j1Player.h"
 #include "j1Collisions.h"
 #include "j1FadeToBlack.h"
+#include "j1PerfTimer.h"
+#include "j1Timer.h"
 
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 {
-	frames = 0;
+	PERF_START(ptimer);
 	want_to_save = want_to_load = false;
 
 	input = new j1Input();
@@ -48,6 +50,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 
 	// render last to swap buffer
 	AddModule(render);
+
+	PERF_PEEK(ptimer);
 }
 
 // Destructor
@@ -74,6 +78,8 @@ void j1App::AddModule(j1Module* module)
 // Called before render is available
 bool j1App::Awake()
 {
+	PERF_START(ptimer);
+
 	pugi::xml_document	config_file;
 	pugi::xml_node		config;
 	pugi::xml_node		app_config;
@@ -89,6 +95,7 @@ bool j1App::Awake()
 		app_config = config.child("app");
 		title.create(app_config.child("title").child_value());
 		organization.create(app_config.child("organization").child_value());
+		max_framerate = app_config.attribute("framerate_cap").as_int();
 		load_game = "save_file.xml";
 		save_game = "save_file.xml";
 	}
@@ -105,12 +112,14 @@ bool j1App::Awake()
 		}
 	}
 
+	PERF_PEEK(ptimer);
 	return ret;
 }
 
 // Called before the first frame
 bool j1App::Start()
 {
+	PERF_START(ptimer);
 	bool ret = true;
 	p2List_item<j1Module*>* item;
 	item = modules.start;
@@ -120,7 +129,9 @@ bool j1App::Start()
 		ret = item->data->Start();
 		item = item->next;
 	}
+	startup_time.Start();
 
+	PERF_PEEK(ptimer);
 	return ret;
 }
 
@@ -163,6 +174,13 @@ pugi::xml_node j1App::LoadConfig(pugi::xml_document& config_file) const
 // ---------------------------------------------
 void j1App::PrepareUpdate()
 {
+	frame_count++;
+	last_sec_frame_count++;
+
+	dt = frame_time.ReadSec();
+	if (dt > (float)max_framerate / 1000)
+		dt = (float)max_framerate / 1000;
+	frame_time.Start();
 }
 
 // ---------------------------------------------
@@ -173,6 +191,37 @@ void j1App::FinishUpdate()
 
 	if(want_to_load == true)
 		LoadGameNow();
+
+	// Framerate calculations --
+
+	if (last_sec_frame_time.Read() > 1000)
+	{
+		last_sec_frame_time.Start();
+		prev_last_sec_frame_count = last_sec_frame_count;
+		last_sec_frame_count = 0;
+	}
+
+	float avg_fps = float(frame_count) / startup_time.ReadSec();
+	float seconds_since_startup = startup_time.ReadSec();
+	uint32 last_frame_ms = frame_time.Read();
+	uint32 frames_on_last_update = prev_last_sec_frame_count;
+
+	static char title[256];
+	sprintf_s(title, 256, "Av.FPS: %.2f Last Frame Ms: %02u Last sec frames: %i  Time since startup: %.3f Frame Count: %lu ",
+		avg_fps, last_frame_ms, frames_on_last_update, seconds_since_startup, frame_count);
+	App->win->SetTitle(title);
+
+	// TODO 2: Use SDL_Delay to make sure you get your capped framerate
+	uint32 delay;
+
+	if (last_frame_ms < 1000 / max_framerate)
+	{
+		j1PerfTimer	delayTimer;
+		delay = 1000 / max_framerate - last_frame_ms;
+		SDL_Delay(delay);
+		LOG(" We waited for %d milliseconds and got back in %f", delay, delayTimer.ReadMs());
+	}
+
 }
 
 // Call modules before each loop iteration
@@ -243,6 +292,7 @@ bool j1App::PostUpdate()
 // Called before quitting
 bool j1App::CleanUp()
 {
+	PERF_START(ptimer);
 	bool ret = true;
 	p2List_item<j1Module*>* item;
 	item = modules.end;
@@ -253,6 +303,7 @@ bool j1App::CleanUp()
 		item = item->prev;
 	}
 
+	PERF_PEEK(ptimer);
 	return ret;
 }
 
