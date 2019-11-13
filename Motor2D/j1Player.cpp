@@ -377,17 +377,12 @@ void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 	else if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_PENETRABLE && god_mode == false)
 	{
 		//Collision from top and below
-		if ((C1->rect.y + C1->rect.h) > C2->rect.y + (C2->rect.h / 2.0f) && (C1->rect.y + C1->rect.h) < C2->rect.y && player_velocity.y >= 0) 
+		if ((C1->rect.y + C1->rect.h  ) > (C2->rect.y) && C1->rect.y < C2->rect.y && C1->rect.y + C1->rect.h - 8 < C2->rect.y && player_velocity.y >= 0)
 		{
-			App->player->position.y = C2->rect.y - C1->rect.h + 1;
-			player_velocity.y = 0;
-			is_grounded = true;
-		}
-		else if ((C1->rect.y + C1->rect.h  ) > (C2->rect.y) &&  player_velocity.y >= 0)
-		{
-			App->player->position.y = C2->rect.y - C1->rect.h + 1;
-			player_velocity.y = 0;
-			is_grounded = true;
+				App->player->position.y = C2->rect.y - C1->rect.h + 1;
+				player_velocity.y = 0;
+				is_grounded = true;
+
 		}
 	}
 	//Collision against spikes
