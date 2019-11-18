@@ -17,6 +17,7 @@
 #include "j1FadeToBlack.h"
 #include "j1PerfTimer.h"
 #include "j1Timer.h"
+#include "j1Pathfinding.h"
 
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
@@ -34,6 +35,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	player = new j1Player();
 	collisions = new j1Collisions();
 	fade_to_black = new j1FadeToBlack();
+	pathfinding = new j1PathFinding();
 
 
 	// Ordered for awake / Start / Update
@@ -43,11 +45,12 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(tex);
 	AddModule(audio);
 	AddModule(map);
-	AddModule(scene);
+	
 	AddModule(player);
 	AddModule(collisions);
 	AddModule(fade_to_black);
-
+	AddModule(pathfinding);
+	AddModule(scene);
 	// render last to swap buffer
 	AddModule(render);
 
