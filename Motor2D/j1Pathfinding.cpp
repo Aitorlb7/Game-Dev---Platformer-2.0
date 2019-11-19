@@ -165,59 +165,59 @@ int PathNode::CalculateF(const iPoint& destination)
 // ----------------------------------------------------------------------------------
 // Actual A* algorithm: return number of steps in the creation of the path or -1 ----
 // ----------------------------------------------------------------------------------
-int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
-{
-	int ret = -1;
-	int iteration = 0;
-	if (IsWalkable(origin) || IsWalkable(destination))
-	{
-		PathList open;
-		PathList close;
-		open.list.add(PathNode(0, 0, origin, nullptr));
-		while (open.list.count != 0)
-		{
-			p2List_item<PathNode>* lowest;
-			lowest = open.GetNodeLowestScore();
-			p2List_item<PathNode>* node;
-			node = close.list.add(lowest->data);
-			open.list.del(lowest);
-			if (node->data.pos == destination)
-			{
-				last_path.Clear();
-
-				// Backtrack to create the final path
-				const PathNode *path_node = &node->data;
-
-				while (path_node)
-				{
-					last_path.PushBack(path_node->pos);
-					path_node = path_node->parent;
-				}
-				// Use the Pathnode::parent and Flip() the path when you are finish
-				last_path.Flip();
-				ret = last_path.Count();
-				break;
-			}
-
-			PathList adjacent;
-			node->data.FindWalkableAdjacents(adjacent);
-
-			p2List_item<PathNode>* item = adjacent.list.start;
-			for (; item; item->next)
-			{
-				// ignore nodes in the closed list
-
-				// If it is NOT found, calculate its F and add it to the open list
-				// If it is already in the open list, check if it is a better path (compare G)
-				// If it is a better path, Update the parent
-
-				iteration++;
-			}
-		}
-	}
-	
-
-
-	return ret;
-}
+//int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
+//{
+//	int ret = -1;
+//	int iteration = 0;
+//	if (IsWalkable(origin) || IsWalkable(destination))
+//	{
+//		PathList open;
+//		PathList close;
+//		open.list.add(PathNode(0, 0, origin, nullptr));
+//		while (open.list.count != 0)
+//		{
+//			p2List_item<PathNode>* lowest;
+//			lowest = open.GetNodeLowestScore();
+//			p2List_item<PathNode>* node;
+//			node = close.list.add(lowest->data);
+//			open.list.del(lowest);
+//			if (node->data.pos == destination)
+//			{
+//				last_path.Clear();
+//
+//				// Backtrack to create the final path
+//				const PathNode *path_node = &node->data;
+//
+//				while (path_node)
+//				{
+//					last_path.PushBack(path_node->pos);
+//					path_node = path_node->parent;
+//				}
+//				// Use the Pathnode::parent and Flip() the path when you are finish
+//				last_path.Flip();
+//				ret = last_path.Count();
+//				break;
+//			}
+//
+//			PathList adjacent;
+//			node->data.FindWalkableAdjacents(adjacent);
+//
+//			p2List_item<PathNode>* item = adjacent.list.start;
+//			for (; item; item->next)
+//			{
+//				// ignore nodes in the closed list
+//
+//				// If it is NOT found, calculate its F and add it to the open list
+//				// If it is already in the open list, check if it is a better path (compare G)
+//				// If it is a better path, Update the parent
+//
+//				iteration++;
+//			}
+//		}
+//	}
+//	
+//
+//
+//	return ret;
+//}
 

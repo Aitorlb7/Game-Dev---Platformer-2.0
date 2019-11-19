@@ -6,6 +6,8 @@
 #include "j1Map.h"
 #include "p2Log.h"
 
+#include "Brofiler/Brofiler.h"
+
 j1Collisions::j1Collisions()
 {
 	for (uint i = 0; i < MAX_COLLIDERS; ++i)
@@ -56,6 +58,8 @@ bool j1Collisions::PreUpdate()
 // Called before render is available
 bool j1Collisions::Update(float dt)
 {
+	
+	
 	Collider* c1;
 	Collider* c2;
 

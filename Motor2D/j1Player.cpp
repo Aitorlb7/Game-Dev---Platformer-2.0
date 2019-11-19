@@ -12,6 +12,14 @@
 #include "j1FadeToBlack.h"
 #include "j1Scene.h"
 
+#include "Brofiler/Brofiler.h"
+//
+//
+//
+//Checkpoints, "dolphin dive"
+//
+//
+
 j1Player::j1Player() : j1Module()
 {
 	name.create("player");
@@ -219,6 +227,8 @@ bool j1Player::PreUpdate()
 
 bool j1Player::Update(float dt)
 {
+	
+	
 	if (!is_dashing && !is_jumping)
 		is_grounded = false;
 
@@ -305,6 +315,8 @@ bool j1Player::Update(float dt)
 
 bool j1Player::PostUpdate()
 {
+	BROFILER_CATEGORY("Player PostUpdate", Profiler::Color::Red)
+	
 	if (graphics != nullptr)
 	{
 		if (flip)
