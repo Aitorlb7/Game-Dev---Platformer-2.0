@@ -62,6 +62,12 @@ j1Player::j1Player() : j1Module()
 	dash_anim.PushBack({ 324,571,30,20 });
 	dash_anim.speed = 0.13f;
 	dash_anim.lock = true;
+
+	attack_anim.PushBack({156,485,21,31});
+	attack_anim.PushBack({215,485,21,31});
+	attack_anim.PushBack({265,485,21,31});
+	attack_anim.PushBack({302,485,46,31});
+	attack_anim.speed = 0.13f;
 }
 j1Player::~j1Player()
 {

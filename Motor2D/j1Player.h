@@ -91,6 +91,7 @@ public:
 	Animation			dash_anim;
 	Animation			fall_anim;
 	Animation			god_anim;
+	Animation			attack_anim;
 
 	p2SString			jump_SFX;
 	p2SString			run_SFX;
