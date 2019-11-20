@@ -165,59 +165,80 @@ int PathNode::CalculateF(const iPoint& destination)
 // ----------------------------------------------------------------------------------
 // Actual A* algorithm: return number of steps in the creation of the path or -1 ----
 // ----------------------------------------------------------------------------------
-//int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
-//{
-//	int ret = -1;
-//	int iteration = 0;
-//	if (IsWalkable(origin) || IsWalkable(destination))
-//	{
-//		PathList open;
-//		PathList close;
-//		open.list.add(PathNode(0, 0, origin, nullptr));
-//		while (open.list.count != 0)
-//		{
-//			p2List_item<PathNode>* lowest;
-//			lowest = open.GetNodeLowestScore();
-//			p2List_item<PathNode>* node;
-//			node = close.list.add(lowest->data);
-//			open.list.del(lowest);
-//			if (node->data.pos == destination)
-//			{
-//				last_path.Clear();
-//
-//				// Backtrack to create the final path
-//				const PathNode *path_node = &node->data;
-//
-//				while (path_node)
-//				{
-//					last_path.PushBack(path_node->pos);
-//					path_node = path_node->parent;
-//				}
-//				// Use the Pathnode::parent and Flip() the path when you are finish
-//				last_path.Flip();
-//				ret = last_path.Count();
-//				break;
-//			}
-//
-//			PathList adjacent;
-//			node->data.FindWalkableAdjacents(adjacent);
-//
-//			p2List_item<PathNode>* item = adjacent.list.start;
-//			for (; item; item->next)
-//			{
-//				// ignore nodes in the closed list
-//
-//				// If it is NOT found, calculate its F and add it to the open list
-//				// If it is already in the open list, check if it is a better path (compare G)
-//				// If it is a better path, Update the parent
-//
-//				iteration++;
-//			}
-//		}
-//	}
-//	
-//
-//
-//	return ret;
-//}
+int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
+{
+	int ret = -1;
+	last_path.Clear();
+	// if origin or destination are not walkable, return -1
+	if ((IsWalkable(origin) && IsWalkable(destination)) && (origin != destination)) {
+
+		// Create two lists: open, close
+		PathList open, close;
+
+		// Add the origin tile to open
+		PathNode originPN(0, origin.DistanceNoSqrt(destination), origin, nullptr);
+		open.list.add(originPN);
+
+		// Iterate while we have tile in the open list
+		while (open.list.count() > 0) {
+
+			// Move the lowest score cell from open list to the closed list
+			close.list.add(open.GetNodeLowestScore()->data);
+			open.list.del(open.GetNodeLowestScore());
+
+			if (close.list.end->data.pos != destination)
+			{
+				// Fill a list of all adjancent nodes
+				PathList neigborhs;
+				// Iterate adjancent nodes:
+				close.list.end->data.FindWalkableAdjacents(neigborhs);
+
+				p2List_item<PathNode>* iterator = neigborhs.list.start;
+				for (; iterator != NULL; iterator = iterator->next)
+				{
+					// ignore nodes in the closed list
+					if (close.Find(iterator->data.pos))
+						continue;
+					else if (open.Find(iterator->data.pos))
+					{
+						// If it is already in the open list, check if it is a better path (compare G)
+						PathNode tmpPath = open.Find(iterator->data.pos)->data;
+						iterator->data.CalculateF(destination);
+
+						// If it is a better path, Update the parent
+						if (tmpPath.g > iterator->data.g)
+							tmpPath.parent = iterator->data.parent;
+
+					}
+					else
+					{
+						// If it is NOT found, calculate its F and add it to the open list
+						iterator->data.CalculateF(destination);
+						open.list.add(iterator->data);
+					}
+				}
+				neigborhs.list.clear();
+			}
+			else {
+				p2List_item<PathNode>* iterator = close.list.end;
+
+				// If we just added the destination, we are done!
+
+				for (; iterator->data.parent != nullptr; iterator == close.Find(iterator->data.parent->pos))
+				{
+					// Backtrack to create the final path
+					last_path.PushBack(iterator->data.pos);
+					if (iterator->data.parent == nullptr)
+						last_path.PushBack(close.list.start->data.pos);
+				}
+
+				// Use the Pathnode::parent and Flip() the path when you are finish
+				last_path.Flip();
+				return last_path.Count();
+			}
+
+		}
+	}
+	return ret;
+}
 

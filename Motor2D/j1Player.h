@@ -6,6 +6,7 @@
 #include "j1Animation.h"
 #include "j1App.h"
 #include "p2Point.h"
+//#include "j1Entity.h"
 
 struct SDL_Texture;
 struct Collider;
@@ -85,7 +86,6 @@ public:
 	Animation			idle_anim;
 	Animation			run_anim;
 	Animation			jump_anim;
-	Animation			attack_anim;
 	Animation			crouch_anim;
 	Animation			crouchwalk_anim;
 	Animation			dash_anim;
