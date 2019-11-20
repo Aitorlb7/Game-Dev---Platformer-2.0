@@ -263,6 +263,10 @@ bool j1Player::Update(float dt)
 		break;
 	case DASHING:
 		is_dashing = true;
+		if (dash_startime == 0)
+		{
+			dash_startime = dt;
+		}
 		current_anim = &dash_anim;
 		break;
 	case JUMPING:		
@@ -295,7 +299,7 @@ bool j1Player::Update(float dt)
 		flip = false;
 
 	jumpMovement(); 
-	Dash_Movement();
+	Dash_Movement(dt);
 	Load_Level();
 	God_Mode();
 	// Limit of the screen left border
@@ -462,23 +466,36 @@ void j1Player::jumpMovement()
 	
 }
 
-void j1Player::Dash_Movement()
+void j1Player::Dash_Movement(float dt)
 {
 	if (is_dashing == true)
 	{
+		dash_time = dt - dash_startime;
 		if (flip == false)//Right Dash
 		{
-			if (player_velocity.x > max_speed.x)
+			//if (player_velocity.x > max_speed.x)
+			//{
+			//	player_velocity.x = player_velocity.x / 6;
+			//	is_dashing = false;
+
+			//}
+			//else
+			//{
+			//	player_velocity.x += dash_acceleration;
+			//	current_anim = &dash_anim;
+			//}
+			if (dash_time > 1.0f)
 			{
 				player_velocity.x = player_velocity.x / 6;
+				dash_startime = 0;
 				is_dashing = false;
-
 			}
 			else
 			{
 				player_velocity.x += dash_acceleration;
 				current_anim = &dash_anim;
 			}
+			
 		}
 		else//Left Dash
 		{

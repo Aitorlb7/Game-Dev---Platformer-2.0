@@ -42,7 +42,7 @@ public:
 	void j1Player::Player_Colliding(Collider* c1, Collider* c2);
 	void jumpMovement();
 	void Load_Level();
-	void Dash_Movement();
+	void Dash_Movement(float dt);
 	bool PositionCameraOnPlayer();
 	void God_Mode();
 	/*iPoint dashDirection(player_state);*/ //Check the player direction to dash forwards
@@ -77,7 +77,8 @@ public:
 	float				gravity;
 	float				jump_force;
 	float				dash_acceleration;
-
+	float				dash_startime = 0;
+	float				dash_time;
 	
 
 	Collider*			player_col = nullptr;
