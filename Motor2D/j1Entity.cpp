@@ -10,7 +10,6 @@
 #include "j1Textures.h"
 #include "j1PathFinding.h"
 #include "j1Player.h"
-#include "Brofiler\Brofiler.h"
 
 Entity::Entity(const char* name)
 {

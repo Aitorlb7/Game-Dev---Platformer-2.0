@@ -3,9 +3,8 @@
 
 #include "j1Module.h"
 #include "p2List.h"
-//#include "j1Entity.h"
+#include "j1Entity.h"
 
-#define SCREEN_MARGIN 300
 
 struct SDL_Texture;
 
@@ -23,9 +22,9 @@ public:
 	bool CleanUp();
 
 
-	//void DeleteEntity(Entity* entity_to_delete);
-	//Entity* createEntity(entity_type type, int x, int y, int id = 0);
-	//Entity* getPlayer() const;
+	void DeleteEntity(Entity* entity_to_delete);
+	Entity* createEntity(entity_type type, int x, int y, int id = 0);
+	Entity* getPlayer() const;
 
 
 	bool Load(pugi::xml_node&);
@@ -33,7 +32,7 @@ public:
 
 public:
 
-	//p2List<Entity*> entities;
+	p2List<Entity*> entities;
 	pugi::xml_node config;
 
 

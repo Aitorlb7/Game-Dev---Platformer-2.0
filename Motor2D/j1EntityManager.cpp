@@ -4,7 +4,6 @@
 #include "j1Map.h"
 #include "j1App.h"
 #include "j1Collisions.h"
-#include "Brofiler\Brofiler.h"
 #include "j1Input.h"
 #include "j1Player.h"
 #include "j1Window.h"
@@ -33,6 +32,15 @@ bool j1EntityManager::Start()
 
 bool j1EntityManager::Update(float dt)
 {
+	for (p2List_item<Entity*>* entity = entities.start; entity; entity = entity->next)
+	{
+		if (entity->data->position.x <= App->win->width + DRAW_LIMIT && entity->data->position.x >= -DRAW_LIMIT)
+		{
+			entity->data->Update(dt);
+		}
+	}
+
+	// Future draw of the enemy path (needs pathfinding)
 	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
 		draw_path = !draw_path;
 
@@ -49,6 +57,25 @@ bool j1EntityManager::CleanUp()
 {
 
 	return true;
+}
+
+Entity* j1EntityManager::createEntity(entity_type type, int x, int y, int id)
+{
+	Entity* ret = nullptr;
+
+	switch (type)
+	{
+	case CHICKEN:
+
+		break;
+	case ALIEN:
+
+		break;
+
+	}
+	entities.add(ret);
+
+	return ret;
 }
 
 bool j1EntityManager::Load(pugi::xml_node& data)

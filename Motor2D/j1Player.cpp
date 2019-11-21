@@ -295,8 +295,12 @@ bool j1Player::Update(float dt)
 			dead = true;
 		break;
 	case ATTACKING:
+		velocity.x = 0;  // needs to be checked once we can interact with an enemy
 		current_anim = &attack_anim;
-		attack_col = App->collisions->AddCollider({ (int)position.x + collider->rect.w, (int)position.y + 15, 35, 20 }, COLLIDER_ATTACK, this);
+		if(!flip)
+			attack_col = App->collisions->AddCollider({(int)position.x + collider->rect.w, (int)position.y + 15, 35, 20 }, COLLIDER_ATTACK, this);
+		else if (flip)
+			attack_col = App->collisions->AddCollider({ (int)position.x - 35, (int)position.y + 15, 35, 20 }, COLLIDER_ATTACK, this);
 		break;
 
 	}
@@ -334,7 +338,9 @@ bool j1Player::Update(float dt)
 bool j1Player::PostUpdate()
 {
 	BROFILER_CATEGORY("Player PostUpdate", Profiler::Color::Red)
-	
+	if (current_anim->Finished())
+		App->collisions->EraseCollider(attack_col);
+
 	if (graphics != nullptr)
 	{
 		if (flip)

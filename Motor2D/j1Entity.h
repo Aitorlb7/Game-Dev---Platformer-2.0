@@ -6,10 +6,8 @@
 #include "p2Point.h"
 #include "p2DynArray.h"
 #include "j1Timer.h"
-#include "PugiXml/src/pugixml.hpp"
 
-//#define gravity -625
-//#define DETECTION_MARGIN 350
+#define DRAW_LIMIT 200
 
 struct SDL_Texture;
 
@@ -67,9 +65,6 @@ public:
 
 	//Path logic
 	p2DynArray<iPoint>	entityPath;
-	j1Timer				doStandardPath;
-	bool				counting = false;
-	bool				slowerPath = false;
 	bool				god_mode = false;
 
 	//Common animations	
