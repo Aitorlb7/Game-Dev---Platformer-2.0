@@ -4,7 +4,7 @@
 #include "j1Window.h"
 #include "j1Render.h"
 
-#define VSYNC true
+#define VSYNC false
 
 j1Render::j1Render() : j1Module()
 {

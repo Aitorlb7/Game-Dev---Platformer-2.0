@@ -20,7 +20,7 @@
 //
 //
 
-j1Player::j1Player() : j1Module()
+j1Player::j1Player() : Entity("player")
 {
 	name.create("player");
 
@@ -80,7 +80,7 @@ bool j1Player::Save(pugi::xml_node& node) const
 	coordinates.append_child("position").append_attribute("x") = position.x;
 	coordinates.child("position").append_attribute("y") = position.y;
 
-	node.append_attribute("player_state") = pState;
+	node.append_attribute("player_state") = state;
 
 	return true;
 }
@@ -92,9 +92,9 @@ bool j1Player::Load(pugi::xml_node& node)
 	position.x = coordinates.child("position").attribute("x").as_float();
 	position.y = coordinates.child("position").attribute("y").as_float();
 
-	pugi::xml_node state = node.child("state");
+	pugi::xml_node Pstate = node.child("state");
 
-	pState = (player_state)node.attribute("player_state").as_int();
+	state = (entity_state)node.attribute("player_state").as_int();
 	return true;
 }
 
@@ -119,8 +119,7 @@ bool j1Player::Awake(pugi::xml_node& config)
 	max_speed.y = config.child("max_speed").attribute("y").as_float();
 	dash_acceleration = config.child("dash_acceleration").attribute("value").as_float();
 
-	is_grounded = config.child("is_grounded").attribute("value").as_bool();
-	is_dead = config.child("is_dead").attribute("value").as_bool();
+
 	is_dashing = config.child("is_dashing").attribute("value").as_bool();
 
 	jump_SFX = config.child("jump_SFX").attribute("source").as_string();
@@ -138,8 +137,8 @@ bool j1Player::Awake(pugi::xml_node& config)
 bool j1Player::Start()
 {
 	graphics = App->tex->Load(spritesheet.GetString());
-	player_col = App->collisions->AddCollider({ (int)position.x, (int)position.y, 30, 47}, COLLIDER_PLAYER, this);
-	is_dead = false;
+	collider = App->collisions->AddCollider({ (int)position.x, (int)position.y, 30, 47}, COLLIDER_PLAYER, this);
+	dead = false;
 	is_grounded = false;
 	is_jumping == false;
 	flip = false;
@@ -157,63 +156,63 @@ bool j1Player::PreUpdate()
 	{
 		god_mode = !god_mode;
 	}
-	if (is_dead == false && god_mode == false)
+	if (dead == false && god_mode == false)
 	{
 		
 		if (is_grounded  && !is_jumping && !is_dashing)
 		{
-			pState = IDLE;
+			state = IDLE;
 			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && is_dashing == false)
 			{
-				pState = RIGHT;
+				state = RIGHT;
 
 			}
 			else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_UP)
 			{
-				if (pState == RIGHT)
+				if (state == RIGHT)
 				{
-					pState = IDLE;
+					state = IDLE;
 				}
 			}
 			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && is_dashing == false)
 			{
-				pState = LEFT;
+				state = LEFT;
 			}
 			else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_UP)
 			{
-				if (pState == LEFT)
+				if (state == LEFT)
 				{
-					pState = IDLE;
+					state = IDLE;
 				}
 			}
 			if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 			{
-				pState = CROUCHING;
+				state = CROUCHING;
 			}
 			else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_UP)
 			{
 				able_superjump = false;
-				pState = IDLE;
+				state = IDLE;
 			}
 			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 			{
 				App->audio->PlayFx(App->audio->LoadFx(jump_SFX.GetString()));
 				if (able_superjump == true)
 				{
-					player_velocity.y = jump_force * 1.5f;
+					velocity.y = jump_force * 1.5f;
 					able_superjump = false;
 				}
 				else
 				{
-					player_velocity.y = jump_force;
+					velocity.y = jump_force;
 				}
-				pState = JUMPING;
+				state = JUMPING;
 			}
 		}	
 
 		if (is_jumping == false && is_grounded == false)
 		{
-			pState = FALLING;		
+			state = FALLING;
 		}
 
 
@@ -222,7 +221,7 @@ bool j1Player::PreUpdate()
 			if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
 			{
 				App->audio->PlayFx(App->audio->LoadFx(dash_SFX.GetString()));
-				pState = DASHING;
+				state = DASHING;
 			}
 		}
 	}
@@ -238,26 +237,26 @@ bool j1Player::Update(float dt)
 	if (!is_dashing && !is_jumping)
 		is_grounded = false;
 
-	switch (pState)
+	switch (state)
 	{
 	case IDLE:
 		if (!is_dashing)
 		{
-			player_velocity.x = 0;
-			player_velocity.y = 0;
+			velocity.x = 0;
+			velocity.y = 0;
 		}
 		current_anim = &idle_anim;
 		break;
 	case RIGHT:
-		player_velocity.x = run_speed.x;
+		velocity.x = run_speed.x;
 		current_anim = &run_anim;
 		break;
 	case LEFT:
-		player_velocity.x = -run_speed.x;
+		velocity.x = -run_speed.x;
 		current_anim = &run_anim;
 		break;
 	case CROUCHING:
-		player_velocity.x = 0;
+		velocity.x = 0;
 		current_anim = &crouch_anim;
 		able_superjump = true;
 		break;
@@ -277,25 +276,25 @@ bool j1Player::Update(float dt)
 		is_jumping = false;
 	case FALLING:
 		
-		if(player_velocity.y < max_speed.y)
-			player_velocity.y += gravity;
+		if(velocity.y < max_speed.y)
+			velocity.y += gravity;
 
 		current_anim = &fall_anim;
 
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-			player_velocity.x = run_speed.x * 0.8f;
+			velocity.x = run_speed.x * 0.8f;
 
 		else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-			player_velocity.x = -run_speed.x * 0.8f;
+			velocity.x = -run_speed.x * 0.8f;
 
-		if (position.y > App->win->height + player_col->rect.h)
-			is_dead = true;
+		if (position.y > App->win->height + collider->rect.h)
+			dead = true;
 		break;
 	}
 
-	if(player_velocity.x < 0)
+	if(velocity.x < 0)
 		flip = true;
-	else if (player_velocity.x > 0)
+	else if (velocity.x > 0)
 		flip = false;
 
 	jumpMovement(); 
@@ -305,21 +304,21 @@ bool j1Player::Update(float dt)
 	// Limit of the screen left border
 	if (position.x < App->render->camera.x && flip) 
 	{
-		player_velocity.x = 0;
+		velocity.x = 0;
 	}
 	//Don't move in the y axis while dashing
-	if (!is_dashing && !is_dead)
+	if (!is_dashing && !dead)
 	{
-		position.y += player_velocity.y;
+		position.y += velocity.y;
 	}
 	// Death behaviour
-	else if (is_dead)
+	else if (dead)
 	{
 		position.y -= max_speed.y;
 		current_anim = &god_anim;
 	}
-	position.x += player_velocity.x;
-	player_col->SetPos(position.x, position.y);
+	position.x += velocity.x;
+	collider->SetPos(position.x, position.y);
 	return true;
 }
 
@@ -348,7 +347,7 @@ bool j1Player::CleanUp()
 	App->tex->UnLoad(graphics);
 	graphics = nullptr;
 
-	App->collisions->EraseCollider(player_col);
+	App->collisions->EraseCollider(collider);
 
 	is_grounded = false;
 	is_jumping == false;
@@ -360,12 +359,12 @@ void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 {
 	if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_UNPENETRABLE && god_mode == false)
 	{
-		if (C1->rect.x + C1->rect.w >= C2->rect.x  && C1->rect.x  <= C2->rect.x + C2->rect.w)
+		if (C1->rect.x + C1->rect.w >= C2->rect.x && C1->rect.x <= C2->rect.x + C2->rect.w)
 		{
 			//Collision from top
 			if ((C1->rect.y + C1->rect.h) >= (C2->rect.y) && (C1->rect.y < C2->rect.y))
 			{
-				player_velocity.y = 0;
+				velocity.y = 0;
 				position.y = C2->rect.y - C1->rect.h + 1;
 				is_grounded = true;
 
@@ -373,25 +372,25 @@ void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 			//Collision from below
 			else if (C1->rect.y < (C2->rect.y + C2->rect.h) && (C1->rect.y + C1->rect.h)>(C2->rect.y + C2->rect.h))
 			{
-				player_velocity.y = 0;
+				velocity.y = 0;
 				App->player->position.y = C2->rect.y + C2->rect.h;
 			}
 		}
-		
+
 		if (C1->rect.y < C2->rect.y + C2->rect.h && C1->rect.y + C1->rect.h  > C2->rect.y && C1->rect.y > C2->rect.y)
 		{
 			//Collision from the right
-			if ((C1->rect.x + C1->rect.w ) > (C2->rect.x) && C1->rect.x < (C2->rect.x))
+			if ((C1->rect.x + C1->rect.w) > (C2->rect.x) && C1->rect.x < (C2->rect.x))
 			{
 				App->player->position.x = C2->rect.x - C1->rect.w - 1;
-				player_velocity.x = 0;
+				velocity.x = 0;
 
 			}
 			//Collision from the left
-			else if (C1->rect.x  < (C2->rect.x + C2->rect.w) && C1->rect.x > (C2->rect.x))
+			else if (C1->rect.x  < (C2->rect.x + C2->rect.w) && C1->rect.x >(C2->rect.x))
 			{
 				App->player->position.x = C2->rect.x + C2->rect.w + 1;
-				player_velocity.x = 0;
+				velocity.x = 0;
 
 			}
 		}
@@ -399,18 +398,18 @@ void j1Player::Player_Colliding(Collider* C1, Collider* C2)
 	else if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_PENETRABLE && god_mode == false)
 	{
 		//Collision from top and below
-		if ((C1->rect.y + C1->rect.h  ) > (C2->rect.y) && C1->rect.y < C2->rect.y && C1->rect.y + C1->rect.h - 8 < C2->rect.y && player_velocity.y >= 0)
+		if ((C1->rect.y + C1->rect.h) > (C2->rect.y) && C1->rect.y < C2->rect.y && C1->rect.y + C1->rect.h - 8 < C2->rect.y && velocity.y >= 0)
 		{
-				App->player->position.y = C2->rect.y - C1->rect.h + 1;
-				player_velocity.y = 0;
-				is_grounded = true;
+			App->player->position.y = C2->rect.y - C1->rect.h + 1;
+			velocity.y = 0;
+			is_grounded = true;
 
 		}
 	}
 	//Collision against spikes
 	else if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_SPIKES && god_mode == false)
 	{
-		is_dead = true;
+		dead = true;
 
 	}
 	//Win condition
@@ -448,9 +447,9 @@ void j1Player::jumpMovement()
 {
 	if (is_jumping == true)
 	{
-		if (player_velocity.y < 0)
+		if (velocity.y < 0)
 		{
-			player_velocity.y += gravity;
+			velocity.y += gravity;
 			current_anim = &jump_anim;
 		}
 		else
@@ -460,7 +459,7 @@ void j1Player::jumpMovement()
 		
 		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
 		{
-			pState = STOP_JUMPING;
+			state = STOP_JUMPING;
 		}		
 	}
 	
@@ -486,27 +485,27 @@ void j1Player::Dash_Movement(float dt)
 			//}
 			if (dash_time > 1.0f)
 			{
-				player_velocity.x = player_velocity.x / 6;
+				velocity.x = velocity.x / 6;
 				dash_startime = 0;
 				is_dashing = false;
 			}
 			else
 			{
-				player_velocity.x += dash_acceleration;
+				velocity.x += dash_acceleration;
 				current_anim = &dash_anim;
 			}
 			
 		}
 		else//Left Dash
 		{
-			if (player_velocity.x < -max_speed.x)
+			if (velocity.x < -max_speed.x)
 			{
-				player_velocity.x = player_velocity.x / 6;
+				velocity.x = velocity.x / 6;
 				is_dashing = false;
 			}
 			else
 			{
-				player_velocity.x -= dash_acceleration;
+				velocity.x -= dash_acceleration;
 				current_anim = &dash_anim;
 			}
 		}		
@@ -516,33 +515,33 @@ void j1Player::Dash_Movement(float dt)
 
 void j1Player :: God_Mode()
 {
-	if (is_dead == false && god_mode == true)
+	if (dead == false && god_mode == true)
 	{
 		current_anim = &god_anim;
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
-			player_velocity.x = run_speed.x;
+			velocity.x = run_speed.x;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
-			player_velocity.x = -run_speed.x;
+			velocity.x = -run_speed.x;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 		{
-			player_velocity.y = -run_speed.x;
+			velocity.y = -run_speed.x;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 		{
-			player_velocity.y = run_speed.x;
+			velocity.y = run_speed.x;
 		}
 	}	
 }
 void j1Player::Load_Level()
 {
-	if (is_dead == true)
+	if (dead == true)
 	{
-		player_velocity.y = 0;
-		player_velocity.x = 0;
+		velocity.y = 0;
+		velocity.x = 0;
 		if (App->map->data.map_name == "Level1.tmx")
 			App->fade_to_black->FadeToBlack("Level1.tmx", 3.0f);
 		if (App->map->data.map_name == "Level2.tmx")

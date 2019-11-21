@@ -6,24 +6,12 @@
 #include "j1Animation.h"
 #include "j1App.h"
 #include "p2Point.h"
-//#include "j1Entity.h"
+#include "j1Entity.h"
 
 struct SDL_Texture;
 struct Collider;
 
-enum player_state
-{
-	IDLE = 0,
-	RIGHT,
-	LEFT,
-	CROUCHING,
-	DASHING,
-	JUMPING,
-	STOP_JUMPING,
-	FALLING,
-};
-
-class j1Player : public j1Module
+class j1Player : public Entity
 {
 
 public:
@@ -49,44 +37,47 @@ public:
 
 
 public:
-	player_state		pState;
+	//player_state		pState;
 
-	SDL_Texture*		graphics = nullptr;
-	p2SString			spritesheet;
+	//SDL_Texture*		graphics = nullptr;
+	//p2SString			spritesheet;
 	
-	bool				is_dead;
+	//bool				is_dead;
+	//bool				god_mode = false;
 	bool				is_dashing;
 	bool				is_jumping;
 	bool				is_grounded;
 	bool				able_superjump = false;
-	bool				flip = false;
-	bool				god_mode = false;
+
+
 
 	int					jumpInit_pos;
 
 
-	p2Point<float>		position;
-	p2Point<float>		initial_position;
+	//p2Point<float>		position;
+	//p2Point<float>		initial_position;
 
 
-	p2Point<float>		player_velocity;
+	//p2Point<float>		velocity;
 	p2Point<float>		run_speed;
 	p2Point<float>		max_speed;	
 	p2Point<float>		dash_speed;
 
-	float				gravity;
-	float				jump_force;
+	//float				gravity;
+	//float				jump_force;
+
 	float				dash_acceleration;
 	float				dash_startime = 0;
 	float				dash_time;
 	
 
-	Collider*			player_col = nullptr;
+	/*Collider*			player_col = nullptr;*/
 
-	Animation*			current_anim;
-	Animation			idle_anim;
-	Animation			run_anim;
-	Animation			jump_anim;
+	//Animation*			current_anim;
+	//Animation			idle_anim;
+	//Animation			run_anim;
+	//Animation			jump_anim;
+
 	Animation			crouch_anim;
 	Animation			crouchwalk_anim;
 	Animation			dash_anim;

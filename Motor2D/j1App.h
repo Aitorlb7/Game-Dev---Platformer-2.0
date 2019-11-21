@@ -104,6 +104,7 @@ private:
 	int					argc;
 	char**				args;
 	float				dt;
+	bool				framerate_cap = false;
 
 	p2SString			title;
 	p2SString			organization;

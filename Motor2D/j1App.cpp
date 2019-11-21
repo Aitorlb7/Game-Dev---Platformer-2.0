@@ -199,6 +199,14 @@ void j1App::FinishUpdate()
 	if(want_to_load == true)
 		LoadGameNow();
 
+	if (App->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN)
+	{
+		framerate_cap = !framerate_cap;
+	}
+	if (framerate_cap)
+		max_framerate = -1;
+	else
+		max_framerate = 30;
 	// Framerate calculations --
 
 	if (last_sec_frame_time.Read() > 1000)
@@ -218,15 +226,13 @@ void j1App::FinishUpdate()
 		avg_fps, last_frame_ms, frames_on_last_update, seconds_since_startup, frame_count);
 	App->win->SetTitle(title);
 
-	// TODO 2: Use SDL_Delay to make sure you get your capped framerate
 	uint32 delay;
 
-	if (last_frame_ms < 1000 / max_framerate)
+	if (last_frame_ms < 1000 / max_framerate && max_framerate != -1)
 	{
 		j1PerfTimer	delayTimer;
 		delay = 1000 / max_framerate - last_frame_ms;
 		SDL_Delay(delay);
-		//LOG(" We waited for %d milliseconds and got back in %f", delay, delayTimer.ReadMs());
 	}
 
 }
