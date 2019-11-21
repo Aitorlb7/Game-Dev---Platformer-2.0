@@ -67,7 +67,7 @@ j1Player::j1Player() : Entity("player")
 	attack_anim.PushBack({215,485,21,31});
 	attack_anim.PushBack({265,485,21,31});
 	attack_anim.PushBack({302,485,46,31});
-	attack_anim.speed = 0.13f;
+	attack_anim.speed = 0.2f;
 }
 j1Player::~j1Player()
 {
@@ -208,6 +208,10 @@ bool j1Player::PreUpdate()
 				}
 				state = JUMPING;
 			}
+			if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
+			{
+				state = ATTACKING;
+			}
 		}	
 
 		if (is_jumping == false && is_grounded == false)
@@ -215,10 +219,9 @@ bool j1Player::PreUpdate()
 			state = FALLING;
 		}
 
-
 		if (is_dashing == false)
 		{
-			if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+			if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 			{
 				App->audio->PlayFx(App->audio->LoadFx(dash_SFX.GetString()));
 				state = DASHING;
@@ -274,6 +277,7 @@ bool j1Player::Update(float dt)
 		break;
 	case STOP_JUMPING:
 		is_jumping = false;
+		break;
 	case FALLING:
 		
 		if(velocity.y < max_speed.y)
@@ -290,6 +294,11 @@ bool j1Player::Update(float dt)
 		if (position.y > App->win->height + collider->rect.h)
 			dead = true;
 		break;
+	case ATTACKING:
+		current_anim = &attack_anim;
+		attack_col = App->collisions->AddCollider({ (int)position.x + collider->rect.w, (int)position.y + 15, 35, 20 }, COLLIDER_ATTACK, this);
+		break;
+
 	}
 
 	if(velocity.x < 0)

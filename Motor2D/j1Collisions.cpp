@@ -31,6 +31,11 @@ j1Collisions::j1Collisions()
 	matrix[COLLIDER_PENETRABLE][COLLIDER_SPIKES] = false;
 	matrix[COLLIDER_PENETRABLE][COLLIDER_WIN] = false;
 
+	matrix[COLLIDER_ATTACK][COLLIDER_UNPENETRABLE] = false;
+	matrix[COLLIDER_ATTACK][COLLIDER_PLAYER] = false;
+	matrix[COLLIDER_ATTACK][COLLIDER_PENETRABLE] = false;
+	matrix[COLLIDER_ATTACK][COLLIDER_SPIKES] = false;
+	matrix[COLLIDER_ATTACK][COLLIDER_WIN] = false;
 
 }
 bool j1Collisions::Awake()
@@ -140,6 +145,9 @@ void j1Collisions::DebugDraw()
 			break;
 		case COLLIDER_WIN: // orange
 			App->render->DrawQuad(colliders[i]->rect, 255, 140, 0, alpha);
+			break;
+		case COLLIDER_ATTACK: //yellow
+			App->render->DrawQuad(colliders[i]->rect, 255, 0, 140, alpha);
 			break;
 		}
 	}

@@ -23,6 +23,7 @@ enum entity_state
 	JUMPING,
 	STOP_JUMPING,
 	FALLING,
+	ATTACKING,
 };
 
 enum entity_type

@@ -37,46 +37,22 @@ public:
 
 
 public:
-	//player_state		pState;
 
-	//SDL_Texture*		graphics = nullptr;
-	//p2SString			spritesheet;
-	
-	//bool				is_dead;
-	//bool				god_mode = false;
 	bool				is_dashing;
 	bool				is_jumping;
 	bool				is_grounded;
 	bool				able_superjump = false;
 
-
-
 	int					jumpInit_pos;
 
-
-	//p2Point<float>		position;
-	//p2Point<float>		initial_position;
-
-
-	//p2Point<float>		velocity;
 	p2Point<float>		run_speed;
 	p2Point<float>		max_speed;	
 	p2Point<float>		dash_speed;
-
-	//float				gravity;
-	//float				jump_force;
 
 	float				dash_acceleration;
 	float				dash_startime = 0;
 	float				dash_time;
 	
-
-	/*Collider*			player_col = nullptr;*/
-
-	//Animation*			current_anim;
-	//Animation			idle_anim;
-	//Animation			run_anim;
-	//Animation			jump_anim;
 
 	Animation			crouch_anim;
 	Animation			crouchwalk_anim;
@@ -88,6 +64,8 @@ public:
 	p2SString			jump_SFX;
 	p2SString			run_SFX;
 	p2SString			dash_SFX;
+
+	Collider*			attack_col;
 
 
 };
