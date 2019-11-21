@@ -1,5 +1,5 @@
-#ifndef __ModuleEntity_H__
-#define __ModuleEntity_H__
+#ifndef __J1ENTITY__
+#define __J1ENTITY__
 
 #include "j1Module.h"
 #include "j1Animation.h"
@@ -83,4 +83,4 @@ public:
 	
 };
 
-#endif // !__ModuleEntity_H__
+#endif // __J1ENTITY__

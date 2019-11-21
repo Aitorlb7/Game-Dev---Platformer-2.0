@@ -1,5 +1,5 @@
-#ifndef __ENTITY_MANAGER_H__
-#define __ENTITY_MANAGER_H__
+#ifndef __ENTITY_MANAGER__
+#define __ENTITY_MANAGER__
 
 #include "j1Module.h"
 #include "p2List.h"
@@ -40,4 +40,4 @@ public:
 	bool draw_path = false;
 };
 
-#endif // !__ENTITY_MANAGER_H__
+#endif // __ENTITY_MANAGER__

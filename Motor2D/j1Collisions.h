@@ -1,5 +1,5 @@
-#ifndef __j1Collisions_H__
-#define __j1Collisions_H__
+#ifndef __J1COLLISIONS__
+#define __J1COLLISIONS__
 
 #define MAX_COLLIDERS 500
 
@@ -11,8 +11,9 @@ enum COLLIDER_TYPE
 {
 	COLLIDER_NONE = -1,
 	COLLIDER_UNPENETRABLE,
-	COLLIDER_PLAYER,
 	COLLIDER_PENETRABLE,
+	COLLIDER_PLAYER,
+	COLLIDER_ENEMY,
 	COLLIDER_ATTACK,
 	COLLIDER_SPIKES,
 	COLLIDER_WIN,
@@ -68,4 +69,4 @@ public:
 	bool debug = false;
 };
 
-#endif // __j1Collisions_H__
+#endif // __J1COLLISIONS__
