@@ -21,6 +21,7 @@ public:
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
 
+	Animation			walk_anim;
 
 };
 

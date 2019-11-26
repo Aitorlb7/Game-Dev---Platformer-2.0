@@ -49,10 +49,10 @@ public:
 	p2Point<float>		max_speed;	
 	p2Point<float>		dash_speed;
 
-	j1Timer				timer;
+	j1Timer				Alive_Time;
+	float				startime = 0;
+	float				Timer;
 	float				dash_acceleration;
-	float				dash_startime = 0;
-	float				dash_time;
 	
 
 	Animation			crouch_anim;

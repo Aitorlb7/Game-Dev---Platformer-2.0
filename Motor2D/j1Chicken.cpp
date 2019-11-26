@@ -13,8 +13,18 @@
 
 Chicken::Chicken() : Entity("chicken")
 {
+	name.create("chicken");
+
 	graphics = App->tex->Load("textures/Chicken_Spritesheet.png");
 	collider = App->collisions->AddCollider({ (int)position.x, (int)position.y, 60, 60 }, COLLIDER_ENEMY, this);
+
+	walk_anim.PushBack({ 58, 56, 38, 45 });
+	walk_anim.PushBack({ 96, 56, 38, 45 });
+	walk_anim.PushBack({ 134, 56, 38, 45 });
+	walk_anim.PushBack({ 172, 56, 38, 45 });
+	walk_anim.PushBack({ 210, 56, 38, 45 });
+	walk_anim.PushBack({ 248, 56, 38, 45 });
+	walk_anim.speed = 0.2f;
 }
 
 Chicken::~Chicken()

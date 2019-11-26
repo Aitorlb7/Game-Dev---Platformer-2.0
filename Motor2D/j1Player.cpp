@@ -143,7 +143,7 @@ bool j1Player::Start()
 	is_grounded = false;
 	is_jumping == false;
 	flip = false;
-	timer.Start();
+	Alive_Time.Start();
 	position = initial_position;
 	App->audio->LoadFx(jump_SFX.GetString());
 	App->audio->LoadFx(dash_SFX.GetString());
@@ -222,7 +222,7 @@ bool j1Player::PreUpdate()
 		{
 			if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 			{
-				dash_startime = timer.ReadSec();
+				startime = Alive_Time.ReadSec();
 				App->audio->PlayFx(App->audio->LoadFx(dash_SFX.GetString()));
 				state = DASHING;
 			}
@@ -265,10 +265,6 @@ bool j1Player::Update(float dt)
 		break;
 	case DASHING:
 		is_dashing = true;
-		if (dash_startime == 0)
-		{
-			dash_startime = dt;
-		}
 		current_anim = &dash_anim;
 		break;
 	case JUMPING:		
@@ -462,6 +458,7 @@ void j1Player::jumpMovement()
 {
 	if (is_jumping == true)
 	{
+		Timer = Alive_Time.ReadSec() - startime;
 		if (velocity.y < 0)
 		{
 			velocity.y += gravity;
@@ -484,12 +481,12 @@ void j1Player::Dash_Movement(float dt)
 {
 	if (is_dashing == true)
 	{
-		dash_time = timer.ReadSec() - dash_startime;
+		Timer = Alive_Time.ReadSec() - startime;
 
-		if (dash_time > 0.5f)
+		if (Timer > 0.5f)
 		{
 			velocity.x = velocity.x / 6;
-			dash_startime = 0;
+			startime = 0;
 			is_dashing = false;
 		}
 		else
