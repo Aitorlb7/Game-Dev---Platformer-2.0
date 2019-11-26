@@ -11,6 +11,7 @@
 #include "j1Collisions.h"
 #include "j1FadeToBlack.h"
 #include "j1Scene.h"
+#include "j1Timer.h"
 
 #include "Brofiler/Brofiler.h"
 //
@@ -142,6 +143,7 @@ bool j1Player::Start()
 	is_grounded = false;
 	is_jumping == false;
 	flip = false;
+	timer.Start();
 	position = initial_position;
 	App->audio->LoadFx(jump_SFX.GetString());
 	App->audio->LoadFx(dash_SFX.GetString());
@@ -220,6 +222,7 @@ bool j1Player::PreUpdate()
 		{
 			if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 			{
+				dash_startime = timer.ReadSec();
 				App->audio->PlayFx(App->audio->LoadFx(dash_SFX.GetString()));
 				state = DASHING;
 			}
@@ -481,48 +484,27 @@ void j1Player::Dash_Movement(float dt)
 {
 	if (is_dashing == true)
 	{
-		dash_time = dt - dash_startime;
-		if (flip == false)//Right Dash
-		{
-			//if (player_velocity.x > max_speed.x)
-			//{
-			//	player_velocity.x = player_velocity.x / 6;
-			//	is_dashing = false;
+		dash_time = timer.ReadSec() - dash_startime;
 
-			//}
-			//else
-			//{
-			//	player_velocity.x += dash_acceleration;
-			//	current_anim = &dash_anim;
-			//}
-			if (dash_time > 1.0f)
-			{
-				velocity.x = velocity.x / 6;
-				dash_startime = 0;
-				is_dashing = false;
-			}
-			else
+		if (dash_time > 0.5f)
+		{
+			velocity.x = velocity.x / 6;
+			dash_startime = 0;
+			is_dashing = false;
+		}
+		else
+		{
+			if (flip == false)//Right
 			{
 				velocity.x += dash_acceleration;
-				current_anim = &dash_anim;
 			}
-			
-		}
-		else//Left Dash
-		{
-			if (velocity.x < -max_speed.x)
-			{
-				velocity.x = velocity.x / 6;
-				is_dashing = false;
-			}
-			else
+			else//Left
 			{
 				velocity.x -= dash_acceleration;
-				current_anim = &dash_anim;
 			}
-		}		
-	}
-	
+			current_anim = &dash_anim;
+		}
+	}	
 }
 
 void j1Player :: God_Mode()

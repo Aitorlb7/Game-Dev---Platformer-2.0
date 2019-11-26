@@ -49,6 +49,7 @@ public:
 	p2Point<float>		max_speed;	
 	p2Point<float>		dash_speed;
 
+	j1Timer				timer;
 	float				dash_acceleration;
 	float				dash_startime = 0;
 	float				dash_time;
