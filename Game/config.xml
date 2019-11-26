@@ -35,7 +35,7 @@
     <dash_acceleration value="1.1f"/>
     <position x="100" y="0"/>
     <initial_position x="100" y="0"/>
-    <jump_force value="-7.0f"/>
+    <jump_force value="-8.0f"/>
     <run_speed x="4" y="0"/>
     <max_speed x="15" y="8"/>
     <is_dashing value="false"/>

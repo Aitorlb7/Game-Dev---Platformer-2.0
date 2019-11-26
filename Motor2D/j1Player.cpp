@@ -227,6 +227,13 @@ bool j1Player::PreUpdate()
 				state = DASHING;
 			}
 		}
+		else
+		{
+			if (App->input->GetKey(SDL_SCANCODE_L) == KEY_UP)
+			{
+				is_dashing = false;
+			}
+		}
 	}
 	return true;
 }
@@ -251,11 +258,11 @@ bool j1Player::Update(float dt)
 		current_anim = &idle_anim;
 		break;
 	case RIGHT:
-		velocity.x = run_speed.x;
+		velocity.x = run_speed.x / (dt*20);
 		current_anim = &run_anim;
 		break;
 	case LEFT:
-		velocity.x = -run_speed.x;
+		velocity.x = -run_speed.x / (dt*20);
 		current_anim = &run_anim;
 		break;
 	case CROUCHING:
@@ -277,14 +284,14 @@ bool j1Player::Update(float dt)
 	case FALLING:
 		
 		if(velocity.y < max_speed.y)
-			velocity.y += gravity;
+			velocity.y += gravity / (dt * 10);
 
 		current_anim = &fall_anim;
 
-		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !is_dashing)
 			velocity.x = run_speed.x * 0.8f;
 
-		else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+		else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !is_dashing)
 			velocity.x = -run_speed.x * 0.8f;
 
 		if (position.y > App->win->height + collider->rect.h)
