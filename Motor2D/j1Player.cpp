@@ -152,10 +152,7 @@ bool j1Player::Start()
 
 bool j1Player::PreUpdate()
 {
-	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
-	{
-		god_mode = !god_mode;
-	}
+
 	if (dead == false && god_mode == false)
 	{
 		

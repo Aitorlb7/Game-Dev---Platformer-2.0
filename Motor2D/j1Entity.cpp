@@ -31,6 +31,11 @@ Entity::~Entity()
 
 bool Entity::Entity_Update(float dt)
 {
+	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+	{
+		god_mode = !god_mode;
+	}
+
 	return true;
 }
 
