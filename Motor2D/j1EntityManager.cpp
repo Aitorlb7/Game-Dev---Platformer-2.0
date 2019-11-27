@@ -85,7 +85,21 @@ bool j1EntityManager::CleanUp()
 	return true;
 }
 
-Entity* j1EntityManager::createEntity(entity_type type, int x, int y, int id)
+Entity* j1EntityManager::getPlayer() const
+{
+	for (p2List_item<Entity*>* entity = entities.start; entity; entity = entity->next)
+	{
+		if (entity->data->type == PLAYER)
+		{
+			return entity->data;
+			break;
+		}
+	}
+
+	
+}
+
+Entity* j1EntityManager::createEntity(entity_type type, int x, int y)
 {
 	Entity* ret = nullptr;
 
@@ -100,8 +114,8 @@ Entity* j1EntityManager::createEntity(entity_type type, int x, int y, int id)
 
 	}
 	
-	ret->position.x = 400; //Provisional, load and save from xml
-	ret->position.y = 1000;
+	ret->position.x = x; 
+	ret->position.y = y;
 	
 	
 	entities.add(ret);
@@ -111,10 +125,25 @@ Entity* j1EntityManager::createEntity(entity_type type, int x, int y, int id)
 
 bool j1EntityManager::Load(pugi::xml_node& data)
 {
+	CleanUp();
+	getPlayer()->Load(data.child("player"));
+	for (pugi::xml_node charger = data.child("chicken"); charger; charger = charger.next_sibling("chicken"))
+	{
+		createEntity(CHICKEN, charger.attribute("position_x").as_int(), charger.attribute("position_y").as_int());
+	}
+
 	return true;
 }
 
 bool j1EntityManager::Save(pugi::xml_node& data) const
 {
+	
+	getPlayer()->Save(data.append_child("player"));
+	for (p2List_item<Entity*>* entity = entities.start; entity; entity = entity->next)
+	{
+		pugi::xml_node child = data.append_child(entity->data->name.GetString());
+		child.append_attribute("position_x") = entity->data->position.x;
+		child.append_attribute("position_y") = entity->data->position.y;
+	}
 	return true;
 }

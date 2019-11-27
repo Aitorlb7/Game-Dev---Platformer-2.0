@@ -23,7 +23,7 @@ public:
 
 
 	void DeleteEntity(Entity* entity_to_delete);
-	Entity* createEntity(entity_type type, int x, int y, int id = 0);
+	Entity* createEntity(entity_type type, int x, int y);
 	Entity* getPlayer() const;
 
 

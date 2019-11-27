@@ -1,6 +1,7 @@
 #ifndef __ModuleChicken__
 #define __ModuleChicken__
 
+#define RADAR_RANGE 200
 
 #include "j1Module.h"
 #include "j1Entity.h"
@@ -16,13 +17,18 @@ public:
 	bool Update(float dt);
 	bool PostUpdate();
 	bool CleanUp();
+
 	void OnCollision(Collider* c1, Collider* c2);
+	//void Move_entity(p2DynArray<iPoint>& path, float dt);
 
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
+public:
 
-	Animation			walk_anim;
+	bool					followed_path;
 
+	Animation				walk_anim;
+	p2DynArray<iPoint>*		follow_path;
 };
 
 

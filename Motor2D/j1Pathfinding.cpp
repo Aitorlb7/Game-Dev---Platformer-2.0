@@ -46,7 +46,8 @@ bool j1PathFinding::CheckBoundaries(const iPoint& pos) const
 bool j1PathFinding::IsWalkable(const iPoint& pos) const
 {
 	uchar t = GetTileAt(pos);
-	return t != INVALID_WALK_CODE && t > 0;
+	//return t != INVALID_WALK_CODE && t > 0;
+	return true;
 }
 
 // Utility: return the walkability value of a tile
@@ -157,7 +158,11 @@ int PathNode::Score() const
 int PathNode::CalculateF(const iPoint& destination)
 {
 	g = parent->g + 1;
-	h = pos.DistanceTo(destination);
+
+	int x_distance = abs(pos.x - destination.x);
+	int y_distance = abs(pos.y - destination.y);
+
+	h = (x_distance + y_distance) * min(x_distance, y_distance);
 
 	return g + h;
 }
@@ -165,9 +170,8 @@ int PathNode::CalculateF(const iPoint& destination)
 // ----------------------------------------------------------------------------------
 // Actual A* algorithm: return number of steps in the creation of the path or -1 ----
 // ----------------------------------------------------------------------------------
-int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
+p2DynArray<iPoint>* j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 {
-	int ret = -1;
 	last_path.Clear();
 	// if origin or destination are not walkable, return -1
 	if ((IsWalkable(origin) && IsWalkable(destination)) && (origin != destination)) {
@@ -194,7 +198,7 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 				close.list.end->data.FindWalkableAdjacents(neigborhs);
 
 				p2List_item<PathNode>* iterator = neigborhs.list.start;
-				for (; iterator != NULL; iterator = iterator->next)
+				for (; iterator != nullptr; iterator = iterator->next)
 				{
 					// ignore nodes in the closed list
 					if (close.Find(iterator->data.pos))
@@ -234,11 +238,12 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 
 				// Use the Pathnode::parent and Flip() the path when you are finish
 				last_path.Flip();
-				return last_path.Count();
+				return &last_path;
 			}
 
 		}
 	}
-	return ret;
+	else 
+		return nullptr;
 }
 

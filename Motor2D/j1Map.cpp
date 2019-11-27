@@ -10,9 +10,12 @@
 #include "j1Window.h"
 #include <math.h>
 
+#include"j1EntityManager.h"
+
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
 	name.create("map");
+	
 }
 
 // Destructor

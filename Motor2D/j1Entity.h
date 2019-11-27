@@ -40,13 +40,8 @@ public:
 
 	bool Entity_Update(float dt);
 
-	bool Calculate_Path();
-	virtual void standardPath()
-	{}
-	virtual void followPath()
-	{}
-
 	void Entity_CollisionManager(Collider* C1, Collider* C2);
+	virtual void Move_entity(p2DynArray<iPoint>& path, float dt) {};
 
 public:
 
