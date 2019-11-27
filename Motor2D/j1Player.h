@@ -33,14 +33,12 @@ public:
 	void Dash_Movement(float dt);
 	bool PositionCameraOnPlayer();
 	void God_Mode();
-	/*iPoint dashDirection(player_state);*/ //Check the player direction to dash forwards
 
 
 public:
 
 	bool				is_dashing;
 	bool				is_jumping;
-	bool				is_grounded;
 	bool				able_superjump = false;
 
 	int					jumpInit_pos;

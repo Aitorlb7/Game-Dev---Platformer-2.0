@@ -52,7 +52,6 @@ void Entity::Entity_CollisionManager(Collider* C1, Collider* C2)
 				velocity.y = 0;
 				position.y = C2->rect.y - C1->rect.h + 1;
 				is_grounded = true;
-				state = IDLE;
 
 			}
 			//Collision from below

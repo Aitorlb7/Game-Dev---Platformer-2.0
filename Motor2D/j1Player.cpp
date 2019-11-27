@@ -242,8 +242,8 @@ bool j1Player::PreUpdate()
 
 bool j1Player::Update(float dt)
 {
-	//if (!is_dashing && !is_jumping)
-	//	is_grounded = false;
+	if (!is_dashing && !is_jumping)
+		is_grounded = false;
 
 	switch (state)
 	{
@@ -351,9 +351,8 @@ bool j1Player::PostUpdate()
 		{
 			App->render->Blit(graphics, position.x, position.y, &current_anim->GetCurrentFrame(), SDL_FLIP_NONE, true);
 		}
-		PositionCameraOnPlayer();
 	}
-	
+	PositionCameraOnPlayer();
 	return true;
 }
 

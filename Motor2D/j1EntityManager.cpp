@@ -7,6 +7,7 @@
 #include "j1Input.h"
 #include "j1Player.h"
 #include "j1Window.h"
+#include "j1Chicken.h"
 
 j1EntityManager::j1EntityManager()
 {
@@ -49,6 +50,31 @@ bool j1EntityManager::Update(float dt)
 
 bool j1EntityManager::PostUpdate()
 {
+	for (p2List_item<Entity*>* entity = entities.start; entity; entity = entity->next)
+	{
+		if (entity->data->position.x <= App->win->width && entity->data->position.x >= -50)
+		{
+			entity->data->PostUpdate();
+			if (entity->data->type != PLAYER)
+			{
+				if (entity->data->position.y > App->map->data.height* App->map->data.tile_height)
+				{
+					//DeleteEntity(entity->data);
+					continue;
+				}
+				// Path methods comes here
+				/*if (entity->data->flip)
+					App->render->Blit(entity->data->graphics, entity->data->position.x, entity->data->position.y, &entity->data->current_anim->GetCurrentFrame(), SDL_FLIP_HORIZONTAL);
+				else
+					App->render->Blit(entity->data->graphics, entity->data->position.x, entity->data->position.y, &entity->data->current_anim->GetCurrentFrame(), SDL_FLIP_NONE);*/
+
+			}
+		}
+	}
+
+
+
+
 
 	return true;
 }
@@ -66,13 +92,18 @@ Entity* j1EntityManager::createEntity(entity_type type, int x, int y, int id)
 	switch (type)
 	{
 	case CHICKEN:
-
+		ret = new Chicken();
 		break;
 	case ALIEN:
 
 		break;
 
 	}
+	
+	ret->position.x = 400; //Provisional, load and save from xml
+	ret->position.y = 1000;
+	
+	
 	entities.add(ret);
 
 	return ret;
