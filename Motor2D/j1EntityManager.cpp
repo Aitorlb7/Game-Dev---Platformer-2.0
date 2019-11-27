@@ -11,7 +11,8 @@
 
 j1EntityManager::j1EntityManager()
 {
-	
+	name.create("entityManager");
+
 }
 
 j1EntityManager::~j1EntityManager()
@@ -20,14 +21,16 @@ j1EntityManager::~j1EntityManager()
 bool j1EntityManager::Awake(pugi::xml_node& config)
 {
 	this->config = config;
-
+	for (p2List_item<Entity*>* entity = entities.start; entity; entity = entity->next)
+	{
+		entity->data->Awake(config.child(entity->data->name.GetString()));
+	}
 	return true;
 }
 
 bool j1EntityManager::Start()
 {
 	path_marker = App->tex->Load("maps/Non_walkable.png");
-
 	return true;
 }
 
@@ -62,20 +65,15 @@ bool j1EntityManager::PostUpdate()
 					//DeleteEntity(entity->data);
 					continue;
 				}
-				// Path methods comes here
-				/*if (entity->data->flip)
+				 //Path methods comes here
+				else if (entity->data->flip)
 					App->render->Blit(entity->data->graphics, entity->data->position.x, entity->data->position.y, &entity->data->current_anim->GetCurrentFrame(), SDL_FLIP_HORIZONTAL);
 				else
-					App->render->Blit(entity->data->graphics, entity->data->position.x, entity->data->position.y, &entity->data->current_anim->GetCurrentFrame(), SDL_FLIP_NONE);*/
+					App->render->Blit(entity->data->graphics, entity->data->position.x, entity->data->position.y, &entity->data->current_anim->GetCurrentFrame(), SDL_FLIP_NONE);
 
 			}
 		}
 	}
-
-
-
-
-
 	return true;
 }
 
@@ -95,8 +93,6 @@ Entity* j1EntityManager::getPlayer() const
 			break;
 		}
 	}
-
-	
 }
 
 Entity* j1EntityManager::createEntity(entity_type type, int x, int y)
@@ -111,13 +107,11 @@ Entity* j1EntityManager::createEntity(entity_type type, int x, int y)
 	case ALIEN:
 
 		break;
-
 	}
 	
 	ret->position.x = x; 
 	ret->position.y = y;
-	
-	
+	ret->type = type;
 	entities.add(ret);
 
 	return ret;
@@ -125,25 +119,10 @@ Entity* j1EntityManager::createEntity(entity_type type, int x, int y)
 
 bool j1EntityManager::Load(pugi::xml_node& data)
 {
-	CleanUp();
-	getPlayer()->Load(data.child("player"));
-	for (pugi::xml_node charger = data.child("chicken"); charger; charger = charger.next_sibling("chicken"))
-	{
-		createEntity(CHICKEN, charger.attribute("position_x").as_int(), charger.attribute("position_y").as_int());
-	}
-
 	return true;
 }
 
 bool j1EntityManager::Save(pugi::xml_node& data) const
 {
-	
-	getPlayer()->Save(data.append_child("player"));
-	for (p2List_item<Entity*>* entity = entities.start; entity; entity = entity->next)
-	{
-		pugi::xml_node child = data.append_child(entity->data->name.GetString());
-		child.append_attribute("position_x") = entity->data->position.x;
-		child.append_attribute("position_y") = entity->data->position.y;
-	}
 	return true;
 }

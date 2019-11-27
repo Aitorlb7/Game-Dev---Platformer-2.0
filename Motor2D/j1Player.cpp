@@ -64,9 +64,9 @@ j1Player::j1Player() : Entity("player")
 	dash_anim.speed = 0.13f;
 	dash_anim.lock = true;
 
-	//attack_anim.PushBack({165,485,21,31});
-	//attack_anim.PushBack({215,485,21,31});
-	//attack_anim.PushBack({265,485,21,31});
+	attack_anim.PushBack({165,485,21,31});
+	attack_anim.PushBack({215,485,21,31});
+	attack_anim.PushBack({265,485,21,31});
 	attack_anim.PushBack({302,485,46,31});
 	attack_anim.speed = 0.5f;
 	attack_anim.lock = true;

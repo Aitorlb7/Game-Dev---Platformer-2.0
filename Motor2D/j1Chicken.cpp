@@ -47,8 +47,7 @@ bool Chicken::Update(float dt)
 	{
 		if (!App->entity_manager->getPlayer()->dead) {
 		if ((App->entity_manager->getPlayer()->position.x - position.x) < RADAR_RANGE
-			&& (App->entity_manager->getPlayer()->position.x - position.x) > -RADAR_RANGE
-			&& App->entity_manager->getPlayer()->collider->type == COLLIDER_PLAYER)
+			&& (App->entity_manager->getPlayer()->position.x - position.x) > -RADAR_RANGE)
 		{
 			iPoint origin = { App->map->WorldToMap((int)position.x , (int)position.y ) };
 			iPoint destination;
@@ -74,11 +73,6 @@ bool Chicken::Update(float dt)
 			}
 		}
 	}
-
-	if (flip)
-		App->render->Blit(graphics, position.x, position.y, &current_anim->GetCurrentFrame(), SDL_FLIP_HORIZONTAL, false);
-	else
-		App->render->Blit(graphics, position.x, position.y, &current_anim->GetCurrentFrame(), SDL_FLIP_NONE, false);
 	return true;
 }
 
