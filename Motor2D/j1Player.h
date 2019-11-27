@@ -30,6 +30,7 @@ public:
 	void j1Player::Entity_OnCollision(Collider* c1, Collider* c2);
 	void jumpMovement();
 	void Load_Level();
+	void Attack();
 	void Dash_Movement(float dt);
 	bool PositionCameraOnPlayer();
 	void God_Mode();
@@ -39,6 +40,7 @@ public:
 
 	bool				is_dashing;
 	bool				is_jumping;
+	bool				is_attacking;
 	bool				able_superjump = false;
 
 	int					jumpInit_pos;

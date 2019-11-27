@@ -64,11 +64,12 @@ j1Player::j1Player() : Entity("player")
 	dash_anim.speed = 0.13f;
 	dash_anim.lock = true;
 
-	attack_anim.PushBack({156,485,21,31});
-	attack_anim.PushBack({215,485,21,31});
-	attack_anim.PushBack({265,485,21,31});
+	//attack_anim.PushBack({165,485,21,31});
+	//attack_anim.PushBack({215,485,21,31});
+	//attack_anim.PushBack({265,485,21,31});
 	attack_anim.PushBack({302,485,46,31});
-	attack_anim.speed = 0.2f;
+	attack_anim.speed = 0.5f;
+	attack_anim.lock = true;
 }
 j1Player::~j1Player()
 {
@@ -158,10 +159,10 @@ bool j1Player::PreUpdate()
 	if (dead == false && god_mode == false)
 	{
 		
-		if (is_grounded  && !is_jumping && !is_dashing)
+		if (is_grounded  && !is_jumping && !is_dashing && !is_attacking)
 		{
 			state = IDLE;
-			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && is_dashing == false)
+			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !is_dashing  && !is_attacking)
 			{
 				state = RIGHT;
 
@@ -173,7 +174,7 @@ bool j1Player::PreUpdate()
 					state = IDLE;
 				}
 			}
-			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && is_dashing == false)
+			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !is_dashing  && !is_attacking)
 			{
 				state = LEFT;
 			}
@@ -207,7 +208,7 @@ bool j1Player::PreUpdate()
 				}
 				state = JUMPING;
 			}
-			if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
+			if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN && is_attacking == false)
 			{
 				state = ATTACKING;
 			}
@@ -229,10 +230,10 @@ bool j1Player::PreUpdate()
 		}
 		else
 		{
-			if (App->input->GetKey(SDL_SCANCODE_L) == KEY_UP)
+			/*if (App->input->GetKey(SDL_SCANCODE_L) == KEY_UP)
 			{
 				is_dashing = false;
-			}
+			}*/
 		}
 	}
 	return true;
@@ -295,14 +296,8 @@ bool j1Player::Update(float dt)
 			dead = true;
 		break;
 	case ATTACKING:
-		velocity.x = 0;  // needs to be checked once we can interact with an enemy
-		current_anim = &attack_anim;
-		if(!flip)
-			attack_col = App->collisions->AddCollider({(int)position.x + collider->rect.w, (int)position.y + 15, 35, 20 }, COLLIDER_ATTACK, this);
-		else if (flip)
-			attack_col = App->collisions->AddCollider({ (int)position.x - 35, (int)position.y + 15, 35, 20 }, COLLIDER_ATTACK, this);
+		is_attacking = true;
 		break;
-
 	}
 
 	if(velocity.x < 0)
@@ -312,8 +307,10 @@ bool j1Player::Update(float dt)
 
 	jumpMovement(); 
 	Dash_Movement(dt);
+	Attack();
 	Load_Level();
 	God_Mode();
+
 	// Limit of the screen left border
 	if (position.x < App->render->camera.x && flip) 
 	{
@@ -338,8 +335,13 @@ bool j1Player::Update(float dt)
 bool j1Player::PostUpdate()
 {
 	BROFILER_CATEGORY("Player PostUpdate", Profiler::Color::Red)
-	if (current_anim->Finished())
-		App->collisions->EraseCollider(attack_col);
+		if (current_anim->Finished())
+		{
+			App->collisions->EraseCollider(attack_col);
+			is_attacking = false;
+		}
+
+
 
 	if (graphics != nullptr)
 	{
@@ -455,6 +457,19 @@ void j1Player::Dash_Movement(float dt)
 			current_anim = &dash_anim;
 		}
 	}	
+}
+
+void j1Player::Attack()
+{
+	if (is_attacking == true)
+	{
+		current_anim = &attack_anim;
+		velocity.x = 0;  // needs to be checked once we can interact with an enemy
+		if (!flip && attack_col)
+			attack_col = App->collisions->AddCollider({ (int)position.x + collider->rect.w, (int)position.y + 15, 35, 20 }, COLLIDER_ATTACK, this);
+		else if (flip && attack_col)
+			attack_col = App->collisions->AddCollider({ (int)position.x - 35, (int)position.y + 15, 35, 20 }, COLLIDER_ATTACK, this);
+	}
 }
 
 void j1Player :: God_Mode()
