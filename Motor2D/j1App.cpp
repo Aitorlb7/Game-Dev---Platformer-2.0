@@ -18,6 +18,7 @@
 #include "j1PerfTimer.h"
 #include "j1Timer.h"
 #include "j1Pathfinding.h"
+#include "j1EntityManager.h"
 
 #include "Brofiler/Brofiler.h"
 
@@ -38,6 +39,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	collisions = new j1Collisions();
 	fade_to_black = new j1FadeToBlack();
 	pathfinding = new j1PathFinding();
+	entity_manager = new j1EntityManager();
 
 
 	// Ordered for awake / Start / Update
@@ -52,6 +54,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(collisions);
 	AddModule(fade_to_black);
 	AddModule(pathfinding);
+	AddModule(entity_manager);
 	AddModule(scene);
 	// render last to swap buffer
 	AddModule(render);

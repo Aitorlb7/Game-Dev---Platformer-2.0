@@ -242,10 +242,8 @@ bool j1Player::PreUpdate()
 
 bool j1Player::Update(float dt)
 {
-	
-	
-	if (!is_dashing && !is_jumping)
-		is_grounded = false;
+	//if (!is_dashing && !is_jumping)
+	//	is_grounded = false;
 
 	switch (state)
 	{
@@ -282,7 +280,6 @@ bool j1Player::Update(float dt)
 		is_jumping = false;
 		break;
 	case FALLING:
-		
 		if(velocity.y < max_speed.y)
 			velocity.y += gravity / (dt * 10);
 
@@ -367,80 +364,30 @@ bool j1Player::CleanUp()
 
 	App->collisions->EraseCollider(collider);
 
-	is_grounded = false;
+	//is_grounded = false;
 	is_jumping == false;
 	
 	return true;
 }
 
-void j1Player::Player_Colliding(Collider* C1, Collider* C2)
+void j1Player::Entity_OnCollision(Collider* C1, Collider* C2)
 {
-	if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_UNPENETRABLE && god_mode == false)
-	{
-		if (C1->rect.x + C1->rect.w >= C2->rect.x && C1->rect.x <= C2->rect.x + C2->rect.w)
-		{
-			//Collision from top
-			if ((C1->rect.y + C1->rect.h) >= (C2->rect.y) && (C1->rect.y < C2->rect.y))
-			{
-				velocity.y = 0;
-				position.y = C2->rect.y - C1->rect.h + 1;
-				is_grounded = true;
-
-			}
-			//Collision from below
-			else if (C1->rect.y < (C2->rect.y + C2->rect.h) && (C1->rect.y + C1->rect.h)>(C2->rect.y + C2->rect.h))
-			{
-				velocity.y = 0;
-				App->player->position.y = C2->rect.y + C2->rect.h;
-			}
-		}
-
-		if (C1->rect.y < C2->rect.y + C2->rect.h && C1->rect.y + C1->rect.h  > C2->rect.y && C1->rect.y > C2->rect.y)
-		{
-			//Collision from the right
-			if ((C1->rect.x + C1->rect.w) > (C2->rect.x) && C1->rect.x < (C2->rect.x))
-			{
-				App->player->position.x = C2->rect.x - C1->rect.w - 1;
-				velocity.x = 0;
-
-			}
-			//Collision from the left
-			else if (C1->rect.x  < (C2->rect.x + C2->rect.w) && C1->rect.x >(C2->rect.x))
-			{
-				App->player->position.x = C2->rect.x + C2->rect.w + 1;
-				velocity.x = 0;
-
-			}
-		}
-	}
-	else if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_PENETRABLE && god_mode == false)
-	{
-		//Collision from top and below
-		if ((C1->rect.y + C1->rect.h) > (C2->rect.y) && C1->rect.y < C2->rect.y && C1->rect.y + C1->rect.h - 8 < C2->rect.y && velocity.y >= 0)
-		{
-			App->player->position.y = C2->rect.y - C1->rect.h + 1;
-			velocity.y = 0;
-			is_grounded = true;
-
-		}
-	}
+	
 	//Collision against spikes
-	else if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_SPIKES && god_mode == false)
+	if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_SPIKES && god_mode == false)
 	{
 		dead = true;
-
 	}
 	//Win condition
 	else if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_WIN)
 	{
-		
 		if (App->map->data.map_name == "Level1.tmx")
 			App->fade_to_black->FadeToBlack("Level2.tmx", 3.0f);
 		if (App->map->data.map_name == "Level2.tmx")
 			App->scene->ret = false;
-			
 	}
 
+	Entity_CollisionManager(C1,C2);
 }
 
 

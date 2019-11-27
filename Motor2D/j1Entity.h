@@ -46,7 +46,7 @@ public:
 	virtual void followPath()
 	{}
 
-	void Entity_OnCollision(Collider* C1, Collider* C2);
+	void Entity_CollisionManager(Collider* C1, Collider* C2);
 
 public:
 

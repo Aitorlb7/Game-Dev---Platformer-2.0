@@ -7,15 +7,17 @@
 	<map>
 		<map_name filename="Level1.tmx" />
 	</map>
-	<scene />
-	<player player_state="0">
+	<player player_state="7">
 		<coordinates>
-			<position x="548" y="464" />
+			<position x="100" y="412.500122" />
 		</coordinates>
 	</player>
 	<:anonymous />
 	<:anonymous />
+	<pathfinding />
+	<:anonymous />
+	<scene />
 	<renderer>
-		<camera x="-188" y="0" />
+		<camera x="0" y="0" />
 	</renderer>
 </game_state>

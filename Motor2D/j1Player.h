@@ -27,7 +27,7 @@ public:
 	bool Save(pugi::xml_node&) const;
 	bool Load(pugi::xml_node&);
 
-	void j1Player::Player_Colliding(Collider* c1, Collider* c2);
+	void j1Player::Entity_OnCollision(Collider* c1, Collider* c2);
 	void jumpMovement();
 	void Load_Level();
 	void Dash_Movement(float dt);

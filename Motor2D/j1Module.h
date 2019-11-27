@@ -70,7 +70,7 @@ public:
 		return true;
 	}
 
-	virtual void Player_Colliding(Collider* C1, Collider* C2) {}
+	virtual void Entity_OnCollision(Collider* C1, Collider* C2) {}
 public:
 
 	p2SString	name;

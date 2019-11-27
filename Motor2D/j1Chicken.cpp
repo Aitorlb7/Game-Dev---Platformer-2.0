@@ -55,7 +55,7 @@ bool Chicken::CleanUp()
 }
 void Chicken::OnCollision(Collider* c1, Collider* c2)
 {
-	Entity_OnCollision(c1, c2);
+	Entity_CollisionManager(c1, c2);
 }
 
 bool Chicken::Load(pugi::xml_node&)

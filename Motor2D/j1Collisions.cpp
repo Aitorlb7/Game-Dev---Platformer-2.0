@@ -4,6 +4,7 @@
 #include "j1Player.h"
 #include "j1Collisions.h"
 #include "j1Map.h"
+#include "j1EntityManager.h"
 #include "p2Log.h"
 
 #include "Brofiler/Brofiler.h"
@@ -105,11 +106,11 @@ bool j1Collisions::Update(float dt)
 			{
 				if (matrix[c1->type][c2->type] && c1->callback)
 				{
-					c1->callback->Player_Colliding(c1, c2);
+					c1->callback->Entity_OnCollision(c1, c2);
 				}
 				if (matrix[c2->type][c1->type] && c2->callback)
 				{
-					c2->callback->Player_Colliding(c2, c1);
+					c2->callback->Entity_OnCollision(c2, c1);
 				}
 					
 			}
