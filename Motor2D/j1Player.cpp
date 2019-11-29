@@ -257,11 +257,11 @@ bool j1Player::Update(float dt)
 		current_anim = &idle_anim;
 		break;
 	case RIGHT:
-		velocity.x = run_speed.x / (dt*20);
+		velocity.x = run_speed.x * dt;
 		current_anim = &run_anim;
 		break;
 	case LEFT:
-		velocity.x = -run_speed.x / (dt*20);
+		velocity.x = -run_speed.x * dt;
 		current_anim = &run_anim;
 		break;
 	case CROUCHING:
@@ -282,15 +282,15 @@ bool j1Player::Update(float dt)
 		break;
 	case FALLING:
 		if(velocity.y < max_speed.y)
-			velocity.y += gravity / (dt * 10);
+			velocity.y += gravity * dt;
 
 		current_anim = &fall_anim;
 
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !is_dashing)
-			velocity.x = run_speed.x * 0.8f;
+			velocity.x = run_speed.x * 0.8f * dt;
 
 		else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !is_dashing)
-			velocity.x = -run_speed.x * 0.8f;
+			velocity.x = -run_speed.x * 0.8f * dt;
 
 		if (position.y > App->win->height + collider->rect.h)
 			dead = true;
@@ -305,8 +305,8 @@ bool j1Player::Update(float dt)
 	else if (velocity.x > 0)
 		flip = false;
 
-	jumpMovement(); 
-	Dash_Movement(dt);
+	jumpMovement(dt); 
+	Dash_Movement();
 	Attack();
 	Load_Level();
 	God_Mode();
@@ -409,14 +409,14 @@ bool j1Player::PositionCameraOnPlayer()
 	return true;
 }
 
-void j1Player::jumpMovement()
+void j1Player::jumpMovement(float dt)
 {
 	if (is_jumping == true)
 	{
 		Timer = Alive_Time.ReadSec() - startime;
 		if (velocity.y < 0)
 		{
-			velocity.y += gravity;
+			velocity.y += gravity * dt;
 			current_anim = &jump_anim;
 		}
 		else
@@ -432,7 +432,7 @@ void j1Player::jumpMovement()
 	
 }
 
-void j1Player::Dash_Movement(float dt)
+void j1Player::Dash_Movement()
 {
 	if (is_dashing == true)
 	{

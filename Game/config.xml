@@ -31,12 +31,12 @@
   </scene>
 
   <player>
-    <gravity value="0.25f"/>
+    <gravity value="25f"/>
     <dash_acceleration value="1.1f"/>
     <position x="100" y="0"/>
     <initial_position x="100" y="0"/>
-    <jump_force value="-8.0f"/>
-    <run_speed x="4" y="0"/>
+    <jump_force value="-13f"/>
+    <run_speed x="200" y="0"/>
     <max_speed x="15" y="7"/>
     <is_dashing value="false"/>
     <is_jumping value="false"/>

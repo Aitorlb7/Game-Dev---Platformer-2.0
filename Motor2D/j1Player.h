@@ -28,10 +28,10 @@ public:
 	bool Load(pugi::xml_node&);
 
 	void j1Player::Entity_OnCollision(Collider* c1, Collider* c2);
-	void jumpMovement();
+	void jumpMovement(float dt);
 	void Load_Level();
 	void Attack();
-	void Dash_Movement(float dt);
+	void Dash_Movement();
 	bool PositionCameraOnPlayer();
 	void God_Mode();
 
