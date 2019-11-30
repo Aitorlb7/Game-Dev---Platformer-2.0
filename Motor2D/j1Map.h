@@ -34,7 +34,7 @@ struct MapLayer
 	p2SString	name;
 	int			width;
 	int			height;
-	float		layer_speed;
+	float		speed;
 	uint*		data;
 	Properties	properties;
 
