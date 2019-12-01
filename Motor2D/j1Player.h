@@ -8,6 +8,8 @@
 #include "p2Point.h"
 #include "j1Entity.h"
 
+#define CAMERA_LIMIT 2400
+
 struct SDL_Texture;
 struct Collider;
 

@@ -51,10 +51,16 @@ public:
 	p2Point<float>		velocity;
 
 	entity_state		state;
+
+	p2DynArray<iPoint>	path;
+	iPoint				currentPathtile = { 0,0 };
+	int					pathIndex;
 	
 	bool				dead = false;
 	bool				is_grounded = false;
 	bool				flip = false;
+	bool				canFly = false;
+	bool				chase = false;
 
 	SDL_Texture*		graphics = nullptr;
 	p2SString			spritesheet;

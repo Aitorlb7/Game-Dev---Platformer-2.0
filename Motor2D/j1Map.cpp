@@ -278,9 +278,17 @@ bool j1Map::Load(const char* file_name)
 			item_layer = item_layer->next;
 		}
 	}
-
-	App->entity_manager->createEntity(CHICKEN, 500, 465);
-	App->entity_manager->createEntity(ALIEN, 390, 370);
+	if (file_name == "Level1.tmx")
+	{
+		App->entity_manager->createEntity(CHICKEN, 400, 465);
+		App->entity_manager->createEntity(ALIEN, 1012, 186);
+	}
+	else if (file_name == "Level2.tmx")
+	{
+		App->entity_manager->createEntity(CHICKEN, 371, 336);
+		App->entity_manager->createEntity(ALIEN, 727, 339);
+	}
+	
 
 	map_loaded = ret;
 

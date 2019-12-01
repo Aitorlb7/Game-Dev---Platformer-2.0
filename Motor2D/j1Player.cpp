@@ -232,13 +232,6 @@ bool j1Player::PreUpdate()
 				state = DASHING;
 			}
 		}
-		else
-		{
-			/*if (App->input->GetKey(SDL_SCANCODE_L) == KEY_UP)
-			{
-				is_dashing = false;
-			}*/
-		}
 	}
 	return true;
 }
@@ -405,9 +398,9 @@ bool j1Player::PositionCameraOnPlayer()
 	{
 		App->render->camera.x = 0;
 	}
-	if (App->render->camera.x <= -2400)
+	if (App->render->camera.x <= -CAMERA_LIMIT)
 	{
-		App->render->camera.x = -2400;
+		App->render->camera.x = -CAMERA_LIMIT;
 	}
 
 	return true;

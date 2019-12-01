@@ -8,6 +8,7 @@
 #include "p2Log.h"
 #include "j1Window.h"
 #include "j1Collisions.h"
+#include "j1EntityManager.h"
 #include "SDL/include/SDL_render.h"
 #include "SDL/include/SDL_timer.h"
 

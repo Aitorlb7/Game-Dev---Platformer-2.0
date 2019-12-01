@@ -27,7 +27,7 @@ Alien::Alien() : Entity("Alien")
 	fly_anim.PushBack({ 60, 40, 18, 15 });
 	fly_anim.speed = 0.2f;
 
-	velocity = { 100,100 };
+	canFly = true;
 	current_anim = &fly_anim;
 }
 
@@ -43,7 +43,30 @@ bool Alien::Awake(pugi::xml_node&)
 
 bool Alien::Update(float dt)
 {
-	Move_entity();
+	
+	if ((player_goal.x - position.x) < RADAR_RANGE
+		&& (player_goal.x - position.x) > -RADAR_RANGE)
+	{
+		chase = true;
+		if (App->pathfinding->CreatePath(App->map->WorldToMap(position.x , position.y ), App->map->WorldToMap(App->player->position.x , App->player->position.y), canFly) > -1)
+		{
+			path = *App->pathfinding->GetLastPath();
+
+			if (path.Count() > 0 && currentPathtile != *path.At(0))currentPathtile = *path.At(0);
+
+			else if (path.Count() > 1)currentPathtile = *path.At(1);
+
+			else velocity = { 0,0 };
+		}
+		else
+			velocity = { 0,-100 };
+	}
+		
+	
+	
+	position.x += velocity.x * App->dt;
+	position.y += velocity.y * App->dt;
+	//Move_entity();
 	collider->SetPos(position.x, position.y);
 	return true;
 }
@@ -55,41 +78,9 @@ bool Alien::PostUpdate()
 }
 void Alien::Move_entity()
 {
-	player_goal.x = App->player->position.x;
-	player_goal.y = App->player->position.y;
+	if (chase)
+	{
 
-	if ((player_goal.x - position.x) < RADAR_RANGE
-		&& (player_goal.x - position.x) > -RADAR_RANGE) {
-
-		//Find the closest tile to current position
-		App->pathfinding->CreatePath(iPoint(position.x, position.y), player_goal);
-
-		const p2DynArray<iPoint>* Path = App->pathfinding->GetLastPath();
-		LOG("PATH COUNT: %d", Path->Count());
-
-		const iPoint* tile;
-		if (Path->Count() != 0) {
-			if (Path->Count() > 1) {
-				tile = Path->At(1);
-			}
-			else
-			{
-				tile = Path->At(0);
-			}
-
-			iPoint center = App->map->MapToWorld(tile->x + App->map->data.tile_width / 2, tile->y + App->map->data.tile_height / 2);
-
-			if (center.x > position.x) {
-				position.x += velocity.x * App->dt;
-				flip = true;
-			}
-			else if (center.x < position.x) {
-				position.x -= velocity.x * App->dt;
-				flip = false;
-			}
-
-
-		}
 	}
 }
 
