@@ -8,6 +8,7 @@
 #include "j1Player.h"
 #include "j1Window.h"
 #include "j1Chicken.h"
+#include "j1Alien.h"
 
 j1EntityManager::j1EntityManager()
 {
@@ -18,12 +19,16 @@ j1EntityManager::j1EntityManager()
 j1EntityManager::~j1EntityManager()
 {}
 
-bool j1EntityManager::Awake(pugi::xml_node& config)
+
+
+bool j1EntityManager::Awake(pugi::xml_node& config_)
 {
-	this->config = config;
 	for (p2List_item<Entity*>* entity = entities.start; entity; entity = entity->next)
 	{
-		entity->data->Awake(config.child(entity->data->name.GetString()));
+		if (entity->data->position.x <= App->win->width && entity->data->position.x >= -50)
+		{
+			entity->data->Awake(config_);
+		}
 	}
 	return true;
 }
@@ -31,6 +36,17 @@ bool j1EntityManager::Awake(pugi::xml_node& config)
 bool j1EntityManager::Start()
 {
 	path_marker = App->tex->Load("maps/Non_walkable.png");
+	return true;
+}
+bool j1EntityManager::PreUpdate()
+{
+	for (p2List_item<Entity*>* entity = entities.start; entity; entity = entity->next)
+	{
+		if (entity->data->position.x <= App->win->width && entity->data->position.x >= -50)
+		{
+			entity->data->PreUpdate();
+		}
+	}
 	return true;
 }
 
@@ -62,7 +78,7 @@ bool j1EntityManager::PostUpdate()
 			{
 				if (entity->data->position.y > App->map->data.height* App->map->data.tile_height)
 				{
-					//DeleteEntity(entity->data);
+					DeleteEntity(entity->data);
 					continue;
 				}
 				 //Path methods comes here
@@ -79,6 +95,18 @@ bool j1EntityManager::PostUpdate()
 
 bool j1EntityManager::CleanUp()
 {
+	Entity* player = getPlayer();
+
+	p2List_item<Entity*>* item;
+	item = entities.start->next; //Skip first entity, player
+
+	while (item != NULL)
+	{
+		RELEASE(item->data);
+		item = item->next;
+	}
+	entities.clear();
+	entities.add(player);
 
 	return true;
 }
@@ -105,7 +133,7 @@ Entity* j1EntityManager::createEntity(entity_type type, int x, int y)
 		ret = new Chicken();
 		break;
 	case ALIEN:
-
+		ret = new Alien();
 		break;
 	}
 	
@@ -115,6 +143,22 @@ Entity* j1EntityManager::createEntity(entity_type type, int x, int y)
 	entities.add(ret);
 
 	return ret;
+}
+void j1EntityManager::DeleteEntity(Entity* entity_to_delete)
+{
+	p2List_item<Entity*>* entity_finder = entities.start;
+	while (entity_finder != NULL)
+	{
+		if (entity_finder->data == entity_to_delete)
+		{
+			if (entity_finder->data == getPlayer())
+				getPlayer()->CleanUp();
+			entities.del(entity_finder);
+			RELEASE(entity_finder->data);
+			break;
+		}
+		entity_finder = entity_finder->next;
+	}
 }
 
 bool j1EntityManager::Load(pugi::xml_node& data)

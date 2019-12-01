@@ -8,6 +8,9 @@
 #define DEFAULT_PATH_LENGTH 50
 #define INVALID_WALK_CODE 255
 
+#define MOVEMENT_COST 1
+#define DIAGONAL_COST 2
+
 class j1PathFinding : public j1Module
 {
 public:
@@ -24,7 +27,7 @@ public:
 	void SetMap(uint width, uint height, uchar* data);
 
 	// Main function to request a path from A to B
-	p2DynArray<iPoint>* CreatePath(const iPoint& origin, const iPoint& destination);
+	int CreatePath(const iPoint& origin, const iPoint& destination);
 
 	// To request all tiles involved in the last generated path
 	const p2DynArray<iPoint>* GetLastPath() const;
@@ -37,6 +40,7 @@ public:
 
 	// Utility: return the walkability value of a tile
 	uchar GetTileAt(const iPoint& pos) const;
+
 
 private:
 
@@ -70,9 +74,9 @@ struct PathNode
 	int CalculateF(const iPoint& destination);
 
 	// -----------
-	int g = 0;
-	int h = 0;
-	iPoint pos = iPoint({ 0, 0 });
+	int g;
+	int h;
+	iPoint pos;
 	const PathNode* parent = nullptr; // needed to reconstruct the path in the end
 };
 
@@ -82,7 +86,7 @@ struct PathNode
 struct PathList
 {
 	// Looks for a node in this list and returns it's list node or NULL
-	const p2List_item<PathNode>* Find(const iPoint& point) const;
+	p2List_item<PathNode>* Find(const iPoint& point) const;
 
 	// Returns the Pathnode with lowest score in this list or NULL if empty
 	p2List_item<PathNode>* GetNodeLowestScore() const;

@@ -43,9 +43,10 @@ bool Chicken::Awake(pugi::xml_node&)
 
 bool Chicken::Update(float dt)
 {
-	if (!dead && App->entity_manager->getPlayer() != NULL)
+	/*if (!dead && App->entity_manager->getPlayer() != NULL)
 	{
-		if (!App->entity_manager->getPlayer()->dead) {
+		if (!App->entity_manager->getPlayer()->dead) 
+		{
 		if ((App->entity_manager->getPlayer()->position.x - position.x) < RADAR_RANGE
 			&& (App->entity_manager->getPlayer()->position.x - position.x) > -RADAR_RANGE)
 		{
@@ -72,7 +73,7 @@ bool Chicken::Update(float dt)
 				followed_path = false;
 			}
 		}
-	}
+	}*/
 	return true;
 }
 

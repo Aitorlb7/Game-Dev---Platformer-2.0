@@ -31,7 +31,7 @@
   </scene>
 
   <player>
-    <gravity value="25f"/>
+    <gravity value="28f"/>
     <dash_acceleration value="1.1f"/>
     <position x="100" y="0"/>
     <initial_position x="100" y="0"/>

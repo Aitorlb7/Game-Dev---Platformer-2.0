@@ -17,6 +17,7 @@ public:
 
 	bool Awake(pugi::xml_node&);
 	bool Start();
+	bool PreUpdate();
 	bool Update(float dt);
 	bool PostUpdate();
 	bool CleanUp();
@@ -33,8 +34,6 @@ public:
 public:
 
 	p2List<Entity*> entities;
-	pugi::xml_node config;
-
 
 	SDL_Texture* path_marker = nullptr;
 	bool draw_path = false;

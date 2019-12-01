@@ -1,4 +1,5 @@
 #include "j1App.h"
+#include "j1Player.h"
 #include "j1Textures.h"
 #include "j1Input.h"
 #include "j1Render.h"
@@ -26,6 +27,8 @@ Alien::Alien() : Entity("Alien")
 	fly_anim.PushBack({ 60, 40, 18, 15 });
 	fly_anim.speed = 0.2f;
 
+	velocity = { 100,100 };
+	current_anim = &fly_anim;
 }
 
 Alien::~Alien()
@@ -40,6 +43,8 @@ bool Alien::Awake(pugi::xml_node&)
 
 bool Alien::Update(float dt)
 {
+	Move_entity();
+	collider->SetPos(position.x, position.y);
 	return true;
 }
 
@@ -48,9 +53,50 @@ bool Alien::PostUpdate()
 
 	return true;
 }
+void Alien::Move_entity()
+{
+	player_goal.x = App->player->position.x;
+	player_goal.y = App->player->position.y;
+
+	if ((player_goal.x - position.x) < RADAR_RANGE
+		&& (player_goal.x - position.x) > -RADAR_RANGE) {
+
+		//Find the closest tile to current position
+		App->pathfinding->CreatePath(iPoint(position.x, position.y), player_goal);
+
+		const p2DynArray<iPoint>* Path = App->pathfinding->GetLastPath();
+		LOG("PATH COUNT: %d", Path->Count());
+
+		const iPoint* tile;
+		if (Path->Count() != 0) {
+			if (Path->Count() > 1) {
+				tile = Path->At(1);
+			}
+			else
+			{
+				tile = Path->At(0);
+			}
+
+			iPoint center = App->map->MapToWorld(tile->x + App->map->data.tile_width / 2, tile->y + App->map->data.tile_height / 2);
+
+			if (center.x > position.x) {
+				position.x += velocity.x * App->dt;
+				flip = true;
+			}
+			else if (center.x < position.x) {
+				position.x -= velocity.x * App->dt;
+				flip = false;
+			}
+
+
+		}
+	}
+}
+
 
 bool Alien::CleanUp()
 {
+	collider->to_delete = true;
 	return true;
 }
 void Alien::OnCollision(Collider* c1, Collider* c2)

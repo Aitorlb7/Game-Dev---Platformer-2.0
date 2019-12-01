@@ -14,12 +14,6 @@
 #include "j1Timer.h"
 
 #include "Brofiler/Brofiler.h"
-//
-//
-//
-//Checkpoints, "dolphin dive"
-//
-//
 
 j1Player::j1Player() : Entity("player")
 {
@@ -212,6 +206,10 @@ bool j1Player::PreUpdate()
 			if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN && is_attacking == false)
 			{
 				startime = Alive_Time.ReadSec();
+				if (!flip )
+					attack_col = App->collisions->AddCollider({ (int)position.x + collider->rect.w, (int)position.y + 15, 40, 20 }, COLLIDER_ATTACK, this);
+				else if (flip)
+					attack_col = App->collisions->AddCollider({ (int)position.x - 40, (int)position.y + 15, 40, 20 }, COLLIDER_ATTACK, this);
 				state = ATTACKING;
 			}
 		}	
@@ -340,12 +338,6 @@ bool j1Player::Update(float dt)
 bool j1Player::PostUpdate()
 {
 	BROFILER_CATEGORY("Player PostUpdate", Profiler::Color::Red)
-		if (current_anim->Finished())
-		{
-			App->collisions->EraseCollider(attack_col);
-		}
-
-
 
 	if (graphics != nullptr)
 	{
@@ -465,10 +457,6 @@ void j1Player::Dash_Movement()
 
 void j1Player::Attack()
 {
-		if (!flip && attack_col)
-			attack_col = App->collisions->AddCollider({ (int)position.x + collider->rect.w, (int)position.y + 15, 35, 20 }, COLLIDER_ATTACK, this);
-		else if (flip && attack_col)
-			attack_col = App->collisions->AddCollider({ (int)position.x - 35, (int)position.y + 15, 35, 20 }, COLLIDER_ATTACK, this);
 	if (is_attacking == true)
 	{
 		Attack_Timer = Alive_Time.ReadSec() - startime;
@@ -479,7 +467,7 @@ void j1Player::Attack()
 		}
 		else
 		{
-			
+			App->collisions->EraseCollider(attack_col);
 			startime = 0;
 			is_attacking = false;
 		}

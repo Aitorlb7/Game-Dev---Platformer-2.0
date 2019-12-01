@@ -99,13 +99,13 @@ public:
 	j1PathFinding*		pathfinding;
 	j1EntityManager*	entity_manager;
 
-
+	float				dt;
 private:
 
 	p2List<j1Module*>	modules;
 	int					argc;
 	char**				args;
-	float				dt;
+	
 	bool				framerate_cap = false;
 
 	p2SString			title;

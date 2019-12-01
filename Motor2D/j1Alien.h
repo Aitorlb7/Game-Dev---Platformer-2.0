@@ -18,16 +18,16 @@ public:
 	bool CleanUp();
 
 	void OnCollision(Collider* c1, Collider* c2);
-	//void Move_entity(p2DynArray<iPoint>& path, float dt);
+	void Move_entity();
 
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
 public:
-
+	iPoint player_goal;
 	bool					followed_path;
 
 	Animation				fly_anim;
-	p2DynArray<iPoint>* follow_path;
+	p2DynArray<iPoint>*		follow_path;
 };
 
 
