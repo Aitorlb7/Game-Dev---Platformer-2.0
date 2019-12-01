@@ -143,6 +143,7 @@ bool j1Player::Start()
 	dead = false;
 	is_grounded = false;
 	is_jumping == false;
+	is_attacking == false;
 	flip = false;
 	Alive_Time.Start();
 	position = initial_position;
@@ -210,6 +211,7 @@ bool j1Player::PreUpdate()
 			}
 			if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN && is_attacking == false)
 			{
+				startime = Alive_Time.ReadSec();
 				state = ATTACKING;
 			}
 		}	
@@ -254,7 +256,10 @@ bool j1Player::Update(float dt)
 			velocity.x = 0;
 			velocity.y = 0;
 		}
-		current_anim = &idle_anim;
+		if (!is_attacking)
+		{
+			current_anim = &idle_anim;
+		}
 		break;
 	case RIGHT:
 		velocity.x = run_speed.x * dt;
@@ -338,7 +343,6 @@ bool j1Player::PostUpdate()
 		if (current_anim->Finished())
 		{
 			App->collisions->EraseCollider(attack_col);
-			is_attacking = false;
 		}
 
 
@@ -413,7 +417,7 @@ void j1Player::jumpMovement(float dt)
 {
 	if (is_jumping == true)
 	{
-		Timer = Alive_Time.ReadSec() - startime;
+		//Timer = Alive_Time.ReadSec() - startime;
 		if (velocity.y < 0)
 		{
 			velocity.y += gravity * dt;
@@ -461,14 +465,24 @@ void j1Player::Dash_Movement()
 
 void j1Player::Attack()
 {
-	if (is_attacking == true)
-	{
-		current_anim = &attack_anim;
-		velocity.x = 0;  // needs to be checked once we can interact with an enemy
 		if (!flip && attack_col)
 			attack_col = App->collisions->AddCollider({ (int)position.x + collider->rect.w, (int)position.y + 15, 35, 20 }, COLLIDER_ATTACK, this);
 		else if (flip && attack_col)
 			attack_col = App->collisions->AddCollider({ (int)position.x - 35, (int)position.y + 15, 35, 20 }, COLLIDER_ATTACK, this);
+	if (is_attacking == true)
+	{
+		Attack_Timer = Alive_Time.ReadSec() - startime;
+		velocity.x = 0;  // needs to be checked once we can interact with an enemy
+		if (Attack_Timer < 0.2f)
+		{
+			current_anim = &attack_anim;
+		}
+		else
+		{
+			
+			startime = 0;
+			is_attacking = false;
+		}
 	}
 }
 

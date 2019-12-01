@@ -35,7 +35,6 @@ public:
 public:
 
 	bool ret = true;
-	SDL_Rect			Parallax_rect[3];
 	SDL_Texture*		graphics = nullptr;
 	
 	p2SString			soundtrack[1];

@@ -52,6 +52,7 @@ public:
 	j1Timer				Alive_Time;
 	float				startime = 0;
 	float				Timer;
+	float				Attack_Timer;
 	float				dash_acceleration;
 	
 
