@@ -11255,12 +11255,12 @@
    <tile gid="301"/>
    <tile gid="301"/>
    <tile gid="301"/>
-   <tile/>
    <tile gid="1"/>
    <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
    <tile gid="3"/>
-   <tile/>
-   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -11378,8 +11378,8 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="737"/>
+   <tile gid="738"/>
    <tile/>
    <tile/>
    <tile/>
@@ -11394,13 +11394,13 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
    <tile gid="269"/>
    <tile gid="29"/>
    <tile gid="30"/>
+   <tile gid="30"/>
+   <tile gid="30"/>
+   <tile gid="30"/>
    <tile gid="31"/>
-   <tile/>
-   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -11518,8 +11518,8 @@
    <tile/>
    <tile/>
    <tile gid="202"/>
-   <tile gid="1"/>
-   <tile gid="3"/>
+   <tile gid="737"/>
+   <tile gid="738"/>
    <tile/>
    <tile/>
    <tile/>
@@ -11530,7 +11530,6 @@
    <tile gid="301"/>
    <tile gid="300"/>
    <tile gid="301"/>
-   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -11538,9 +11537,10 @@
    <tile gid="269"/>
    <tile gid="13"/>
    <tile gid="130"/>
+   <tile gid="130"/>
+   <tile gid="130"/>
+   <tile gid="130"/>
    <tile gid="42"/>
-   <tile/>
-   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -11656,10 +11656,10 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile gid="1"/>
-   <tile gid="29"/>
-   <tile gid="31"/>
+   <tile gid="737"/>
+   <tile gid="738"/>
+   <tile gid="737"/>
+   <tile gid="738"/>
    <tile gid="207"/>
    <tile gid="207"/>
    <tile gid="207"/>
@@ -11674,13 +11674,13 @@
    <tile gid="301"/>
    <tile gid="377"/>
    <tile gid="378"/>
-   <tile gid="379"/>
    <tile gid="269"/>
    <tile gid="41"/>
    <tile gid="130"/>
+   <tile gid="130"/>
+   <tile gid="130"/>
+   <tile gid="130"/>
    <tile gid="70"/>
-   <tile/>
-   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -11797,9 +11797,9 @@
    <tile gid="2"/>
    <tile gid="2"/>
    <tile gid="2"/>
-   <tile gid="29"/>
-   <tile gid="209"/>
-   <tile gid="210"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
    <tile gid="4"/>
    <tile gid="226"/>
    <tile gid="5"/>
@@ -11814,13 +11814,13 @@
    <tile gid="226"/>
    <tile gid="377"/>
    <tile gid="378"/>
-   <tile gid="379"/>
    <tile gid="269"/>
    <tile gid="13"/>
    <tile gid="130"/>
+   <tile gid="130"/>
+   <tile gid="130"/>
+   <tile gid="130"/>
    <tile gid="98"/>
-   <tile gid="381"/>
-   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -11954,13 +11954,13 @@
    <tile gid="255"/>
    <tile gid="377"/>
    <tile gid="378"/>
-   <tile gid="379"/>
    <tile gid="269"/>
    <tile gid="41"/>
    <tile gid="130"/>
+   <tile gid="130"/>
+   <tile gid="130"/>
+   <tile gid="130"/>
    <tile gid="98"/>
-   <tile gid="381"/>
-   <tile gid="381"/>
    <tile/>
    <tile/>
    <tile/>
@@ -12094,20 +12094,20 @@
    <tile gid="14"/>
    <tile gid="377"/>
    <tile gid="378"/>
-   <tile gid="379"/>
    <tile gid="269"/>
    <tile gid="13"/>
    <tile gid="130"/>
+   <tile gid="130"/>
+   <tile gid="130"/>
+   <tile gid="130"/>
    <tile gid="14"/>
-   <tile gid="381"/>
-   <tile gid="379"/>
-   <tile gid="380"/>
    <tile gid="381"/>
    <tile gid="1"/>
    <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
    <tile gid="3"/>
-   <tile/>
-   <tile/>
    <tile/>
    <tile gid="41"/>
    <tile gid="130"/>
@@ -12235,19 +12235,19 @@
    <tile gid="377"/>
    <tile gid="382"/>
    <tile gid="383"/>
-   <tile gid="383"/>
    <tile gid="41"/>
+   <tile gid="130"/>
+   <tile gid="130"/>
+   <tile gid="130"/>
    <tile gid="130"/>
    <tile gid="42"/>
    <tile gid="381"/>
-   <tile gid="379"/>
-   <tile gid="380"/>
-   <tile gid="381"/>
    <tile gid="29"/>
    <tile gid="30"/>
+   <tile gid="30"/>
+   <tile gid="30"/>
+   <tile gid="30"/>
    <tile gid="31"/>
-   <tile/>
-   <tile/>
    <tile/>
    <tile gid="69"/>
    <tile gid="130"/>
@@ -12374,20 +12374,20 @@
    <tile gid="14"/>
    <tile gid="382"/>
    <tile gid="383"/>
-   <tile gid="383"/>
    <tile gid="411"/>
    <tile gid="13"/>
    <tile gid="130"/>
+   <tile gid="130"/>
+   <tile gid="130"/>
+   <tile gid="130"/>
    <tile gid="70"/>
-   <tile gid="382"/>
-   <tile gid="383"/>
-   <tile gid="383"/>
    <tile gid="383"/>
    <tile gid="13"/>
    <tile gid="130"/>
+   <tile gid="130"/>
+   <tile gid="130"/>
+   <tile gid="130"/>
    <tile gid="14"/>
-   <tile gid="382"/>
-   <tile gid="382"/>
    <tile gid="383"/>
    <tile gid="97"/>
    <tile gid="130"/>
@@ -12515,19 +12515,19 @@
    <tile gid="382"/>
    <tile gid="383"/>
    <tile gid="411"/>
-   <tile gid="411"/>
    <tile gid="41"/>
    <tile gid="130"/>
+   <tile gid="130"/>
+   <tile gid="130"/>
+   <tile gid="130"/>
    <tile gid="98"/>
-   <tile gid="382"/>
-   <tile gid="382"/>
-   <tile gid="383"/>
    <tile gid="411"/>
    <tile gid="13"/>
    <tile gid="130"/>
-   <tile gid="14"/>
-   <tile gid="410"/>
-   <tile gid="410"/>
+   <tile gid="130"/>
+   <tile gid="130"/>
+   <tile gid="130"/>
+   <tile gid="42"/>
    <tile gid="411"/>
    <tile gid="13"/>
    <tile gid="130"/>
@@ -12655,19 +12655,19 @@
    <tile gid="382"/>
    <tile gid="382"/>
    <tile gid="383"/>
+   <tile gid="13"/>
+   <tile gid="130"/>
+   <tile gid="130"/>
+   <tile gid="130"/>
+   <tile gid="130"/>
+   <tile gid="14"/>
    <tile gid="383"/>
    <tile gid="13"/>
    <tile gid="130"/>
-   <tile gid="14"/>
-   <tile gid="382"/>
-   <tile gid="382"/>
-   <tile gid="382"/>
-   <tile gid="383"/>
-   <tile gid="13"/>
    <tile gid="130"/>
-   <tile gid="14"/>
-   <tile gid="382"/>
-   <tile gid="383"/>
+   <tile gid="130"/>
+   <tile gid="130"/>
+   <tile gid="70"/>
    <tile gid="383"/>
    <tile gid="41"/>
    <tile gid="130"/>
@@ -12795,19 +12795,19 @@
    <tile gid="410"/>
    <tile gid="410"/>
    <tile gid="411"/>
-   <tile gid="411"/>
    <tile gid="41"/>
    <tile gid="130"/>
+   <tile gid="130"/>
+   <tile gid="130"/>
+   <tile gid="130"/>
    <tile gid="42"/>
-   <tile gid="410"/>
-   <tile gid="410"/>
-   <tile gid="410"/>
    <tile gid="411"/>
    <tile gid="13"/>
    <tile gid="130"/>
-   <tile gid="14"/>
-   <tile gid="410"/>
-   <tile gid="411"/>
+   <tile gid="130"/>
+   <tile gid="130"/>
+   <tile gid="130"/>
+   <tile gid="98"/>
    <tile gid="411"/>
    <tile gid="69"/>
    <tile gid="130"/>
@@ -16141,40 +16141,6 @@
    <tile/>
   </data>
  </layer>
- <objectgroup color="#ff0000" id="10" name="Collision">
-  <properties>
-   <property name="speed" type="float" value="1"/>
-  </properties>
-  <object id="1" type="floor" x="-1" y="510" width="637" height="228"/>
-  <object id="2" type="floor" x="771" y="381" width="90" height="353"/>
-  <object id="3" type="floor" x="995" y="571" width="91" height="163"/>
-  <object id="4" type="floor" x="1187" y="480" width="122" height="253"/>
-  <object id="6" type="jumpable" x="1572" y="224" width="152" height="155"/>
-  <object id="7" type="floor" x="1509" y="611" width="375" height="121"/>
-  <object id="10" type="jumpable" x="1987.88" y="544" width="57.375" height="35.75"/>
-  <object id="12" type="jumpable" x="2146" y="190.5" width="59.5" height="37.75"/>
-  <object id="14" type="jumpable" x="1857.25" y="158" width="124" height="35.5"/>
-  <object id="15" type="jumpable" x="1249" y="192" width="122" height="31"/>
-  <object id="19" type="jumpable" x="194" y="445" width="60" height="17.75"/>
-  <object id="20" type="jumpable" x="161" y="476" width="33" height="14.75"/>
-  <object id="22" type="jumpable" x="2369.5" y="128.5" width="59.5" height="37.75"/>
-  <object id="23" type="jumpable" x="2430.25" y="128.5" width="132.5" height="8.25"/>
-  <object id="24" type="jumpable" x="2562" y="130" width="59.5" height="37.75"/>
-  <object id="25" type="jumpable" x="2212.33" y="510" width="122.011" height="51.25"/>
-  <object id="26" type="jumpable" x="962" y="225" width="122" height="31"/>
-  <object id="27" type="jumpable" x="543.636" y="380.727" width="64.7273" height="23.5455"/>
-  <object id="29" type="jumpable" x="414.636" y="319.061" width="65.7273" height="23.5455"/>
-  <object id="30" type="jumpable" x="544.97" y="319.061" width="93.0606" height="23.5455"/>
-  <object id="31" type="jumpable" x="542.303" y="254.061" width="60.7273" height="18.8788"/>
-  <object id="32" type="jumpable" x="384.97" y="224.394" width="95.0606" height="18.8788"/>
-  <object id="33" type="jumpable" x="543.303" y="191.727" width="222.394" height="18.8788"/>
-  <object id="34" type="jumpable" x="2468.33" y="544" width="87.0114" height="40.75"/>
-  <object id="35" type="jumpable" x="2660.83" y="481" width="115.011" height="49.25"/>
-  <object id="36" type="jumpable" x="2884.83" y="385.5" width="182.511" height="49.25"/>
-  <object id="37" type="floor" x="3271" y="389" width="375" height="351"/>
-  <object id="38" type="jumpable" x="385" y="409" width="98" height="27"/>
-  <object id="39" type="win" x="3486" y="1" width="34" height="388"/>
- </objectgroup>
  <layer id="23" name="Tree" width="140" height="23">
   <properties>
    <property name="speed" type="float" value="1"/>
@@ -25856,4 +25822,36 @@
    <tile/>
   </data>
  </layer>
+ <objectgroup color="#ff0000" id="10" name="Collision">
+  <properties>
+   <property name="speed" type="float" value="1"/>
+  </properties>
+  <object id="1" type="floor" x="-1" y="510" width="637" height="228"/>
+  <object id="2" type="floor" x="742" y="381" width="185" height="353"/>
+  <object id="3" type="floor" x="959" y="580" width="193" height="154"/>
+  <object id="4" type="floor" x="1187" y="480" width="122" height="253"/>
+  <object id="6" type="jumpable" x="1572" y="224" width="152" height="155"/>
+  <object id="7" type="floor" x="1509" y="611" width="375" height="121"/>
+  <object id="10" type="jumpable" x="1987.88" y="544" width="57.375" height="35.75"/>
+  <object id="12" type="jumpable" x="2146" y="190.5" width="59.5" height="37.75"/>
+  <object id="14" type="jumpable" x="1857.25" y="158" width="124" height="35.5"/>
+  <object id="15" type="jumpable" x="1249" y="192" width="122" height="31"/>
+  <object id="22" type="jumpable" x="2369.5" y="128.5" width="59.5" height="37.75"/>
+  <object id="23" type="jumpable" x="2430.25" y="128.5" width="132.5" height="8.25"/>
+  <object id="24" type="jumpable" x="2562" y="130" width="59.5" height="37.75"/>
+  <object id="25" type="jumpable" x="2212.33" y="510" width="122.011" height="51.25"/>
+  <object id="26" type="jumpable" x="962" y="225" width="122" height="31"/>
+  <object id="27" type="jumpable" x="543.636" y="380.727" width="64.7273" height="23.5455"/>
+  <object id="29" type="jumpable" x="414.636" y="319.061" width="65.7273" height="23.5455"/>
+  <object id="30" type="jumpable" x="544.97" y="319.061" width="93.0606" height="23.5455"/>
+  <object id="31" type="jumpable" x="542.303" y="254.061" width="60.7273" height="18.8788"/>
+  <object id="32" type="jumpable" x="384.97" y="224.394" width="95.0606" height="18.8788"/>
+  <object id="33" type="jumpable" x="543.303" y="191.727" width="222.394" height="18.8788"/>
+  <object id="34" type="jumpable" x="2468.33" y="544" width="87.0114" height="40.75"/>
+  <object id="35" type="jumpable" x="2660.83" y="481" width="115.011" height="49.25"/>
+  <object id="36" type="jumpable" x="2884.83" y="385.5" width="182.511" height="49.25"/>
+  <object id="37" type="floor" x="3271" y="389" width="375" height="351"/>
+  <object id="38" type="jumpable" x="385" y="409" width="98" height="27"/>
+  <object id="39" type="win" x="3486" y="1" width="34" height="388"/>
+ </objectgroup>
 </map>
