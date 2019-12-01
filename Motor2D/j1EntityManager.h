@@ -24,6 +24,9 @@ public:
 
 
 	void DeleteEntity(Entity* entity_to_delete);
+
+	void Entity_OnCollision(Collider* c1, Collider* c2);
+
 	Entity* createEntity(entity_type type, int x, int y);
 	Entity* getPlayer() const;
 

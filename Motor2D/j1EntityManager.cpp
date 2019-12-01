@@ -81,16 +81,26 @@ bool j1EntityManager::PostUpdate()
 					DeleteEntity(entity->data);
 					continue;
 				}
-				 //Path methods comes here
+
 				else if (entity->data->flip)
-					App->render->Blit(entity->data->graphics, entity->data->position.x, entity->data->position.y, &entity->data->current_anim->GetCurrentFrame(), SDL_FLIP_HORIZONTAL);
-				else
 					App->render->Blit(entity->data->graphics, entity->data->position.x, entity->data->position.y, &entity->data->current_anim->GetCurrentFrame(), SDL_FLIP_NONE);
+				else
+					App->render->Blit(entity->data->graphics, entity->data->position.x, entity->data->position.y, &entity->data->current_anim->GetCurrentFrame(), SDL_FLIP_HORIZONTAL);
 
 			}
 		}
 	}
 	return true;
+}
+
+void j1EntityManager::Entity_OnCollision(Collider* c1, Collider* c2)
+{
+	for (p2List_item<Entity*>* entity = entities.start; entity; entity = entity->next)
+	{
+			entity->data->Entity_OnCollision(c1, c2);
+			break;
+
+	}
 }
 
 bool j1EntityManager::CleanUp()

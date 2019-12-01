@@ -18,8 +18,8 @@ public:
 	bool PostUpdate();
 	bool CleanUp();
 
-	void OnCollision(Collider* c1, Collider* c2);
-	//void Move_entity(p2DynArray<iPoint>& path, float dt);
+	void Chicken::Entity_OnCollision(Collider* C1, Collider* C2);
+	void Move_entity();
 
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;

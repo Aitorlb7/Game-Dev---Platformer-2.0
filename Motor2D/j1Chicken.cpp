@@ -18,7 +18,7 @@ Chicken::Chicken() : Entity("chicken")
 	name.create("chicken");
 
 	graphics = App->tex->Load("textures/Chicken_Spritesheet.png");
-	collider = App->collisions->AddCollider({ (int)position.x, (int)position.y, 60, 60 }, COLLIDER_ENEMY, this);
+	collider = App->collisions->AddCollider({ (int)position.x, (int)position.y, 30, 45 }, COLLIDER_ENEMY, this);
 
 	walk_anim.PushBack({ 50, 56, 38, 45 });
 	walk_anim.PushBack({ 88, 56, 38, 45 });
@@ -43,37 +43,8 @@ bool Chicken::Awake(pugi::xml_node&)
 
 bool Chicken::Update(float dt)
 {
-	/*if (!dead && App->entity_manager->getPlayer() != NULL)
-	{
-		if (!App->entity_manager->getPlayer()->dead) 
-		{
-		if ((App->entity_manager->getPlayer()->position.x - position.x) < RADAR_RANGE
-			&& (App->entity_manager->getPlayer()->position.x - position.x) > -RADAR_RANGE)
-		{
-			iPoint origin = { App->map->WorldToMap((int)position.x , (int)position.y ) };
-			iPoint destination;
 
-			if (position.x < App->entity_manager->getPlayer()->position.x)
-			{
-				destination = { App->map->WorldToMap((int)(App->entity_manager->getPlayer()->position.x + App->entity_manager->getPlayer()->collider->rect.w), 
-					(int)(App->entity_manager->getPlayer()->position.y + App->entity_manager->getPlayer()->collider->rect.h / 2)) };
-
-			}
-			else
-				destination = { App->map->WorldToMap((int)(App->entity_manager->getPlayer()->position.x), (int)(App->entity_manager->getPlayer()->position.y + App->entity_manager->getPlayer()->collider->rect.h)) };
-
-			follow_path = App->pathfinding->CreatePath(origin, destination);
-			Move_entity(*follow_path, dt);
-			followed_path = true;
-		}
-
-			else if (followed_path)
-			{
-				follow_path->Clear();
-				followed_path = false;
-			}
-		}
-	}*/
+	collider->SetPos(position.x, position.y);
 	return true;
 }
 
@@ -85,38 +56,26 @@ bool Chicken::PostUpdate()
 
 bool Chicken::CleanUp()
 {
+	App->tex->UnLoad(graphics);
+	graphics = nullptr;
+
+	App->collisions->EraseCollider(collider);
+	return true;
 	return true;
 }
-void Chicken::OnCollision(Collider* c1, Collider* c2)
+void Chicken::Entity_OnCollision(Collider* C1, Collider* C2)
 {
-	Entity_CollisionManager(c1, c2);
+	if (C1->type == COLLIDER_ATTACK || C2->type == COLLIDER_ATTACK)
+	{
+		dead = true;
+		CleanUp();
+	}
+	Entity_CollisionManager(C1, C2);
 }
-//void Chicken::Move_entity(p2DynArray<iPoint>& path, float dt)
-//{
-//	if (path.Count() >= 2)
-//	{
-//		iPoint tile = path[0];
-//		iPoint next_tile = path[1];
-//
-//		int x_difference = next_tile.x - tile.x;
-//		int y_difference = next_tile.y - tile.y;
-//
-//		if (x_difference == 1) // going right
-//		{
-//			current_anim = &walk_anim;
-//			position.x = velocity.x * dt;
-//			flip = false;
-//		}
-//		else if (x_difference == -1)// going left
-//		{
-//			current_anim = &walk_anim;
-//			position.x = -velocity.x * dt;
-//			flip = false;
-//		}
-//		else if (y_difference == 1);// yet to complete
-//		else if (y_difference == -1);// yet to complete
-//	}
-//}
+void Chicken::Move_entity()
+{
+
+}
 
 bool Chicken::Load(pugi::xml_node&)
 {

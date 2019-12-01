@@ -17,7 +17,7 @@ public:
 	bool PostUpdate();
 	bool CleanUp();
 
-	void OnCollision(Collider* c1, Collider* c2);
+	void Alien::Entity_OnCollision(Collider* C1, Collider* C2);
 	void Move_entity();
 
 	bool Load(pugi::xml_node&);

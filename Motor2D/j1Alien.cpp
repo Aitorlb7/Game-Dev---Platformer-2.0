@@ -96,12 +96,20 @@ void Alien::Move_entity()
 
 bool Alien::CleanUp()
 {
-	collider->to_delete = true;
+	App->tex->UnLoad(graphics);
+	graphics = nullptr;
+
+	App->collisions->EraseCollider(collider);
 	return true;
 }
-void Alien::OnCollision(Collider* c1, Collider* c2)
+void Alien::Entity_OnCollision(Collider* C1, Collider* C2)
 {
-	Entity_CollisionManager(c1, c2);
+	if (C1->type == COLLIDER_ATTACK || C2->type == COLLIDER_ATTACK)
+	{
+		dead = true;
+		CleanUp();
+	}
+	Entity_CollisionManager(C1, C2);
 }
 bool Alien::Load(pugi::xml_node&)
 {

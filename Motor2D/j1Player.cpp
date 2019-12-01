@@ -153,7 +153,11 @@ bool j1Player::PreUpdate()
 
 	if (dead == false && god_mode == false)
 	{
-		
+		if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+		{
+			god_mode = !god_mode;
+		}
+
 		if (is_grounded  && !is_jumping && !is_dashing && !is_attacking)
 		{
 			state = IDLE;
@@ -361,7 +365,7 @@ bool j1Player::CleanUp()
 
 	App->collisions->EraseCollider(collider);
 
-	//is_grounded = false;
+	is_grounded = false;
 	is_jumping == false;
 	
 	return true;
@@ -369,7 +373,11 @@ bool j1Player::CleanUp()
 
 void j1Player::Entity_OnCollision(Collider* C1, Collider* C2)
 {
-	
+	//Collision against enemies
+	if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_ENEMY && god_mode == false)
+	{
+		dead = true;
+	}
 	//Collision against spikes
 	if (C1->type == COLLIDER_PLAYER && C2->type == COLLIDER_SPIKES && god_mode == false)
 	{
@@ -481,19 +489,19 @@ void j1Player :: God_Mode()
 		current_anim = &god_anim;
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
-			velocity.x = run_speed.x;
+			velocity.x = run_speed.x * App->dt;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
-			velocity.x = -run_speed.x;
+			velocity.x = -run_speed.x * App->dt;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 		{
-			velocity.y = -run_speed.x;
+			velocity.y = -run_speed.x * App->dt;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 		{
-			velocity.y = run_speed.x;
+			velocity.y = run_speed.x * App->dt;
 		}
 	}	
 }

@@ -279,8 +279,8 @@ bool j1Map::Load(const char* file_name)
 		}
 	}
 
-	App->entity_manager->createEntity(CHICKEN, 39, 465);
-	App->entity_manager->createEntity(ALIEN, 400, 60);
+	App->entity_manager->createEntity(CHICKEN, 500, 465);
+	App->entity_manager->createEntity(ALIEN, 390, 370);
 
 	map_loaded = ret;
 
