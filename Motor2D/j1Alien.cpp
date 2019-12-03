@@ -26,8 +26,7 @@ Alien::Alien() : Entity("Alien")
 	fly_anim.PushBack({ 40, 40, 18, 15 });
 	fly_anim.PushBack({ 60, 40, 18, 15 });
 	fly_anim.speed = 0.2f;
-
-	canFly = true;
+	state = IDLE;
 	current_anim = &fly_anim;
 }
 
@@ -47,26 +46,15 @@ bool Alien::Update(float dt)
 	if ((player_goal.x - position.x) < RADAR_RANGE
 		&& (player_goal.x - position.x) > -RADAR_RANGE)
 	{
-		chase = true;
-		if (App->pathfinding->CreatePath(App->map->WorldToMap(position.x , position.y ), App->map->WorldToMap(App->player->position.x , App->player->position.y), canFly) > -1)
-		{
-			path = *App->pathfinding->GetLastPath();
 
-			if (path.Count() > 0 && currentPathtile != *path.At(0))currentPathtile = *path.At(0);
 
-			else if (path.Count() > 1)currentPathtile = *path.At(1);
-
-			else velocity = { 0,0 };
-		}
-		else
-			velocity = { 0,-100 };
 	}
 		
 	
 	
 	position.x += velocity.x * App->dt;
 	position.y += velocity.y * App->dt;
-	//Move_entity();
+	Move_entity(state,dt);
 	collider->SetPos(position.x, position.y);
 	return true;
 }
@@ -76,11 +64,58 @@ bool Alien::PostUpdate()
 
 	return true;
 }
-void Alien::Move_entity()
+void Alien::Move_entity(entity_state state, float dt)
 {
-	if (chase)
+	switch (state)
 	{
+	case entity_state::UP:
 
+		position.y -= velocity.y * dt;
+		App->audio->PlayFx(13, 0);
+
+		break;
+
+	case entity_state::DOWN:
+
+		position.y += velocity.y * dt;
+		break;
+
+	case entity_state::RIGHT:
+
+		position.x += velocity.x * dt;
+		break;
+
+	case entity_state::LEFT:
+
+		position.x -= velocity.x * dt;
+		break;
+
+	case entity_state::UP_RIGHT:
+
+		position.x += velocity.x * dt;
+		position.y -= velocity.y * dt;
+		break;
+
+	case entity_state::UP_LEFT:
+
+		position.x -= velocity.x * dt;
+		position.y -= velocity.y * dt;
+
+		break;
+
+	case entity_state::DOWN_RIGHT:
+
+		position.x += velocity.x * dt;
+		position.y += velocity.y * dt;
+
+		break;
+
+	case entity_state::DOWN_LEFT:
+
+		position.x -= velocity.x * dt;
+		position.y += velocity.y * dt;
+
+		break;
 	}
 }
 
