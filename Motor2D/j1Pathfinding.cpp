@@ -45,13 +45,10 @@ bool j1PathFinding::CheckBoundaries(const iPoint& pos) const
 }
 
 // Utility: returns true is the tile is walkable
-bool j1PathFinding::IsWalkable(const iPoint& pos, bool canFly) const
+bool j1PathFinding::IsWalkable(const iPoint& pos) const
 {
 	uchar t = GetTileAt(pos);
-	if (canFly)
-		return t != INVALID_WALK_CODE && t > 0;
-	else
-		return t != INVALID_WALK_CODE && t == 2;
+	return t != INVALID_WALK_CODE && t > 0;
 }
 
 // Utility: return the walkability value of a tile
@@ -120,30 +117,50 @@ PathNode::PathNode(const PathNode& node) : g(node.g), h(node.h), pos(node.pos), 
 // PathNode -------------------------------------------------------------------------
 // Fills a list (PathList) of all valid adjacent pathnodes
 // ----------------------------------------------------------------------------------
-uint PathNode::FindWalkableAdjacents(PathList& list_to_fill, PathNode* parent, bool canFly) const
+uint PathNode::FindWalkableAdjacents(PathList& list_to_fill) const
 {
 	iPoint cell;
 	uint before = list_to_fill.list.count();
 
 	// north
 	cell.create(pos.x, pos.y + 1);
-	if (App->pathfinding->IsWalkable(cell, canFly))
-		list_to_fill.list.add(PathNode(-1, -1, cell, parent));
+	if (App->pathfinding->IsWalkable(cell))
+		list_to_fill.list.add(PathNode(-1, -1, cell, this));
 
 	// south
 	cell.create(pos.x, pos.y - 1);
-	if (App->pathfinding->IsWalkable(cell, canFly))
-		list_to_fill.list.add(PathNode(-1, -1, cell, parent));
+	if (App->pathfinding->IsWalkable(cell))
+		list_to_fill.list.add(PathNode(-1, -1, cell, this));
 
 	// east
 	cell.create(pos.x + 1, pos.y);
-	if (App->pathfinding->IsWalkable(cell, canFly))
-		list_to_fill.list.add(PathNode(-1, -1, cell, parent));
+	if (App->pathfinding->IsWalkable(cell))
+		list_to_fill.list.add(PathNode(-1, -1, cell, this));
 
 	// west
 	cell.create(pos.x - 1, pos.y);
-	if (App->pathfinding->IsWalkable(cell, canFly))
-		list_to_fill.list.add(PathNode(-1, -1, cell, parent));
+	if (App->pathfinding->IsWalkable(cell))
+		list_to_fill.list.add(PathNode(-1, -1, cell, this));
+
+	// North east
+	cell.create(pos.x + 1, pos.y + 1);
+	if (App->pathfinding->IsWalkable(cell))
+		list_to_fill.list.add(PathNode(-1, -1, cell, this));
+
+	// North west
+	cell.create(pos.x - 1, pos.y + 1);
+	if (App->pathfinding->IsWalkable(cell))
+		list_to_fill.list.add(PathNode(-1, -1, cell, this));
+
+	// South east
+	cell.create(pos.x + 1, pos.y - 1);
+	if (App->pathfinding->IsWalkable(cell))
+		list_to_fill.list.add(PathNode(-1, -1, cell, this));
+
+	// South west
+	cell.create(pos.x - 1, pos.y - 1);
+	if (App->pathfinding->IsWalkable(cell))
+		list_to_fill.list.add(PathNode(-1, -1, cell, this));
 
 	return list_to_fill.list.count();
 }
@@ -162,7 +179,11 @@ int PathNode::Score() const
 int PathNode::CalculateF(const iPoint& destination)
 {
 	g = parent->g + 1;
-	h = pos.DistanceTo(destination);
+
+	int distance_X = abs(pos.x - destination.x);
+	int distance_Y = abs(pos.y - destination.y);
+
+	h = (distance_X + distance_Y) * min(distance_X, distance_Y);
 
 	return g + h;
 }
@@ -170,89 +191,72 @@ int PathNode::CalculateF(const iPoint& destination)
 // ----------------------------------------------------------------------------------
 // Actual A* algorithm: return number of steps in the creation of the path or -1 ----
 // ----------------------------------------------------------------------------------
-int  j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination, const bool canFly)
+int  j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 {
 	BROFILER_CATEGORY("A*", Profiler::Color::Black)
-		last_path.Clear();
-	last_path.Clear();
 	int ret = -1;
-	if (IsWalkable(origin, canFly) && IsWalkable(destination, true))
+
+	if (IsWalkable(origin) == false || IsWalkable(destination) == false)
 	{
-		PathList open;
-		PathList closed;
+		return ret = -1;
+	}
 
-		PathNode originNode(0, origin.DistanceNoSqrt(destination), origin, nullptr);
+	PathList open;
+	PathList closed;
 
-		open.list.add(originNode);
+	PathNode origin_node(0, 0, origin, NULL);
 
-		while (open.list.start != nullptr)
+	open.list.add(origin_node);
+	while (open.list.count() != 0)
+	{
+		p2List_item<PathNode>* lowestNode = open.GetNodeLowestScore();
+		p2List_item<PathNode>* current_node = closed.list.add(lowestNode->data);
+
+		open.list.del(lowestNode);
+
+		if (current_node->data.pos == destination)
 		{
-			ret++;
-			p2List_item<PathNode> lowestScoreNode = *open.GetNodeLowestScore();
+			last_path.Clear();
 
-			closed.list.add(lowestScoreNode.data);
-			open.list.del(open.GetNodeLowestScore());
-
-			if (lowestScoreNode.data.pos == destination && canFly)
+			const PathNode* path_node = &current_node->data;
+			while (path_node != NULL)
 			{
-				PathNode current;
-				for (current = lowestScoreNode.data; current.parent != nullptr; current = *current.parent)
-					last_path.PushBack(current.pos);
-
-				last_path.Flip();
-				break;
-			}
-			else if (lowestScoreNode.data.pos.x == destination.x && !canFly)
-			{
-				PathNode current;
-				for (current = lowestScoreNode.data; current.parent != nullptr; current = *current.parent)
-					last_path.PushBack(current.pos);
-				last_path.Flip();
-				break;
+				last_path.PushBack(path_node->pos);
+				path_node = path_node->parent;
 			}
 
-			PathList neighbors;
-			lowestScoreNode.data.FindWalkableAdjacents(neighbors, &closed.Find(lowestScoreNode.data.pos)->data, canFly);
+			last_path.Flip();
+			ret = last_path.Count();
+			break;
+		}
 
-			for (p2List_item<PathNode>* current = neighbors.list.start; current; current = current->next)
+		PathList neighbours;
+		current_node->data.FindWalkableAdjacents(neighbours);
+
+		p2List_item<PathNode>* neighbour_iterator = neighbours.list.start;
+
+		while (neighbour_iterator != NULL)	
+			if (closed.Find(neighbour_iterator->data.pos) == NULL)
 			{
-				if (closed.Find(current->data.pos) == NULL)
+				if (open.Find(neighbour_iterator->data.pos) != NULL)
 				{
-					current->data.CalculateF(destination);
-					if (open.Find(current->data.pos) == NULL)
+					neighbour_iterator->data.CalculateF(destination);
+
+					if (neighbour_iterator->data.g < open.Find(neighbour_iterator->data.pos)->data.g)
 					{
-						open.list.add(current->data);
+						open.Find(neighbour_iterator->data.pos)->data.parent = neighbour_iterator->data.parent;
 					}
-					else
-					{
-						if (open.Find(current->data.pos)->data.Score() > current->data.Score())
-						{
-							open.list.del(open.Find(current->data.pos));
-							open.list.add(current->data);
-						}
-					}
+				else
+				{
+					neighbour_iterator->data.CalculateF(destination);
+					open.list.add(neighbour_iterator->data);
 				}
 			}
-			if (neighbors.list.start == neighbors.list.end)
-			{
-				ret = -1;
-				break;
-			}
-		}
-	}
-	else if (!IsWalkable(origin, canFly))
-	{
-		PathList neighbors;
-		PathNode originNode(0, origin.DistanceNoSqrt(destination), origin, nullptr);
 
-		originNode.FindWalkableAdjacents(neighbors, &originNode, canFly);
-
-		if (neighbors.list.start)
-		{
-			last_path.PushBack(neighbors.list.start->data.pos);
-			ret++;
-		}
+			neighbour_iterator = neighbour_iterator->next;
+		neighbours.list.clear();				
 	}
+
 	return ret;
 }
 
