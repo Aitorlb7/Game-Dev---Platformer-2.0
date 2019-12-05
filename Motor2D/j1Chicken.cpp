@@ -35,8 +35,22 @@ Chicken::~Chicken()
 {
 
 }
+bool Chicken::Save(pugi::xml_node& node) const
+{
+	pugi::xml_node chicken_state = node.append_child("chicken_State");
 
-bool Chicken::Awake(pugi::xml_node&)
+	chicken_state.append_attribute("is_dead") = dead;
+
+	return true;
+}
+bool Chicken::Load(pugi::xml_node& node)
+{
+	dead = node.attribute("chicken_State").as_bool();
+
+	return true;
+}
+
+bool Chicken::Awake(pugi::xml_node& config)
 {
 	return true;
 }
@@ -75,13 +89,4 @@ void Chicken::Entity_OnCollision(Collider* C1, Collider* C2)
 void Chicken::Move_entity()
 {
 
-}
-
-bool Chicken::Load(pugi::xml_node&)
-{
-	return true;
-}
-bool Chicken::Save(pugi::xml_node&) const
-{
-	return true;
 }
