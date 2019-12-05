@@ -171,12 +171,31 @@ void j1EntityManager::DeleteEntity(Entity* entity_to_delete)
 	}
 }
 
-bool j1EntityManager::Load(pugi::xml_node& data)
+bool j1EntityManager::Save(pugi::xml_node& data) const
 {
+	p2List_item<Entity*>* entity_finder = entities.start;
+	while (entity_finder != NULL)
+	{
+		pugi::xml_node node = data.append_child("Entity");
+
+		node.append_child("prevposition").append_attribute("x") = entity_finder->data->prevposition.x;
+		node.child("prevposition").append_attribute("y") = entity_finder->data->prevposition.y;
+
+		node.append_child("position").append_attribute("x") = entity_finder->data->position.x;
+		node.child("position").append_attribute("y") = entity_finder->data->position.y;
+
+
+		node.append_child("speed").append_attribute("x") = entity_finder->data->velocity.x;
+		node.child("speed").append_attribute("y") = entity_finder->data->velocity.y;
+
+
+		entity_finder->data->Save(node);
+
+		entity_finder = entity_finder->next;
+	}
 	return true;
 }
-
-bool j1EntityManager::Save(pugi::xml_node& data) const
+bool j1EntityManager::Load(pugi::xml_node& data)
 {
 	return true;
 }

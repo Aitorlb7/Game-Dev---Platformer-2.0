@@ -53,6 +53,7 @@ public:
 public:
 
 	p2Point<float>		position;
+	iPoint<float>		prevposition;
 	p2Point<float>		initial_position;
 	p2Point<float>		velocity;
 

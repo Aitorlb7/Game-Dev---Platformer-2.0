@@ -37,15 +37,14 @@ Chicken::~Chicken()
 }
 bool Chicken::Save(pugi::xml_node& node) const
 {
-	pugi::xml_node chicken_state = node.append_child("chicken_State");
+	node.append_attribute("EntityType") = "GROUND_ENEMY";
 
-	chicken_state.append_attribute("is_dead") = dead;
 
 	return true;
 }
 bool Chicken::Load(pugi::xml_node& node)
 {
-	dead = node.attribute("chicken_State").as_bool();
+
 
 	return true;
 }
