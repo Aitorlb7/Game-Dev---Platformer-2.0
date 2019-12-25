@@ -39,9 +39,9 @@ public:
 	p2List<Entity*> entities;
 	pugi::xml_node config;
 
-	j1Player* Player = nullptr;
+	//j1Player* Player = nullptr;
 
-	Chicken* Chicken_1 = nullptr;
+	//Chicken* Chicken_1 = nullptr;
 
 	SDL_Texture* path_marker = nullptr;
 	bool draw_path = false;

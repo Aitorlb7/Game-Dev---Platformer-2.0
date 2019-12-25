@@ -194,7 +194,7 @@ int PathNode::CalculateF(const iPoint& destination)
 int  j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 {
 	BROFILER_CATEGORY("A*", Profiler::Color::Black)
-	int ret = -1;
+		int ret = -1;
 
 	if (IsWalkable(origin) == false || IsWalkable(destination) == false)
 	{
@@ -235,7 +235,7 @@ int  j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 
 		p2List_item<PathNode>* neighbour_iterator = neighbours.list.start;
 
-		while (neighbour_iterator != NULL)	
+		while (neighbour_iterator != NULL)
 			if (closed.Find(neighbour_iterator->data.pos) == NULL)
 			{
 				if (open.Find(neighbour_iterator->data.pos) != NULL)
@@ -246,17 +246,18 @@ int  j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 					{
 						open.Find(neighbour_iterator->data.pos)->data.parent = neighbour_iterator->data.parent;
 					}
-				else
-				{
-					neighbour_iterator->data.CalculateF(destination);
-					open.list.add(neighbour_iterator->data);
+					else
+					{
+						neighbour_iterator->data.CalculateF(destination);
+						open.list.add(neighbour_iterator->data);
+					}
 				}
+
+				neighbour_iterator = neighbour_iterator->next;
+				neighbours.list.clear();
 			}
 
-			neighbour_iterator = neighbour_iterator->next;
-		neighbours.list.clear();				
+		return ret;
 	}
-
-	return ret;
 }
 

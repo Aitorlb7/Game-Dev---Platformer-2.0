@@ -64,6 +64,40 @@ bool Alien::PostUpdate()
 
 	return true;
 }
+void Alien::PathfindingLogic()
+{
+	iPoint enemyPos(App->map->WorldToMap(position.x, position.y));
+	iPoint playerPos(App->map->WorldToMap(App->player->position.x, App->player->position.y));
+	
+	enemyPos.y += 1;
+
+	if (enemyPos.DistanceNoSqrt(playerPos) <= RADAR_RANGE)
+	{
+		App->pathfinding->CreatePath(enemyPos, playerPos);
+		targetPlayer = true;
+
+		if (targetPlayer == false)
+		{
+			targetPlayer = true;
+		}
+
+		if (targetPlayer == true)
+		{
+			App->pathfinding->CreatePath(enemyPos, playerPos);
+
+			entity_path = App->pathfinding->GetLastPath();
+
+			for (int i = 0; i < entity_path->Count(); ++i)
+			{
+				if (enemyPos.x != entity_path->At(i)->x || enemyPos.y != entity_path->At(i)->y)	
+				{
+					iPoint nextStep(entity_path->At(i)->x, entity_path->At(i)->y); 
+					SetState(enemyPos, nextStep);
+				}
+			}
+		}
+	}
+}
 void Alien::Move_entity(entity_state state, float dt)
 {
 	switch (state)
@@ -71,7 +105,6 @@ void Alien::Move_entity(entity_state state, float dt)
 	case entity_state::UP:
 
 		position.y -= velocity.y * dt;
-		App->audio->PlayFx(13, 0);
 
 		break;
 
@@ -116,6 +149,97 @@ void Alien::Move_entity(entity_state state, float dt)
 		position.y += velocity.y * dt;
 
 		break;
+	}
+}
+void Alien::SetState(iPoint enemyPos, iPoint playerPos)
+{
+	iPoint checkRight(enemyPos.x + 1, enemyPos.y);
+	iPoint checkLeft(enemyPos.x - 1, enemyPos.y);
+	iPoint checkUp(enemyPos.x, enemyPos.y - 1);
+	iPoint checkDown(enemyPos.x, enemyPos.y + 1);
+
+	if (playerPos.y < enemyPos.y && playerPos.x == enemyPos.x && App->pathfinding->IsWalkable(checkUp))
+	{
+		state = entity_state::UP;
+	}
+
+	if (playerPos.y > enemyPos.y && playerPos.x == enemyPos.x && App->pathfinding->IsWalkable(checkDown))
+	{
+		state = entity_state::DOWN;
+	}
+
+	if (playerPos.x > enemyPos.x && playerPos.y == enemyPos.y && App->pathfinding->IsWalkable(checkRight))
+	{
+		state = entity_state::RIGHT;
+	}
+
+	if (playerPos.x < enemyPos.x && playerPos.y == enemyPos.y && App->pathfinding->IsWalkable(checkLeft))
+	{
+		state = entity_state::LEFT;
+	}
+
+	if (playerPos.x > enemyPos.x && playerPos.y < enemyPos.y)
+	{
+		if (App->pathfinding->IsWalkable(checkUp) && App->pathfinding->IsWalkable(checkRight))
+		{
+			state = entity_state::UP_RIGHT;
+		}
+		else if (!App->pathfinding->IsWalkable(checkUp) && App->pathfinding->IsWalkable(checkRight))
+		{
+			state = entity_state::RIGHT;
+		}
+		else if (App->pathfinding->IsWalkable(checkUp) && !App->pathfinding->IsWalkable(checkRight))
+		{
+			state = entity_state::UP;
+		}
+	}
+
+	if (playerPos.x < enemyPos.x && playerPos.y < enemyPos.y)
+	{
+		if (App->pathfinding->IsWalkable(checkUp) && App->pathfinding->IsWalkable(checkLeft))
+		{
+			state = entity_state::UP_LEFT;
+		}
+		else if (!App->pathfinding->IsWalkable(checkUp) && App->pathfinding->IsWalkable(checkLeft))
+		{
+			state = entity_state::LEFT;
+		}
+		else if (App->pathfinding->IsWalkable(checkUp) && !App->pathfinding->IsWalkable(checkLeft))
+		{
+			state = entity_state::UP;
+		}
+	}
+
+	if (playerPos.x > enemyPos.x && playerPos.y > enemyPos.y)
+	{
+		if (App->pathfinding->IsWalkable(checkDown) && App->pathfinding->IsWalkable(checkRight))
+		{
+			state = entity_state::DOWN_RIGHT;
+		}
+		else if (!App->pathfinding->IsWalkable(checkDown) && App->pathfinding->IsWalkable(checkRight))
+		{
+			state = entity_state::RIGHT;
+		}
+		else if (App->pathfinding->IsWalkable(checkDown) && !App->pathfinding->IsWalkable(checkRight))
+		{
+			state = entity_state::DOWN;
+		}
+	}
+
+	if (playerPos.x < enemyPos.x && playerPos.y > enemyPos.y)
+	{
+		if (App->pathfinding->IsWalkable(checkDown) && App->pathfinding->IsWalkable(checkLeft))
+		{
+			state = entity_state::DOWN_LEFT;
+		}
+		else if (!App->pathfinding->IsWalkable(checkDown) && App->pathfinding->IsWalkable(checkLeft))
+		{
+			state = entity_state::LEFT;
+		}
+		else if (App->pathfinding->IsWalkable(checkDown) && !App->pathfinding->IsWalkable(checkLeft))
+		{
+			state = entity_state::DOWN;
+		}
 	}
 }
 
