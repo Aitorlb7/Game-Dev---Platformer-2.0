@@ -19,6 +19,8 @@
 #include "j1Timer.h"
 #include "j1Pathfinding.h"
 #include "j1EntityManager.h"
+#include "j1Fonts.h"
+#include "j1Gui.h"
 
 #include "Brofiler/Brofiler.h"
 
@@ -40,6 +42,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	fade_to_black = new j1FadeToBlack();
 	pathfinding = new j1PathFinding();
 	entity_manager = new j1EntityManager();
+	font = new j1Fonts();
+	gui = new j1Gui();
 
 
 	// Ordered for awake / Start / Update
@@ -56,6 +60,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(pathfinding);
 	AddModule(entity_manager);
 	AddModule(scene);
+	AddModule(font);
+	AddModule(gui);
 	// render last to swap buffer
 	AddModule(render);
 

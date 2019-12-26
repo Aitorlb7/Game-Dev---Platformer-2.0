@@ -21,6 +21,8 @@ class j1Collisions;
 class j1FadeToBlack;
 class j1PathFinding;
 class j1EntityManager;
+class j1Fonts;
+class j1Gui;
 
 
 
@@ -98,6 +100,8 @@ public:
 	j1FadeToBlack*		fade_to_black;
 	j1PathFinding*		pathfinding;
 	j1EntityManager*	entity_manager;
+	j1Fonts*			font;
+	j1Gui*				gui;
 
 	float				dt;
 private:
