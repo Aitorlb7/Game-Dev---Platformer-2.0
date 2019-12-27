@@ -36,6 +36,8 @@ bool j1Scene::Start()
 {
 	App->map->Load("Level1.tmx");
 	App->audio->PlayMusic(soundtrack[0].GetString(), -1);
+
+	App->gui->CreateImage(0, 0, true, false, { 0,0,1024,768 }, App->tex->Load("gui/Titlescreen.png"));
 	return true;
 }
 

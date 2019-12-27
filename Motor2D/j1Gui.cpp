@@ -7,6 +7,8 @@
 #include "j1Input.h"
 #include "j1Gui.h"
 
+#include "j1GUIelement.h"
+
 j1Gui::j1Gui() : j1Module()
 {
 	name.create("gui");
@@ -56,10 +58,56 @@ bool j1Gui::CleanUp()
 }
 
 // const getter for atlas
-const SDL_Texture* j1Gui::GetAtlas() const
+SDL_Texture* j1Gui::GetAtlas() const
 {
 	return atlas;
 }
 
 // class Gui ---------------------------------------------------
+j1GUIelement* j1Gui::AddGUIelement(GUItype type, j1GUIelement* parent, iPoint globalPosition, iPoint localPosition, bool interactable, bool enabled, SDL_Rect section, char* text, j1Module* listener, bool X_drag, bool Y_drag)
+{
+	j1GUIelement* tmp = nullptr;
+
+	//switch (type)
+	//{
+
+	//case GUItype::GUI_BUTTON:
+	//	tmp = new j1GUIButton();
+	//	break;
+	//case GUItype::GUI_INPUTBOX:
+	//	tmp = new j1GUIinputBox(text);
+	//	break;
+	//case GUItype::GUI_LABEL:
+	//	tmp = new j1GUIlabel();
+	//	break;
+	//case GUItype::GUI_IMAGE:
+	//	tmp = new j1GUIimage();
+	//	break;
+	//case GUItype::GUI_SCROLLBAR:
+	//	tmp = new j1GUIscrollBar();
+	//	break;
+	//}
+
+	if (tmp)
+	{
+
+		tmp->parent = parent;
+		tmp->globalPosition = globalPosition;
+		tmp->localPosition = localPosition;
+		tmp->listener = listener;
+		tmp->interactable = interactable;
+
+		tmp->X_drag = X_drag;
+		tmp->Y_drag = Y_drag;
+
+		tmp->enabled = enabled;
+		tmp->rect = section;
+		tmp->text = text;
+
+		GUIelementList.add(tmp)->data->Start();
+	}
+
+
+	return tmp;
+}
 
