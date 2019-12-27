@@ -68,14 +68,6 @@ public:
 	void GetMousePosition(int &x, int &y);
 	void GetMouseMotion(int& x, int& y);
 
-	// Text
-	void EnableTextInput();
-	void DisableTextInput();
-	int GetCursorPosition();
-
-	p2SString GetText();
-	p2SString GetModifiedString();
-
 private:
 	bool		windowEvents[WE_COUNT];
 	j1KeyState*	keyboard;
@@ -84,10 +76,6 @@ private:
 	int			mouse_motion_y;
 	int			mouse_x;
 	int			mouse_y;
-	p2SString	text;
-	bool		text_input = false;
-
-	int			cursor_pos = 0;
 };
 
 #endif // __j1INPUT_H__
