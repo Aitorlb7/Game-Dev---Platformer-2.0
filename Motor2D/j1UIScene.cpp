@@ -58,7 +58,7 @@ bool j1UIScene::Start()
 		UI_element* new_game = App->gui->createButton(OFFSET_TO_CENTER * App->gui->UI_scale, 150 *App->gui->UI_scale, NULL, { 4,167,146,55 }, { 151,167,146,55 }, { 300,167,146,55 }, this);
 		new_game->function = NEW_GAME;
 
-		UI_element* new_text = App->gui->createText("  NEW GAME", 200, 200, buttons_font, dark_green);
+		UI_element* new_text = App->gui->createText(" NEW GAME", 200, 200, buttons_font, dark_green);
 		new_text->setOutlined(true);
 		new_game->appendChildAtCenter(new_text);
 
@@ -66,7 +66,7 @@ bool j1UIScene::Start()
 		UI_element* continue_button = App->gui->createButton(OFFSET_TO_CENTER * App->gui->UI_scale, 250 * App->gui->UI_scale, NULL, { 4,167,146,55 }, { 151,167,146,55 }, { 300,167,146,55 }, this);
 		continue_button->function = CONTINUE;
 
-		UI_element* continue_text = App->gui->createText("  CONTINUE", 200, 200, buttons_font, dark_green);
+		UI_element* continue_text = App->gui->createText(" CONTINUE", 200, 200, buttons_font, dark_green);
 		continue_text->setOutlined(true);
 		continue_button->appendChildAtCenter(continue_text);
 
@@ -74,7 +74,7 @@ bool j1UIScene::Start()
 		UI_element* exit_game = App->gui->createButton(OFFSET_TO_CENTER *App->gui->UI_scale, 550 * App->gui->UI_scale, NULL, { 4,167,146,55 }, { 151,167,146,55 }, { 300,167,146,55 }, this);
 		exit_game->function = EXIT;
 
-		UI_element* exit_text = App->gui->createText("  EXIT", 200, 200, buttons_font, dark_green);
+		UI_element* exit_text = App->gui->createText(" EXIT", 200, 200, buttons_font, dark_green);
 		exit_text->setOutlined(true);
 		exit_game->appendChildAtCenter(exit_text);
 
@@ -82,7 +82,7 @@ bool j1UIScene::Start()
 		UI_element* credits = App->gui->createButton(OFFSET_TO_CENTER * App->gui->UI_scale, 450 * App->gui->UI_scale, NULL, { 4,167,146,55 }, { 151,167,146,55 }, { 300,167,146,55 }, this);
 		credits->function = CREDITS;
 
-		UI_element* credits_text = App->gui->createText("  CREDITS", 200, 200, buttons_font, dark_green);
+		UI_element* credits_text = App->gui->createText(" CREDITS", 200, 200, buttons_font, dark_green);
 		credits_text->setOutlined(true);
 		credits->appendChildAtCenter(credits_text);
 
@@ -90,7 +90,7 @@ bool j1UIScene::Start()
 		UI_element* settings_start_menu = App->gui->createButton(OFFSET_TO_CENTER *App->gui->UI_scale, 350 * App->gui->UI_scale, NULL, { 4,167,146,55 }, { 151,167,146,55 }, { 300,167,146,55 }, this);
 		settings_start_menu->function = SETTINGS;
 
-		UI_element* settings_text = App->gui->createText("  SETTINGS", 200, 200, buttons_font, dark_green);
+		UI_element* settings_text = App->gui->createText(" SETTINGS", 200, 200, buttons_font, dark_green);
 		settings_text->setOutlined(true);
 		settings_start_menu->appendChildAtCenter(settings_text);
 
@@ -144,7 +144,7 @@ bool j1UIScene::Start()
 		settings_window->appendChild(130 * App->gui->UI_scale, 210 * App->gui->UI_scale, apply_button);
 		apply_button->function = APPLY;
 
-		UI_element* apply_text = App->gui->createText("  APPLY", 200, 200, buttons_font, dark_green);
+		UI_element* apply_text = App->gui->createText(" APPLY", 200, 200, buttons_font, dark_green);
 		apply_text->setOutlined(true);
 		apply_button->appendChildAtCenter(apply_text);
 
@@ -153,7 +153,7 @@ bool j1UIScene::Start()
 		settings_window->appendChild(230 * App->gui->UI_scale, 300 * App->gui->UI_scale, cancel_button);
 		cancel_button->function = CANCEL;
 
-		UI_element* cancel_text = App->gui->createText("  CANCEL", 200, 200, buttons_font, dark_green);
+		UI_element* cancel_text = App->gui->createText(" CANCEL", 200, 200, buttons_font, dark_green);
 		cancel_text->setOutlined(true);
 		cancel_button->appendChildAtCenter(cancel_text);
 
@@ -162,7 +162,7 @@ bool j1UIScene::Start()
 		settings_window->appendChild(50 * App->gui->UI_scale, 300 * App->gui->UI_scale, restore_button);
 		restore_button->function = RESTORE;
 
-		UI_element* restore_text = App->gui->createText("  RESTORE", 200, 200, buttons_font, dark_green);
+		UI_element* restore_text = App->gui->createText(" RESTORE", 200, 200, buttons_font, dark_green);
 		restore_text->setOutlined(true);
 		restore_button->appendChildAtCenter(restore_text);
 		
