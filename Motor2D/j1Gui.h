@@ -1,19 +1,11 @@
 #ifndef __j1GUI_H__
 #define __j1GUI_H__
 
-#include "p2SString.h"
-#include "j1App.h"
+
 #include "j1Module.h"
-#include "j1Render.h"
 #include "p2Point.h"
 #include "SDL/include/SDL_rect.h"
-#include "p2List.h"
-#include "j1Textures.h"
-#include "j1Fonts.h"
-#include "UI_element.h"
 
-
-class Entity;
 struct _TTF_Font;
 struct SDL_Texture;
 class UI_element;
@@ -80,9 +72,10 @@ public:
 
 private:
 
-	SDL_Texture* atlas;
+	SDL_Texture* atlas = nullptr;
 	p2SString atlas_file_name;
 	p2List<UI_element*> UI_elements;
+	UI_element* draggingElement = nullptr;
 
 };
 

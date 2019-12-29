@@ -284,9 +284,11 @@ bool j1App::DoUpdate()
 	for(item = modules.start; item != NULL && ret == true; item = item->next)
 	{
 		pModule = item->data;
-
-		if(pModule->active == false) {
-			continue;
+		if (!pause || !pModule->canPause)
+		{
+			if (pModule->active == false) {
+				continue;
+			}
 		}
 
 		ret = item->data->Update(dt);
@@ -460,4 +462,9 @@ bool j1App::SavegameNow() const
 	data.reset();
 	want_to_save = false;
 	return ret;
+}
+
+void j1App::RequestBrowser(const char* url) const
+{
+	ShellExecuteA(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
 }

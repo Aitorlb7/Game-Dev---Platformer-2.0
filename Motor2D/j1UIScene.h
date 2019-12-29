@@ -4,6 +4,8 @@
 #include "j1Module.h"
 #include "p2List.h"
 
+#define OFFSET_TO_CENTER 450
+
 class Button;
 class UI_element;
 
@@ -58,7 +60,12 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-	bool OnUIEvent(UI_element* element, event_type event_type);
+	bool UIEvent(UI_element* element, event_type event_type);
+
+	bool loadMenu(menu_id id);
+	menu* getMenu(menu_id id) const;
+
+	void applySettings(settings_values values);
 
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
@@ -68,6 +75,12 @@ public:
 	p2List<menu*> menus;
 	menu* current_menu = nullptr;
 	menu_id previous_menu;
+
+	settings_values startValues;
+	settings_values newValues;
+	settings_values defaultValues;
+
+	Button* continueButton = nullptr;
 };
 
 #endif // !__j1UISCENE_H__

@@ -316,6 +316,11 @@ bool j1Player::Update(float dt)
 	{
 		velocity.x = 0;
 	}
+	if (App->pause)
+	{
+		velocity.x = 0;
+		state = IDLE;
+	}
 	//Don't move in the y axis while dashing
 	if (!is_dashing && !dead)
 	{

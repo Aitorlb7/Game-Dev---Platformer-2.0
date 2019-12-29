@@ -62,6 +62,9 @@ public:
 	void SaveGame(const char* file) const;
 	void GetSaveGames(p2List<p2SString>& list_to_fill) const;
 
+
+	void RequestBrowser(const char* url) const;
+
 private:
 
 	// Load config file
@@ -86,6 +89,7 @@ private:
 	bool LoadGameNow();
 	bool SavegameNow() const;
 
+
 public:
 
 	// Modules
@@ -106,6 +110,8 @@ public:
 	j1UIScene*			ui_scene;
 
 	float				dt;
+
+	bool				pause = false;
 private:
 
 	p2List<j1Module*>	modules;
@@ -113,6 +119,7 @@ private:
 	char**				args;
 	
 	bool				framerate_cap = false;
+
 
 	p2SString			title;
 	p2SString			organization;

@@ -1,4 +1,4 @@
-# Game-Dev---Platformer-2.0
+# Deaf Dog
  
 ## Team Members
 
@@ -29,3 +29,4 @@
 
 **REPOSITORY:**
 https://github.com/Aitorlb7/Game-Dev---Platformer-2.0
+
