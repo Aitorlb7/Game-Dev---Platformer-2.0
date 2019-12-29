@@ -10,6 +10,9 @@
 - Github: [FranGV98](https://github.com/FranGV98)
 - Contact: franguerreroo98@gmail.com
 
+## Innovation mechanics
+- Super jump combo
+- Dash
 
 ## Controls
 
