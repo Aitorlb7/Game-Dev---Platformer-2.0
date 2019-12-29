@@ -6,7 +6,7 @@
 This is a platform game made for the subject "Development of videogames" from the career of Design and Development of videogames in the UPC of Barcelona. 
 
 The title of this game talks about the objective of the character that you control. He have to find his deaf dog, which is lost into the woods.
-<p> <iframe width="560" height="315" src="https://www.youtube.com/watch?v=wvy-pO65GhQ" frameborder="0" allow="accelerometer; autoplay;
+<p> <iframe width="560" height="315" src="https://www.youtube.com/embed/aP_xjn812y0" frameborder="0" allow="accelerometer; autoplay;
  encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> </p>
  
 ## Team Members
