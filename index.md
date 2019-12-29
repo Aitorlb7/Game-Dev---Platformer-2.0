@@ -18,6 +18,10 @@ The title of this game talks about the objective of the character that you contr
 - Contact: aitor97alb@gmail.com
 
 **Fran Guerrero**
+- Supporter programmer
+- Mechanics
+- Design management
+- Web creator
 
 - Github: [FranGV98](https://github.com/FranGV98)
 - Contact: franguerreroo98@gmail.com
