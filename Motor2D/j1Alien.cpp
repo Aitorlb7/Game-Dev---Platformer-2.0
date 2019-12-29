@@ -49,13 +49,21 @@ bool Alien::Update(float dt)
 
 
 	}
-		
+	if (dead == false )
+	{
+		if (targetPlayer == true)
+		{
+			PathfindingLogic();
+		}
+		Move_entity(state, dt);
+		collider->SetPos(position.x, position.y);
+	}
 	
 	
-	position.x += velocity.x * App->dt;
-	position.y += velocity.y * App->dt;
-	Move_entity(state,dt);
-	collider->SetPos(position.x, position.y);
+	//position.x += velocity.x * App->dt;
+	//position.y += velocity.y * App->dt;
+
+
 	return true;
 }
 
