@@ -30,6 +30,14 @@ The title of this game talks about the objective of the character that you contr
 - Github: [FranGV98](https://github.com/FranGV98)
 - Contact: franguerreroo98@gmail.com
 
+## Core Subsystems
+- Player movement logic
+- Tiled maps
+- Collision detection
+- Entity System
+- Enemy Pathfinding
+- UI System
+- Capped framerate
 
 ## How to play
 
@@ -38,9 +46,13 @@ The title of this game talks about the objective of the character that you contr
 - S: Crouch (If you crouch and then you press SPACE, the character jumps higher)
 - Q: Atack
 - SPACE: Jump
+- ESC: Open Menu
 
 **REPOSITORY:**
 https://github.com/Aitorlb7/Game-Dev---Platformer-2.0
+
+**LATEST RELEASE:**
+https://github.com/FranGV98/Game-Dev---Platformer-2.0/releases/tag/3.0
 
 ### License
 
