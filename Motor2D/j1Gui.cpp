@@ -6,6 +6,9 @@
 #include "j1Fonts.h"
 #include "j1Input.h"
 #include "j1Gui.h"
+#include "j1Window.h"
+#include "j1UIScene.h"
+#include "UI_Image.h"
 
 #include "j1GUIelement.h"
 
@@ -33,6 +36,8 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 bool j1Gui::Start()
 {
 	atlas = App->tex->Load(atlas_file_name.GetString());
+	UI_scale = App->win->GetScale();
+	UI_scale = 1 / UI_scale;
 
 	return true;
 }
@@ -43,9 +48,27 @@ bool j1Gui::PreUpdate()
 	return true;
 }
 
+bool j1Gui::Update(float dt)
+{
+	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN)
+		UI_Debug = !UI_Debug;
+
+	return true;
+}
+
 // Called after all Updates
 bool j1Gui::PostUpdate()
 {
+	if (App->ui_scene->current_menu != nullptr)
+	{
+		for (p2List_item<UI_element*>* item = App->ui_scene->current_menu->elements.start; item; item = item->next)
+		{
+
+		}
+	}
+	if (UI_Debug)
+		UIDebugDraw();
+
 	return true;
 }
 
@@ -54,60 +77,31 @@ bool j1Gui::CleanUp()
 {
 	LOG("Freeing GUI");
 
+	p2List_item<UI_element*>* item;
+	item = UI_elements.start;
+	while (item != NULL)
+	{
+		RELEASE(item->data);
+		item = item->next;
+	}
+	UI_elements.clear();
 	return true;
 }
 
 // const getter for atlas
-SDL_Texture* j1Gui::GetAtlas() const
+const SDL_Texture* j1Gui:: GetAtlas() const
 {
 	return atlas;
 }
 
-// class Gui ---------------------------------------------------
-j1GUIelement* j1Gui::AddGUIelement(GUItype type, j1GUIelement* parent, iPoint globalPosition, iPoint localPosition, bool interactable, bool enabled, SDL_Rect section, char* text, j1Module* listener, bool X_drag, bool Y_drag)
+Image* j1Gui::createImage(int x, int y, SDL_Texture* texture, j1Module* callback)
 {
-	j1GUIelement* tmp = nullptr;
+	uint tex_width, tex_height;
+	App->tex->GetSize(texture, tex_width, tex_height);
+	Image* ret = new Image(texture, x, y, { 0, 0, (int)tex_width, (int)tex_height }, callback);
+	UI_elements.add(ret);
 
-	//switch (type)
-	//{
-
-	//case GUItype::GUI_BUTTON:
-	//	tmp = new j1GUIButton();
-	//	break;
-	//case GUItype::GUI_INPUTBOX:
-	//	tmp = new j1GUIinputBox(text);
-	//	break;
-	//case GUItype::GUI_LABEL:
-	//	tmp = new j1GUIlabel();
-	//	break;
-	//case GUItype::GUI_IMAGE:
-	//	tmp = new j1GUIimage();
-	//	break;
-	//case GUItype::GUI_SCROLLBAR:
-	//	tmp = new j1GUIscrollBar();
-	//	break;
-	//}
-
-	if (tmp)
-	{
-
-		tmp->parent = parent;
-		tmp->globalPosition = globalPosition;
-		tmp->localPosition = localPosition;
-		tmp->listener = listener;
-		tmp->interactable = interactable;
-
-		tmp->X_drag = X_drag;
-		tmp->Y_drag = Y_drag;
-
-		tmp->enabled = enabled;
-		tmp->rect = section;
-		tmp->text = text;
-
-		GUIelementList.add(tmp)->data->Start();
-	}
-
-
-	return tmp;
+	return ret;
 }
+
 

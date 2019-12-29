@@ -10,13 +10,30 @@
 #include "p2List.h"
 #include "j1Textures.h"
 #include "j1Fonts.h"
-#include "j1GUIelement.h"
+#include "UI_element.h"
 
-#define CURSOR_WIDTH 2
 
-// TODO 1: Create your structure of classes
 class Entity;
-// ---------------------------------------------------
+struct _TTF_Font;
+struct SDL_Texture;
+class UI_element;
+class Text;
+class Image;
+class Button;
+class Window;
+class Slider;
+
+enum event_type
+{
+	MOUSE_ENTER,
+	MOUSE_LEAVE,
+	MOUSE_RIGHT_CLICK,
+	MOUSE_RIGHT_RELEASE,
+	MOUSE_LEFT_CLICK,
+	MOUSE_LEFT_RELEASE,
+	TIMER_ZERO
+};
+
 class j1Gui : public j1Module
 {
 public:
@@ -35,26 +52,38 @@ public:
 	// Called before all Updates
 	bool PreUpdate();
 
+	bool Update(float dt);
+
 	// Called after all Updates
 	bool PostUpdate();
 
 	// Called before quitting
 	bool CleanUp();
 
-	// TODO 2: Create the factory methods
-	j1GUIelement* AddGUIelement(GUItype type, j1GUIelement* parent, iPoint globalPosition, iPoint localPosition, bool interactable, bool enabled, SDL_Rect section, char* text = nullptr, j1Module* listener = nullptr, bool X_drag = false, bool Y_drag = false);
-	SDL_Texture* j1Gui::GetAtlas() const;
+	//Debug Draw
+	void UIDebugDraw();
 
-	p2List<j1GUIelement*>	GUIelementList;
 	// Gui creation functions
+	const SDL_Texture* GetAtlas() const;
+	Text* createText(char* text, int x, int y, _TTF_Font* font, SDL_Color color = { 255, 255, 255, 255 }, j1Module* callback = nullptr);
+	Image* createImage(int x, int y, SDL_Texture* texture, j1Module* callback = nullptr);
+	Image* createImageFromAtlas(int x, int y, SDL_Rect section, j1Module* callback = nullptr);
+	Button* createButton(int x, int y, SDL_Texture* texture, SDL_Rect standby, SDL_Rect OnMouse, SDL_Rect OnClick, j1Module* callback = nullptr);
+	Window* createWindow(int x, int y, SDL_Texture* texture, SDL_Rect section, j1Module* callback = nullptr);
+	Slider* createSlider(int x, int y, SDL_Texture* texture, SDL_Rect empty, SDL_Rect full, Button* button, _TTF_Font* text_font, SDL_Color text_color, float default_progress = 0.5f, j1Module * callback = nullptr, char* text = "");
+
+public:
+	bool UI_Debug = false;
+	float UI_scale;
+	int alpha_value = 255;
+	uint click_fx = 0;
 
 private:
 
 	SDL_Texture* atlas;
-
 	p2SString atlas_file_name;
+	p2List<UI_element*> UI_elements;
 
-	//p2List<UI*> UI_list;
 };
 
 #endif // __j1GUI_H__

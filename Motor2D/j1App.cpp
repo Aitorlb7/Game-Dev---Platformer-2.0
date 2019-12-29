@@ -21,6 +21,7 @@
 #include "j1EntityManager.h"
 #include "j1Fonts.h"
 #include "j1Gui.h"
+#include "j1UIScene.h"
 
 #include "Brofiler/Brofiler.h"
 
@@ -44,6 +45,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	entity_manager = new j1EntityManager();
 	font = new j1Fonts();
 	gui = new j1Gui();
+	ui_scene = new j1UIScene();
 
 
 	// Ordered for awake / Start / Update
@@ -62,6 +64,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(scene);
 	AddModule(font);
 	AddModule(gui);
+	AddModule(ui_scene);
 	// render last to swap buffer
 	AddModule(render);
 

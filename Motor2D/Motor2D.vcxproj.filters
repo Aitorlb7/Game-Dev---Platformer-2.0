@@ -64,29 +64,17 @@
     <ClCompile Include="j1Alien.cpp">
       <Filter>Desenvolupament  ========\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="GUIbutton.cpp">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="GUIimage.cpp">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="GUIinputBox.cpp">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="GUIlabel.cpp">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="GUIscrollBar.cpp">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="j1GUIelement.cpp">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
-    </ClCompile>
     <ClCompile Include="j1Fonts.cpp">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClCompile>
     <ClCompile Include="j1Gui.cpp">
       <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="j1UIScene.cpp">
+      <Filter>Desenvolupament  ========\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Image.cpp">
+      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -174,29 +162,20 @@
     <ClInclude Include="j1Alien.h">
       <Filter>Desenvolupament  ========\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="GUIbutton.h">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIimage.h">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIinputBox.h">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIlabel.h">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIscrollBar.h">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="j1GUIelement.h">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
-    </ClInclude>
     <ClInclude Include="j1Fonts.h">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClInclude>
     <ClInclude Include="j1Gui.h">
       <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="j1UIScene.h">
+      <Filter>Desenvolupament  ========\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Image.h">
+      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_element.h">
+      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

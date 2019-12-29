@@ -86,6 +86,8 @@ private:
 	int			mouse_motion_y;
 	int			mouse_x;
 	int			mouse_y;
+
+
 	p2SString	text;
 	bool		text_input = false;
 
