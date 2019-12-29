@@ -76,11 +76,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="GUIbutton.cpp" />
-    <ClCompile Include="GUIimage.cpp" />
-    <ClCompile Include="GUIinputBox.cpp" />
-    <ClCompile Include="GUIlabel.cpp" />
-    <ClCompile Include="GUIscrollBar.cpp" />
     <ClCompile Include="j1Alien.cpp" />
     <ClCompile Include="j1Chicken.cpp" />
     <ClCompile Include="j1Entity.cpp" />
@@ -89,7 +84,6 @@
     <ClCompile Include="j1Collisions.cpp" />
     <ClCompile Include="j1Fonts.cpp" />
     <ClCompile Include="j1Gui.cpp" />
-    <ClCompile Include="j1GUIelement.cpp" />
     <ClCompile Include="j1Main.cpp" />
     <ClCompile Include="j1App.cpp" />
     <ClCompile Include="j1Audio.cpp" />
@@ -100,18 +94,15 @@
     <ClCompile Include="j1Player.cpp" />
     <ClCompile Include="j1Scene.cpp" />
     <ClCompile Include="j1Timer.cpp" />
+    <ClCompile Include="j1UIScene.cpp" />
     <ClCompile Include="p2Log.cpp" />
     <ClCompile Include="j1Render.cpp" />
     <ClCompile Include="j1Textures.cpp" />
     <ClCompile Include="j1Window.cpp" />
     <ClCompile Include="PugiXml\src\pugixml.cpp" />
+    <ClCompile Include="UI_Image.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GUIbutton.h" />
-    <ClInclude Include="GUIimage.h" />
-    <ClInclude Include="GUIinputBox.h" />
-    <ClInclude Include="GUIlabel.h" />
-    <ClInclude Include="GUIscrollBar.h" />
     <ClInclude Include="j1Alien.h" />
     <ClInclude Include="j1Chicken.h" />
     <ClInclude Include="j1Entity.h" />
@@ -121,13 +112,13 @@
     <ClInclude Include="j1Collisions.h" />
     <ClInclude Include="j1Fonts.h" />
     <ClInclude Include="j1Gui.h" />
-    <ClInclude Include="j1GUIelement.h" />
     <ClInclude Include="j1Map.h" />
     <ClInclude Include="j1Pathfinding.h" />
     <ClInclude Include="j1PerfTimer.h" />
     <ClInclude Include="j1Player.h" />
     <ClInclude Include="j1Scene.h" />
     <ClInclude Include="j1Timer.h" />
+    <ClInclude Include="j1UIScene.h" />
     <ClInclude Include="p2DynArray.h" />
     <ClInclude Include="j1Audio.h" />
     <ClInclude Include="j1Input.h" />
@@ -143,6 +134,8 @@
     <ClInclude Include="p2SString.h" />
     <ClInclude Include="PugiXml\src\pugiconfig.hpp" />
     <ClInclude Include="PugiXml\src\pugixml.hpp" />
+    <ClInclude Include="UI_element.h" />
+    <ClInclude Include="UI_Image.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
