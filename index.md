@@ -9,6 +9,8 @@ The title of this game talks about the objective of the character that you contr
 ![](https://youtu.be/aP_xjn812y0)
 ## Team Members
 
+  <p> <iframe width="560" height="315" src="https://www.youtube.com/embed/DJfg39WkMvE" frameborder="0" allow="accelerometer; autoplay;
+ encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> </p>
 ![](https://github.com/FranGV98/Game-Dev---Platformer-2.0/blob/master/WebFiles/TeamPic.png?raw=true)
 
 **Aitor Luque**
