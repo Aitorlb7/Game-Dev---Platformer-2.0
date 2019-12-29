@@ -13,6 +13,10 @@ The title of this game talks about the objective of the character that you contr
 ![](https://github.com/FranGV98/Game-Dev---Platformer-2.0/blob/master/WebFiles/TeamPic.png?raw=true)
 
 **Aitor Luque**
+- Main programer
+- Core structure of entity and UI systems
+- Player and other modules logic
+- Support designer
 
 - Github: [Aitorlb7](https://github.com/Aitorlb7)
 - Contact: aitor97alb@gmail.com
