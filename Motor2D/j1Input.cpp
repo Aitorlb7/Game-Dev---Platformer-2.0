@@ -126,46 +126,6 @@ bool j1Input::PreUpdate()
 				mouse_y = event.motion.y / scale;
 				//LOG("Mouse motion x %d y %d", mouse_motion_x, mouse_motion_y);
 			break;
-
-			//// CURSOR TEXTING
-			//case SDL_TEXTINPUT:
-			//	
-			//	if (cursor_pos != 0)
-			//	{
-			//		text.insert(event.text.text, cursor_pos);
-			//	}
-			//	else
-			//	{
-			//		text+=event.text.text;				
-			//	}
-
-			//	break;
-
-			//case SDL_KEYDOWN:
-
-			//	if (text_input) 
-			//	{
-			//		if (event.key.keysym.sym == SDLK_BACKSPACE && text.Length() > 0) 
-			//		{
-			//			text.Cut(text.Length() - cursor_pos - 1, text.Length()-cursor_pos);
-			//		}
-			//		if (event.key.keysym.sym == SDLK_LEFT && text.Length() > 0 && cursor_pos < text.Length()) 
-			//		{
-			//			cursor_pos++;
-			//		}
-			//		if (event.key.keysym.sym == SDLK_RIGHT && text.Length() > 0 && cursor_pos > 0) 
-			//		{
-			//			cursor_pos--;
-			//		}
-			//		if (event.key.keysym.sym == SDLK_RETURN) 
-			//		{
-			//			cursor_pos = 0;
-			//			final_text = text;
-			//			text.Clear();					
-			//		}
-			//	}				
-
-			//	break;
 		}
 	}
 
@@ -197,49 +157,3 @@ void j1Input::GetMouseMotion(int& x, int& y)
 	x = mouse_motion_x;
 	y = mouse_motion_y;
 }
-
-////TEXT
-//int j1Input::GetCursorPosition() 
-//{
-//
-//	int width = 0;
-//	int height = 0;
-//
-//	App->font->CalcSize(GetModifiedString().GetString(), width, height);
-//
-//	return width;
-//}
-//
-//void j1Input::EnableTextInput()
-//{
-//	SDL_StartTextInput();
-//	text_input = true;
-//}
-//
-//void j1Input::DisableTextInput() 
-//{
-//
-//	SDL_StopTextInput();
-//	text_input = false;
-//}
-//
-//p2SString j1Input::GetText()
-//{
-//	return text;
-//}
-//
-//p2SString j1Input::GetModifiedString()
-//{
-//	if (cursor_pos != 0) {
-//
-//		p2SString new_text(text.GetString());
-//		new_text.Cut(text.Length() - cursor_pos);
-//		LOG("%s", new_text.GetString());
-//		return new_text;
-//	}
-//
-//	else
-//	{
-//		return text;
-//	}
-//}

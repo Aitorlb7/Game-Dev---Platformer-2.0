@@ -4,13 +4,15 @@
 #include "j1Module.h"
 #include "p2List.h"
 
-#define OFFSET_TO_CENTER 450
+#define OFFSET_TO_CENTER 400
 
 class Button;
 class UI_element;
 
 enum menu_id
 {
+	NO_MENU,
+
 	START_MENU,
 	SETTINGS_MENU,
 	INGAME_MENU,
@@ -80,7 +82,7 @@ public:
 	settings_values newValues;
 	settings_values defaultValues;
 
-	Button* continueButton = nullptr;
+	p2SString			menu_music[1];
 };
 
 #endif // !__j1UISCENE_H__

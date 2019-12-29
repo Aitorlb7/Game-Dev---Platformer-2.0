@@ -45,7 +45,7 @@ bool j1Gui::Start()
 	UI_scale = App->win->GetScale();
 	UI_scale = 1 / UI_scale;
 
-	//click_fx = App->audio->LoadFx("");
+	click_fx = App->audio->LoadFx("audio/fx/button");
 
 	return true;
 }
@@ -101,6 +101,8 @@ bool j1Gui::PreUpdate()
 			{
 				ret = element->callback->UIEvent(element, MOUSE_LEFT_CLICK);
 			}
+			if (element->element_type == BUTTON )
+				App->audio->PlayFx(click_fx, 0);
 
 			if (element->dragable)
 			{
@@ -253,6 +255,35 @@ Button* j1Gui::createButton(int x, int y, SDL_Texture* texture, SDL_Rect standby
 
 	return ret;
 }
+
+Slider* j1Gui::createSlider(int x, int y, SDL_Texture* texture, SDL_Rect empty, SDL_Rect full, Button* button, _TTF_Font* text_font, SDL_Color text_color, float default_progress, j1Module* callback, char* text)
+{
+	SDL_Texture* usingTexture = (texture) ? texture : atlas;
+
+	Slider* ret = new Slider(x, y, usingTexture, empty, full, default_progress, callback);
+	ret->solid = false;
+
+	if (full.w > full.h)
+	{
+		button->setDragable(true, false);
+		button->setLimits(empty.w / (2 / UI_scale), empty.w / (2 / UI_scale), -1, -1);
+	}
+	else
+	{
+		button->setDragable(false, true);
+		button->setLimits(-1, -1, empty.h / (2 / UI_scale), empty.h / (2 / UI_scale));
+	}
+
+	ret->appendChild(((empty.w * UI_scale) - 5 - button->section.w / (2 / UI_scale)) * default_progress, y, button);
+	button->setOriginalPos(((empty.w * UI_scale) - 7 - button->section.w / (2 / UI_scale)) * 0.5f, y);
+
+	ret->appendChild(x, y, createText(text, x, y, text_font, text_color));
+
+	UI_elements.add(ret);
+
+	return ret;
+}
+
 
 
 

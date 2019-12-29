@@ -12,6 +12,7 @@
 #include "j1Collisions.h"
 #include "j1GUI.h"
 #include "j1Fonts.h"
+#include "j1UIScene.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -89,9 +90,12 @@ bool j1Scene::Update(float dt)
 // Called each loop iteration
 bool j1Scene::PostUpdate()
 {
-	
-	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		ret = false;
+
+	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+	{
+		App->pause = true;
+		App->ui_scene->loadMenu(INGAME_MENU);
+	}
 
 	return ret;
 }
