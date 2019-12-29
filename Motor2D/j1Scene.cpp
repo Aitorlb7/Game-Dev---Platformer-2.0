@@ -10,6 +10,8 @@
 #include "j1Scene.h"
 #include "j1FadeToBlack.h"
 #include "j1Collisions.h"
+#include "j1GUI.h"
+#include "j1Fonts.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -36,6 +38,8 @@ bool j1Scene::Start()
 {
 	App->map->Load("Level1.tmx");
 	App->audio->PlayMusic(soundtrack[0].GetString(), -1);
+
+	
 	return true;
 }
 

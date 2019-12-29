@@ -264,6 +264,24 @@ public:
 			str[i] = start[i];
 	}
 
+	void insert(char* text, uint position = 0)
+	{
+		uint new_size = strlen(text) + Length() + 1;
+
+		if (new_size > size)
+		{
+			char* tmp = str;
+			Alloc(new_size);
+			strcpy_s(str, size, tmp);
+			delete[] tmp;
+		}
+
+		p2SString new_text(&str[Length() - position]);
+		this->Cut(Length() - position);
+		this->operator+=(text);
+		this->operator+=(new_text.GetString());
+	}
+
 	uint Substitute(const char* src, const char *dst)
 	{
 		assert(src);
