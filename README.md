@@ -1,19 +1,5 @@
 # Game-Dev---Platformer-2.0
  
-## Team Members
-
-**Aitor Luque**
-- Github: [Aitorlb7](https://github.com/Aitorlb7)
-- Contact: aitor97alb@gmail.com
-
-**Fran Guerrero**
-- Github: [FranGV98](https://github.com/FranGV98)
-- Contact: franguerreroo98@gmail.com
-
-## Innovation mechanics
-- Super jump combo
-- Dash
-
 ## Controls
 
 - A/D: Forward/Backward
@@ -30,6 +16,30 @@
 - F6 Load the previous state (even across levels)
 - F9 To view colliders / logic
 - F10 God Mode (fly around, cannot be killed)
+
+## Innovation mechanics
+- Super jump combo
+- Dash
+
+## Team Members
+
+**Aitor Luque**
+- Github: [Aitorlb7](https://github.com/Aitorlb7)
+- Contact: aitor97alb@gmail.com
+
+**Fran Guerrero**
+- Github: [FranGV98](https://github.com/FranGV98)
+- Contact: franguerreroo98@gmail.com
+
+## Work Done
+
+**Aitor Luque**
+- GUI
+- All UI elements (Buttons, text, images...)
+- UI scene
+- Bug fixing
+
+
 
 **REPOSITORY:**
 https://github.com/Aitorlb7/Game-Dev---Platformer-2.0
