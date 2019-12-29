@@ -185,11 +185,11 @@ bool j1UIScene::Start()
 	}
 	menu* inGameMenu = new menu(INGAME_MENU);
 	{
-		UI_element* window = App->gui->createWindow(150 * App->gui->UI_scale, 60 * App->gui->UI_scale, App->tex->Load("gui/credits.png"), { 0,0,418,398 }, this);
+		UI_element* window = App->gui->createWindow(150 * App->gui->UI_scale, 60 * App->gui->UI_scale, App->tex->Load("gui/menuwindow.png"), { 0,0,418,398 }, this);
 		
 		//CONTINUE
 		UI_element* continue_button = App->gui->createButton(0, 0, NULL, { 4,167,146,55 }, { 151,167,146,55 }, { 300,167,146,55 }, this);
-		window->appendChild(100 * App->gui->UI_scale, 100 * App->gui->UI_scale, continue_button);
+		window->appendChild(350 * App->gui->UI_scale, 300 * App->gui->UI_scale, continue_button);
 		continue_button->function = CONTINUE;
 
 		UI_element* continue_text = App->gui->createText("  CONTINUE", 200, 200, buttons_font, dark_green);
@@ -198,17 +198,28 @@ bool j1UIScene::Start()
 
 		//HOME
 		UI_element* home_button = App->gui->createButton(0, 0, NULL, { 4,167,146,55 }, { 151,167,146,55 }, { 300,167,146,55 }, this);
-		window->appendChild(100 * App->gui->UI_scale, 100 * App->gui->UI_scale, home_button);
+		window->appendChild(70 * App->gui->UI_scale, 300 * App->gui->UI_scale, home_button);
 		home_button->function = HOME;
 
 		UI_element* home_text = App->gui->createText("  HOME", 200, 200, buttons_font, dark_green);
-		continue_text->setOutlined(true);
+		home_text->setOutlined(true);
 		home_button->appendChildAtCenter(home_text);
+
+		//SETTINGS
+		UI_element* settings_button = App->gui->createButton(0, 0, NULL, { 4,167,146,55 }, { 151,167,146,55 }, { 300,167,146,55 }, this);
+		window->appendChild(220 * App->gui->UI_scale, 170 * App->gui->UI_scale, settings_button);
+		settings_button->function = SETTINGS;
+
+		UI_element* settings_text = App->gui->createText("  SETTINGS", 200, 200, buttons_font, dark_green);
+		settings_text->setOutlined(true);
+		settings_button->appendChildAtCenter(settings_text);
 
 		inGameMenu->elements.add(window);
 		inGameMenu->elements.add(continue_button);
 		inGameMenu->elements.add(continue_text);
 		inGameMenu->elements.add(home_button);
+		inGameMenu->elements.add(settings_button);
+		inGameMenu->elements.add(settings_text);
 
 		menus.add(inGameMenu);
 
@@ -296,7 +307,6 @@ bool j1UIScene::UIEvent(UI_element* element, event_type event_type)
 		case CONTINUE:
 			App->pause = false;
 			loadMenu(NO_MENU);
-			App->LoadGame("save_game.xml");
 			break;
 		case SETTINGS:
 			App->pause = true;

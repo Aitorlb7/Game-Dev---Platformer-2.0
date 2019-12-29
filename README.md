@@ -17,9 +17,10 @@
 ## Controls
 
 - A/D: Forward/Backward
-- F: Dash
+- L: Dash
 - S: Crouch (If you crouch and then you press SPACE, the character jumps higher)
 - SPACE: Jump
+- Q: Attack
 
 ### Debug
 
