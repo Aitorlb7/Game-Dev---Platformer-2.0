@@ -1,5 +1,4 @@
-<html>
-  <title>
+
 # Deaf Dog
  
 ## Intro
@@ -43,6 +42,3 @@ Supporter programmer and
 
 **REPOSITORY:**
 https://github.com/Aitorlb7/Game-Dev---Platformer-2.0
-
-  </title>
-</html>
