@@ -90,6 +90,7 @@ private:
 	bool		text_input = false;
 
 	int			cursor_pos = 0;
+	int			scale;
 };
 
 #endif // __j1INPUT_H__

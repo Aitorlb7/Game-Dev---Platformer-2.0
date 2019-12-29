@@ -118,7 +118,7 @@ bool j1Input::PreUpdate()
 			break;
 
 			case SDL_MOUSEMOTION:
-				int scale = App->win->GetScale();
+				scale = App->win->GetScale();
 				mouse_motion_x = event.motion.xrel / scale;
 				mouse_motion_y = event.motion.yrel / scale;
 				mouse_x = event.motion.x / scale;
@@ -130,9 +130,13 @@ bool j1Input::PreUpdate()
 			case SDL_TEXTINPUT:
 				
 				if (cursor_pos != 0)
+				{
 					text.insert(event.text.text, cursor_pos);
+				}
 				else
+				{
 					text+=event.text.text;				
+				}
 
 				break;
 
@@ -140,16 +144,20 @@ bool j1Input::PreUpdate()
 
 				if (text_input) 
 				{
-					if (event.key.keysym.sym == SDLK_BACKSPACE && text.Length() > 0) {
+					if (event.key.keysym.sym == SDLK_BACKSPACE && text.Length() > 0) 
+					{
 						text.Cut(text.Length() - cursor_pos - 1, text.Length()-cursor_pos);
 					}
-					if (event.key.keysym.sym == SDLK_LEFT && text.Length() > 0 && cursor_pos < text.Length()) {
+					if (event.key.keysym.sym == SDLK_LEFT && text.Length() > 0 && cursor_pos < text.Length()) 
+					{
 						cursor_pos++;
 					}
-					if (event.key.keysym.sym == SDLK_RIGHT && text.Length() > 0 && cursor_pos > 0) {
+					if (event.key.keysym.sym == SDLK_RIGHT && text.Length() > 0 && cursor_pos > 0) 
+					{
 						cursor_pos--;
 					}
-					if (event.key.keysym.sym == SDLK_RETURN) {
+					if (event.key.keysym.sym == SDLK_RETURN) 
+					{
 						cursor_pos = 0;
 						final_text = text;
 						text.Clear();					
