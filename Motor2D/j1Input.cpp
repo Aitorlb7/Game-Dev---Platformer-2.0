@@ -198,27 +198,37 @@ void j1Input::GetMouseMotion(int& x, int& y)
 }
 
 //TEXT
+int j1Input::GetCursorPosition() 
+{
+
+	int width = 0;
+	int height = 0;
+
+	App->font->CalcSize(GetModifiedString().GetString(), width, height);
+
+	return width;
+}
+
 void j1Input::EnableTextInput()
 {
 	SDL_StartTextInput();
 	text_input = true;
 }
 
-void j1Input::DisableTextInput() {
+void j1Input::DisableTextInput() 
+{
 
 	SDL_StopTextInput();
 	text_input = false;
 }
 
-p2SString j1Input::GetText() {
-
-
+p2SString j1Input::GetText()
+{
 	return text;
 }
 
 p2SString j1Input::GetModifiedString()
 {
-
 	if (cursor_pos != 0) {
 
 		p2SString new_text(text.GetString());
@@ -228,5 +238,7 @@ p2SString j1Input::GetModifiedString()
 	}
 
 	else
+	{
 		return text;
+	}
 }

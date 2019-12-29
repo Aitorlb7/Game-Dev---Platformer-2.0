@@ -16,7 +16,6 @@ j1GUIelement::~j1GUIelement()
 
 bool j1GUIelement::Start()
 {
-	
 
 	return true;
 }
@@ -35,9 +34,9 @@ void j1GUIelement::Draw()
 		SDL_SetTextureAlphaMod(texture, 255);
 	}
 
-	App->render->Blit(texture, globalPosition.x, globalPosition.y, &rect, 0.0f, 0.0f);
+	App->render->Blit(texture, globalPosition.x, globalPosition.y, &rect);
 
-	App->render->DrawQuad({ globalPosition.x, globalPosition.y, rect.w, rect.h }, 0, 255, 255, 255, false, false, true);
+	App->render->DrawQuad({ globalPosition.x, globalPosition.y, rect.w, rect.h }, 0, 255, 255, 255, false, true);
 }
 
 
@@ -60,10 +59,10 @@ bool j1GUIelement::OnAbove()
 void j1GUIelement::OnClick()
 {
 
-	if (listener != nullptr) 
+/*	if (listener != nullptr) 
 	{
 		this->listener->GuiObserver(GUI_Event::EVENT_ONCLICK, this);
-	}		
+	}	*/	
 
 }
 

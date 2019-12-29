@@ -23,7 +23,7 @@ bool GUIlabel::Awake(pugi::xml_node&)
 
 bool GUIlabel::Start()
 {	
-	texture = App->fonts->Print(text);
+	texture = App->font->Print(text);
 	return true;
 }
 
@@ -31,21 +31,23 @@ bool GUIlabel::Start()
 bool GUIlabel::PreUpdate() 
 {
 	CleanUp();
-	App->fonts->CalcSize(App->input->GetText().GetString(), rect.w, rect.h);
+	App->font->CalcSize(App->input->GetText().GetString(), rect.w, rect.h);
 	return true;
 }
 
 bool GUIlabel::Update(float dt) 
 {	
 	
-	texture = App->fonts->Print(text);
+	texture = App->font->Print(text);
 	return true;
 }
 
 bool GUIlabel::PostUpdate()
 {		
-	if (enabled) 			
-		App->render->Blit(texture, globalPosition.x + localPosition.x, globalPosition.y + localPosition.y, nullptr, 0.0f);
+	if (enabled)
+	{
+		App->render->Blit(texture, globalPosition.x + localPosition.x, globalPosition.y + localPosition.y, nullptr);
+	}
 			
 
 	return true;

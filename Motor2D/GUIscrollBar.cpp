@@ -10,7 +10,8 @@ GUIscrollBar::GUIscrollBar() {
 	this->type = GUItype::GUI_SCROLLBAR;	
 }
 
-GUIscrollBar::~GUIscrollBar() {
+GUIscrollBar::~GUIscrollBar() 
+{
 
 }
 
@@ -28,7 +29,7 @@ bool GUIscrollBar::Start()
 	scrollButton->globalPosition.y = globalPosition.y - scrollButton->rect.h / 2 + this->rect.h / 2;
 	value = 0;
 
-	texture = App->gui->GetAtlasTexture();
+	texture = App->gui->GetAtlas();
 	return true;
 }
 

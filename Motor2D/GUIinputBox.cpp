@@ -38,7 +38,7 @@ bool GUIinputBox::PreUpdate()
 	{
 		App->input->EnableTextInput();		
 		App->tex->UnLoad(string->texture);
-		string->texture = App->fonts->Print(App->input->GetText().GetString());
+		string->texture = App->font->Print(App->input->GetText().GetString());
 	}
 
 	else if (!focus || !enabled)
@@ -68,7 +68,8 @@ bool GUIinputBox::Update(float dt)
 
 bool GUIinputBox::PostUpdate()
 {	
-	if (enabled) {
+	if (enabled) 
+	{
 		Draw();
 
 		//Draws the cursor(rectangle) -------------
