@@ -11,6 +11,9 @@
 
 class j1App;
 class Collider;
+//For UI event
+class UI_element;
+enum event_type;
 
 class j1Module
 {
@@ -70,11 +73,17 @@ public:
 		return true;
 	}
 
+	virtual bool UIEvent(UI_element* element, event_type event_type)
+	{
+		return true;
+	}
+
 	virtual void Entity_OnCollision(Collider* C1, Collider* C2) {}
 public:
 
 	p2SString	name;
 	bool		active;
+	bool		canPause = true;
 
 };
 

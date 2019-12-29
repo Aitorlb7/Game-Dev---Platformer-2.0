@@ -103,3 +103,13 @@ bool j1Fonts::CalcSize(const char* text, int& width, int& height, _TTF_Font* fon
 
 	return ret;
 }
+
+void j1Fonts::setFontStyle(_TTF_Font* font, int style)
+{
+	TTF_SetFontStyle(font, style);
+}
+
+void j1Fonts::setFontOutline(_TTF_Font* font, int outline)
+{
+	TTF_SetFontOutline(font, outline);
+}

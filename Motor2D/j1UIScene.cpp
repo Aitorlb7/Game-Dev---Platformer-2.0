@@ -8,6 +8,13 @@
 #include "j1EntityManager.h"
 #include "j1Audio.h"
 #include "j1Window.h"
+#include "j1App.h"
+
+#include "UI_Button.h"
+#include "UI_Image.h"
+#include "UI_Slider.h"
+#include "UI_Text.h"
+#include "UI_Window.h"
 
 #include "p2Log.h"
 #include "j1Player.h"
@@ -15,6 +22,7 @@
 j1UIScene::j1UIScene()
 {
 	name.create("UIScene");
+	canPause = false;
 }
 
 j1UIScene::~j1UIScene()
@@ -28,7 +36,79 @@ bool j1UIScene::Awake()
 
 bool j1UIScene::Start()
 {
-	
+	_TTF_Font* buttons_font = App->font->Load("fonts/mini_pixel/mini_pixel-7.ttf", 30);
+
+	SDL_Color dark_green = { 0, 51, 0, 255 };
+
+	float music_progress = (float)App->audio->getMusicVolume() / 128;
+	float fx_progress = (float)App->audio->getFxVolume() / 128;
+
+	menu* startMenu = new menu(START_MENU);
+	{
+		App->pause = true;
+
+		//TITLE
+		UI_element* title_img = App->gui->createImageFromAtlas(App->gui->UI_scale,App->gui->UI_scale, { 30,30,30,30 }, this);
+
+		//NEW GAME
+		UI_element* new_game = App->gui->createButton(App->gui->UI_scale, App->gui->UI_scale, NULL, { 30,30,30,30 }, { 30,30,30,30 }, { 30,30,30,30 }, this);
+		new_game->function = NEW_GAME;
+
+		UI_element* new_text = App->gui->createText("NEW GAME", 200, 200, buttons_font, dark_green);
+		new_text->setOutlined(true);
+		new_game->appendChildAtCenter(new_text);
+
+		//CONTINUE GAME
+		continueButton = App->gui->createButton(App->gui->UI_scale, App->gui->UI_scale, NULL, { 30,30,30,30 }, { 30,30,30,30 }, { 30,30,30,30 }, this);
+		continueButton->function = CONTINUE;
+
+		UI_element* continue_text = App->gui->createText("CONTINUE", 200, 200, buttons_font, dark_green);
+		continue_text->setOutlined(true);
+		continueButton->appendChildAtCenter(continue_text);
+
+		//EXIT GAME
+		UI_element* exit_game = App->gui->createButton( App->gui->UI_scale,App->gui->UI_scale, NULL, { 30,30,30,30 }, { 230,30,30,30 }, { 30,30,30,30 }, this);
+		exit_game->function = EXIT;
+
+		UI_element* exit_text = App->gui->createText("EXIT", 200, 200, buttons_font, dark_green);
+		exit_text->setOutlined(true);
+		exit_game->appendChildAtCenter(exit_text);
+
+		//CREDITS
+		UI_element* credits = App->gui->createButton(App->gui->UI_scale,App->gui->UI_scale, NULL, { 30,30,30,30 }, { 30,30,30,30 }, { 30,30,30,30 }, this);
+		credits->function = CREDITS;
+
+		UI_element* credits_text = App->gui->createText("CREDITS", 200, 200, buttons_font, dark_green);
+		credits_text->setOutlined(true);
+		credits->appendChildAtCenter(credits_text);
+
+		//SETTINGS
+		UI_element* settings_start_menu = App->gui->createButton(App->gui->UI_scale,App->gui->UI_scale, NULL, { 30,30,30,30 }, { 30,30,30,30 }, { 30,30,30,30 }, this);
+		settings_start_menu->function = SETTINGS;
+
+		UI_element* settings_text = App->gui->createText("SETTINGS", 200, 200, buttons_font, dark_green);
+		settings_text->setOutlined(true);
+		settings_start_menu->appendChildAtCenter(settings_text);
+
+		startMenu->elements.add(title_img);
+		startMenu->elements.add(new_game);
+		startMenu->elements.add(new_text);
+		startMenu->elements.add(continueButton);
+		startMenu->elements.add(continue_text);
+		startMenu->elements.add(exit_game);
+		startMenu->elements.add(exit_text);
+		startMenu->elements.add(credits);
+		startMenu->elements.add(credits_text);
+		startMenu->elements.add(settings_start_menu);
+		startMenu->elements.add(settings_text);
+		menus.add(startMenu);
+	}
+
+	current_menu = startMenu;
+
+	defaultValues.fx = fx_progress;
+	defaultValues.music = music_progress;
+	newValues = defaultValues;
 	return true;
 }
 
@@ -48,7 +128,7 @@ bool j1UIScene::PostUpdate(float dt)
 	return true;
 }
 
-bool j1UIScene::OnUIEvent(UI_element* element, event_type event_type)
+bool j1UIScene::UIEvent(UI_element* element, event_type event_type)
 {
 	bool ret = true;
 
@@ -91,10 +171,10 @@ bool j1UIScene::OnUIEvent(UI_element* element, event_type event_type)
 			ret = false;
 			break;
 		case PAUSE:
-			
+
 			break;
 		case APPLY:
-	
+
 			break;
 		case CANCEL:
 
@@ -108,9 +188,12 @@ bool j1UIScene::OnUIEvent(UI_element* element, event_type event_type)
 		case HOME:
 
 			break;
-		case WEB:
 
+		case WEB:
+			App->RequestBrowser("https://frangv98.github.io/Game-Dev---Platformer-2.0/");
 		}
+		
+		
 	}
 	else if (event_type == MOUSE_LEFT_RELEASE)
 	{
