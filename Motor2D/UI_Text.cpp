@@ -75,9 +75,9 @@ void Text::BlitElement()
 		if (outlined)
 		{
 			SDL_SetTextureAlphaMod(outline, App->gui->alpha_value);
-			App->render->Blit(outline, globalPos.x + outline_offset.x, globalPos.y + outline_offset.y, NULL, SDL_FLIP_NONE, App->gui->UI_scale);
+			App->render->Blit(outline, globalPos.x + outline_offset.x, globalPos.y + outline_offset.y, NULL, SDL_FLIP_NONE, false, App->gui->UI_scale, 1, false);
 		}
-		App->render->Blit(texture, globalPos.x, globalPos.y, NULL, SDL_FLIP_NONE, App->gui->UI_scale);
+		App->render->Blit(texture, globalPos.x, globalPos.y, NULL, SDL_FLIP_NONE, false, App->gui->UI_scale, 1, false);
 	}
 }
 

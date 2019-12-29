@@ -31,7 +31,7 @@ void Slider::BlitElement()
 	BROFILER_CATEGORY("Slider Blit", Profiler::Color::LemonChiffon);
 
 	iPoint globalPos = calculateAbsolutePosition();
-	App->render->Blit(texture, globalPos.x, globalPos.y, &section, SDL_FLIP_NONE, App->gui->UI_scale);
+	App->render->Blit(texture, globalPos.x, globalPos.y, &section, SDL_FLIP_NONE, false, App->gui->UI_scale, 1, false);
 
 	button->localPosition.y = -2;
 
@@ -45,7 +45,7 @@ void Slider::BlitElement()
 	else if (progress > 1)
 		progress = 1;
 	full.w = ((bar_length)* progress);
-	App->render->Blit(texture, globalPos.x, globalPos.y, &full, SDL_FLIP_NONE, App->gui->UI_scale);
+	App->render->Blit(texture, globalPos.x, globalPos.y, &full, SDL_FLIP_NONE, false, App->gui->UI_scale, 1, false);
 
 	button->BlitElement();
 	progress_num->BlitElement();

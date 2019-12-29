@@ -74,7 +74,7 @@ bool j1UIScene::Start()
 		UI_element* exit_game = App->gui->createButton(OFFSET_TO_CENTER *App->gui->UI_scale, 550 * App->gui->UI_scale, NULL, { 4,167,146,55 }, { 151,167,146,55 }, { 300,167,146,55 }, this);
 		exit_game->function = EXIT;
 
-		UI_element* exit_text = App->gui->createText("   EXIT", 200, 200, buttons_font, dark_green);
+		UI_element* exit_text = App->gui->createText("  EXIT", 200, 200, buttons_font, dark_green);
 		exit_text->setOutlined(true);
 		exit_game->appendChildAtCenter(exit_text);
 
@@ -115,33 +115,33 @@ bool j1UIScene::Start()
 	menu* settingstMenu = new menu(SETTINGS_MENU);
 	{
 
-		UI_element* settings_window = App->gui->createWindow(150 * App->gui->UI_scale, 60 * App->gui->UI_scale, App->tex->Load("gui/menuwindow.png"), { 0,0,418,398 }, this);
+		UI_element* settings_window = App->gui->createWindow(320 * App->gui->UI_scale, 120 * App->gui->UI_scale, App->tex->Load("gui/menuwindow.png"), { 0,0,418,398 }, this);
 
 		//MUSIC TEXT
 		UI_element* music_txt = App->gui->createText("MUSIC", 0, 0, text_font, dark_green, this);
 		music_txt->setOutlined(true);
-		settings_window->appendChild(55 * App->gui->UI_scale, 90 * App->gui->UI_scale, music_txt);
+		settings_window->appendChild(50 * App->gui->UI_scale, 50 * App->gui->UI_scale, music_txt);
 
 		//FX TEXT
 		UI_element* fx_txt = App->gui->createText("FX", 0, 0, text_font, dark_green, this);
 		fx_txt->setOutlined(true);
-		settings_window->appendChild(55 * App->gui->UI_scale, 180 * App->gui->UI_scale, fx_txt);
+		settings_window->appendChild(50 * App->gui->UI_scale, 100 * App->gui->UI_scale, fx_txt);
 
 		//MUSIC SLIDER
 		Button* slider_button = App->gui->createButton(0, 0, NULL, { 1,247,25,38 }, { 27,247,25,38 }, { 27,247,25,38 }, this);
 		Slider* slider = App->gui->createSlider(0, 0, NULL, { 1,235, 275,12 }, { 1,223, 275,12 }, slider_button, text_font, dark_green, music_progress);
 		slider->modify = MUSIC;
-		settings_window->appendChild(180 * App->gui->UI_scale, 100 * App->gui->UI_scale, slider);
+		settings_window->appendChild(100 * App->gui->UI_scale, 55 * App->gui->UI_scale, slider);
 
 		//FX SLIDER
 		Button* fx_slider_button = App->gui->createButton(0, 0, NULL, { 1,247,25,38 }, { 27,247,25,38 }, { 27,247,25,38 }, this);
 		Slider* fx_slider = App->gui->createSlider(0, 0, NULL, { 1,235, 275,12 }, { 1,223, 275,12 }, fx_slider_button, text_font, dark_green, fx_progress);
 		fx_slider->modify = FX;
-		settings_window->appendChild(180 * App->gui->UI_scale, 190 * App->gui->UI_scale, fx_slider);
+		settings_window->appendChild(100 * App->gui->UI_scale, 105 * App->gui->UI_scale, fx_slider);
 
 		//APPLY BUTTON
 		UI_element* apply_button = App->gui->createButton(0, 0, NULL, { 4,167,146,55 }, { 151,167,146,55 }, { 300,167,146,55 }, this);
-		settings_window->appendChild(230 * App->gui->UI_scale, 350 * App->gui->UI_scale, apply_button);
+		settings_window->appendChild(130 * App->gui->UI_scale, 210 * App->gui->UI_scale, apply_button);
 		apply_button->function = APPLY;
 
 		UI_element* apply_text = App->gui->createText("  APPLY", 200, 200, buttons_font, dark_green);
@@ -150,7 +150,7 @@ bool j1UIScene::Start()
 
 		//CANCEL BUTTON
 		UI_element* cancel_button = App->gui->createButton(0,0, NULL, { 4,167,146,55 }, { 151,167,146,55 }, { 300,167,146,55 }, this);
-		settings_window->appendChild(360 * App->gui->UI_scale, 470 * App->gui->UI_scale, cancel_button);
+		settings_window->appendChild(230 * App->gui->UI_scale, 300 * App->gui->UI_scale, cancel_button);
 		cancel_button->function = CANCEL;
 
 		UI_element* cancel_text = App->gui->createText("  CANCEL", 200, 200, buttons_font, dark_green);
@@ -159,7 +159,7 @@ bool j1UIScene::Start()
 
 		//RESTORE BUTTON
 		UI_element* restore_button = App->gui->createButton(0, 0, NULL, { 4,167,146,55 }, { 151,167,146,55 }, { 300,167,146,55 }, this);
-		settings_window->appendChild(100 * App->gui->UI_scale, 470 * App->gui->UI_scale, restore_button);
+		settings_window->appendChild(50 * App->gui->UI_scale, 300 * App->gui->UI_scale, restore_button);
 		restore_button->function = RESTORE;
 
 		UI_element* restore_text = App->gui->createText("  RESTORE", 200, 200, buttons_font, dark_green);
@@ -185,11 +185,11 @@ bool j1UIScene::Start()
 	}
 	menu* inGameMenu = new menu(INGAME_MENU);
 	{
-		UI_element* window = App->gui->createWindow(150 * App->gui->UI_scale, 60 * App->gui->UI_scale, App->tex->Load("gui/menuwindow.png"), { 0,0,418,398 }, this);
+		UI_element* window = App->gui->createWindow(320 * App->gui->UI_scale, 120 * App->gui->UI_scale, App->tex->Load("gui/menuwindow.png"), { 0,0,418,398 }, this);
 		
 		//CONTINUE
 		UI_element* continue_button = App->gui->createButton(0, 0, NULL, { 4,167,146,55 }, { 151,167,146,55 }, { 300,167,146,55 }, this);
-		window->appendChild(350 * App->gui->UI_scale, 300 * App->gui->UI_scale, continue_button);
+		window->appendChild(230 * App->gui->UI_scale, 260 * App->gui->UI_scale, continue_button);
 		continue_button->function = CONTINUE;
 
 		UI_element* continue_text = App->gui->createText("  CONTINUE", 200, 200, buttons_font, dark_green);
@@ -198,7 +198,7 @@ bool j1UIScene::Start()
 
 		//HOME
 		UI_element* home_button = App->gui->createButton(0, 0, NULL, { 4,167,146,55 }, { 151,167,146,55 }, { 300,167,146,55 }, this);
-		window->appendChild(70 * App->gui->UI_scale, 300 * App->gui->UI_scale, home_button);
+		window->appendChild(50 * App->gui->UI_scale, 260 * App->gui->UI_scale, home_button);
 		home_button->function = HOME;
 
 		UI_element* home_text = App->gui->createText("  HOME", 200, 200, buttons_font, dark_green);
@@ -207,7 +207,7 @@ bool j1UIScene::Start()
 
 		//SETTINGS
 		UI_element* settings_button = App->gui->createButton(0, 0, NULL, { 4,167,146,55 }, { 151,167,146,55 }, { 300,167,146,55 }, this);
-		window->appendChild(220 * App->gui->UI_scale, 170 * App->gui->UI_scale, settings_button);
+		window->appendChild(130 * App->gui->UI_scale, 120 * App->gui->UI_scale, settings_button);
 		settings_button->function = SETTINGS;
 
 		UI_element* settings_text = App->gui->createText("  SETTINGS", 200, 200, buttons_font, dark_green);
@@ -226,12 +226,12 @@ bool j1UIScene::Start()
 	}
 	menu* creditsMenu = new menu(CREDITS_MENU);
 	{
-		UI_element* window = App->gui->createWindow(150 * App->gui->UI_scale, 60 * App->gui->UI_scale, App->tex->Load("gui/credits.png"), { 0,0,418,398 }, this);
+		UI_element* window = App->gui->createWindow(320 * App->gui->UI_scale, 120 * App->gui->UI_scale, App->tex->Load("gui/credits.png"), { 0,0,418,398 }, this);
 		
 		
 		//BACK
 		UI_element* back_button = App->gui->createButton(0, 0, NULL, { 307,31,87,58 }, { 394,31,87,58 }, { 394,31,87,58 }, this);
-		window->appendChild(450 * App->gui->UI_scale, 500 * App->gui->UI_scale, back_button);
+		window->appendChild(230 * App->gui->UI_scale, 310 * App->gui->UI_scale, back_button);
 		back_button->function = BACK;
 
 		UI_element* back_text = App->gui->createText("  BACK", 200, 200, buttons_font, dark_green);
@@ -240,7 +240,7 @@ bool j1UIScene::Start()
 
 		//WEB BUTTON
 		UI_element* web_button = App->gui->createButton(0, 0, NULL, { 4,167,146,55 }, { 151,167,146,55 }, { 300,167,146,55 }, this);
-		window->appendChild(60 * App->gui->UI_scale, 500 * App->gui->UI_scale, web_button);
+		window->appendChild(50 * App->gui->UI_scale, 310 * App->gui->UI_scale, web_button);
 		web_button->function = WEB;
 
 		UI_element* web_text = App->gui->createText("  WEB", 200, 200, buttons_font, dark_green);

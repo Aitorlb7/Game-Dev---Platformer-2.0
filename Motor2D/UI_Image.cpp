@@ -10,5 +10,5 @@ void Image::BlitElement()
 	if (texture != App->gui->GetAtlas())
 		SDL_SetTextureAlphaMod(texture, App->gui->alpha_value);
 	iPoint globalPos = calculateAbsolutePosition();
-	App->render->Blit(texture, globalPos.x, globalPos.y, &section,SDL_FLIP_NONE,App->gui->UI_scale);
+	App->render->Blit(texture, globalPos.x, globalPos.y, &section,SDL_FLIP_NONE, false, App->gui->UI_scale, 1, false);
 }

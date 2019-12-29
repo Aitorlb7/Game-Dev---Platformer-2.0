@@ -36,18 +36,18 @@ void Button::BlitElement()
 	{
 	case STANDBY:
 		if (!active)
-			App->render->Blit(texture, globalPos.x, globalPos.y, &section, SDL_FLIP_NONE, App->gui->UI_scale);
+			App->render->Blit(texture, globalPos.x, globalPos.y, &section, SDL_FLIP_NONE, false , App->gui->UI_scale, 1, false);
 		else
-			App->render->Blit(texture, globalPos.x, globalPos.y, &sectionActive, SDL_FLIP_NONE, App->gui->UI_scale);
+			App->render->Blit(texture, globalPos.x, globalPos.y, &sectionActive, SDL_FLIP_NONE, false, App->gui->UI_scale, 1, false);
 		break;
 	case MOUSEOVER:
 		if (!active)
-			App->render->Blit(texture, globalPos.x, globalPos.y, &OnMouse, SDL_FLIP_NONE, App->gui->UI_scale);
+			App->render->Blit(texture, globalPos.x, globalPos.y, &OnMouse, SDL_FLIP_NONE, false, App->gui->UI_scale, 1, false);
 		else
-			App->render->Blit(texture, globalPos.x, globalPos.y, &OnMouseActive, SDL_FLIP_NONE, App->gui->UI_scale);
+			App->render->Blit(texture, globalPos.x, globalPos.y, &OnMouseActive, SDL_FLIP_NONE, false, App->gui->UI_scale, 1, false);
 		break;
 	case CLICKED:
-		App->render->Blit(texture, globalPos.x, globalPos.y, &OnClick, SDL_FLIP_NONE, App->gui->UI_scale);
+		App->render->Blit(texture, globalPos.x, globalPos.y, &OnClick, SDL_FLIP_NONE, false, App->gui->UI_scale, 1, false);
 		break;
 	}
 
