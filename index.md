@@ -25,8 +25,9 @@ The title of this game talks about the objective of the character that you contr
 ## How to play
 
 - A/D: Forward/Backward
-- F: Dash
+- L: Dash
 - S: Crouch (If you crouch and then you press SPACE, the character jumps higher)
+- Q: Atack
 - SPACE: Jump
 
 **REPOSITORY:**
