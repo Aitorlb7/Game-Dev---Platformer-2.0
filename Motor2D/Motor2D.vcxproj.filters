@@ -53,16 +53,16 @@
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClCompile>
     <ClCompile Include="j1Player.cpp">
-      <Filter>Desenvolupament  ========\Entities</Filter>
+      <Filter>Desenvolupament  ========\Modules\Entities</Filter>
     </ClCompile>
     <ClCompile Include="j1Entity.cpp">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClCompile>
     <ClCompile Include="j1Chicken.cpp">
-      <Filter>Desenvolupament  ========\Entities</Filter>
+      <Filter>Desenvolupament  ========\Modules\Entities</Filter>
     </ClCompile>
     <ClCompile Include="j1Alien.cpp">
-      <Filter>Desenvolupament  ========\Entities</Filter>
+      <Filter>Desenvolupament  ========\Modules\Entities</Filter>
     </ClCompile>
     <ClCompile Include="j1Fonts.cpp">
       <Filter>Desenvolupament  ========\Modules</Filter>
@@ -163,16 +163,16 @@
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClInclude>
     <ClInclude Include="j1Player.h">
-      <Filter>Desenvolupament  ========\Entities</Filter>
+      <Filter>Desenvolupament  ========\Modules\Entities</Filter>
     </ClInclude>
     <ClInclude Include="j1Entity.h">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClInclude>
     <ClInclude Include="j1Chicken.h">
-      <Filter>Desenvolupament  ========\Entities</Filter>
+      <Filter>Desenvolupament  ========\Modules\Entities</Filter>
     </ClInclude>
     <ClInclude Include="j1Alien.h">
-      <Filter>Desenvolupament  ========\Entities</Filter>
+      <Filter>Desenvolupament  ========\Modules\Entities</Filter>
     </ClInclude>
     <ClInclude Include="j1Fonts.h">
       <Filter>Desenvolupament  ========\Modules</Filter>
@@ -224,7 +224,7 @@
     <Filter Include="Desenvolupament  ========\Modules\GUI">
       <UniqueIdentifier>{202b6621-4a03-4e40-9010-e965c11f27e2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Desenvolupament  ========\Entities">
+    <Filter Include="Desenvolupament  ========\Modules\Entities">
       <UniqueIdentifier>{9e98035e-26ab-4a8f-b8f1-1f80e0049c00}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

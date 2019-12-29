@@ -33,7 +33,7 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 	LOG("Loading GUI atlas");
 	bool ret = true;
 
-	atlas_file_name = conf.child("Pixel_Atlas").attribute("file").as_string("");
+	atlas_file_name = conf.child("atlas").attribute("file").as_string("");
 
 	return ret;
 }

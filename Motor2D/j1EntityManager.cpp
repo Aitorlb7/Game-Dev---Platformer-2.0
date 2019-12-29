@@ -81,12 +81,12 @@ bool j1EntityManager::PostUpdate()
 					DeleteEntity(entity->data);
 					continue;
 				}
-
 				else if (entity->data->flip)
-					App->render->Blit(entity->data->graphics, entity->data->position.x, entity->data->position.y, &entity->data->current_anim->GetCurrentFrame(), SDL_FLIP_NONE);
+					App->render->Blit(entity->data->graphics, entity->data->position.x, entity->data->position.y, &entity->data->current_anim->GetCurrentFrame(), SDL_FLIP_NONE);	
 				else
 					App->render->Blit(entity->data->graphics, entity->data->position.x, entity->data->position.y, &entity->data->current_anim->GetCurrentFrame(), SDL_FLIP_HORIZONTAL);
 
+					
 			}
 		}
 	}

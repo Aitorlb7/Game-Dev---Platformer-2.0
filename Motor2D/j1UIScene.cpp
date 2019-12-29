@@ -9,6 +9,7 @@
 #include "j1Audio.h"
 #include "j1Window.h"
 #include "j1App.h"
+#include "j1FadeToBlack.h"
 
 #include "UI_Button.h"
 #include "UI_Image.h"
@@ -47,11 +48,13 @@ bool j1UIScene::Start()
 	{
 		App->pause = true;
 
+		UI_element* back_img = App->gui->createImage(0, 0, App->tex->Load("gui/Background.png"), this);
+
 		//TITLE
 		UI_element* title_img = App->gui->createImageFromAtlas(App->gui->UI_scale,App->gui->UI_scale, { 30,30,30,30 }, this);
 
 		//NEW GAME
-		UI_element* new_game = App->gui->createButton(App->gui->UI_scale, App->gui->UI_scale, NULL, { 30,30,30,30 }, { 30,30,30,30 }, { 30,30,30,30 }, this);
+		UI_element* new_game = App->gui->createButton(OFFSET_TO_CENTER * App->gui->UI_scale, 200 *App->gui->UI_scale, NULL, { 30,30,30,30 }, { 30,30,30,30 }, { 30,30,30,30 }, this);
 		new_game->function = NEW_GAME;
 
 		UI_element* new_text = App->gui->createText("NEW GAME", 200, 200, buttons_font, dark_green);
@@ -59,7 +62,7 @@ bool j1UIScene::Start()
 		new_game->appendChildAtCenter(new_text);
 
 		//CONTINUE GAME
-		continueButton = App->gui->createButton(App->gui->UI_scale, App->gui->UI_scale, NULL, { 30,30,30,30 }, { 30,30,30,30 }, { 30,30,30,30 }, this);
+		continueButton = App->gui->createButton(OFFSET_TO_CENTER * App->gui->UI_scale, 300 * App->gui->UI_scale, NULL, { 30,30,30,30 }, { 30,30,30,30 }, { 30,30,30,30 }, this);
 		continueButton->function = CONTINUE;
 
 		UI_element* continue_text = App->gui->createText("CONTINUE", 200, 200, buttons_font, dark_green);
@@ -67,7 +70,7 @@ bool j1UIScene::Start()
 		continueButton->appendChildAtCenter(continue_text);
 
 		//EXIT GAME
-		UI_element* exit_game = App->gui->createButton( App->gui->UI_scale,App->gui->UI_scale, NULL, { 30,30,30,30 }, { 230,30,30,30 }, { 30,30,30,30 }, this);
+		UI_element* exit_game = App->gui->createButton(OFFSET_TO_CENTER *App->gui->UI_scale, 600 * App->gui->UI_scale, NULL, { 30,30,30,30 }, { 230,30,30,30 }, { 30,30,30,30 }, this);
 		exit_game->function = EXIT;
 
 		UI_element* exit_text = App->gui->createText("EXIT", 200, 200, buttons_font, dark_green);
@@ -75,7 +78,7 @@ bool j1UIScene::Start()
 		exit_game->appendChildAtCenter(exit_text);
 
 		//CREDITS
-		UI_element* credits = App->gui->createButton(App->gui->UI_scale,App->gui->UI_scale, NULL, { 30,30,30,30 }, { 30,30,30,30 }, { 30,30,30,30 }, this);
+		UI_element* credits = App->gui->createButton(OFFSET_TO_CENTER * App->gui->UI_scale, 500 * App->gui->UI_scale, NULL, { 30,30,30,30 }, { 30,30,30,30 }, { 30,30,30,30 }, this);
 		credits->function = CREDITS;
 
 		UI_element* credits_text = App->gui->createText("CREDITS", 200, 200, buttons_font, dark_green);
@@ -83,13 +86,14 @@ bool j1UIScene::Start()
 		credits->appendChildAtCenter(credits_text);
 
 		//SETTINGS
-		UI_element* settings_start_menu = App->gui->createButton(App->gui->UI_scale,App->gui->UI_scale, NULL, { 30,30,30,30 }, { 30,30,30,30 }, { 30,30,30,30 }, this);
+		UI_element* settings_start_menu = App->gui->createButton(OFFSET_TO_CENTER *App->gui->UI_scale, 400 * App->gui->UI_scale, NULL, { 30,30,30,30 }, { 30,30,30,30 }, { 30,30,30,30 }, this);
 		settings_start_menu->function = SETTINGS;
 
 		UI_element* settings_text = App->gui->createText("SETTINGS", 200, 200, buttons_font, dark_green);
 		settings_text->setOutlined(true);
 		settings_start_menu->appendChildAtCenter(settings_text);
 
+		startMenu->elements.add(back_img);
 		startMenu->elements.add(title_img);
 		startMenu->elements.add(new_game);
 		startMenu->elements.add(new_text);
@@ -155,8 +159,12 @@ bool j1UIScene::UIEvent(UI_element* element, event_type event_type)
 		switch (element->function)
 		{
 		case NEW_GAME:
+			App->pause = false;
+			App->fade_to_black->FadeToBlack("Level1.tmx", 3.0f);
+			break;
 		case RESTART:
-
+			App->pause = false;
+			App->fade_to_black->FadeToBlack("Level1.tmx", 3.0f);
 			break;
 		case CONTINUE:
 
