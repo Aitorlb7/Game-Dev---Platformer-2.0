@@ -10,6 +10,8 @@ The title of this game talks about the objective of the character that you contr
 ## Team Members
 <img src=WebFiles/TeamPic.png width="200" height="200">
 
+![](https://github.com/FranGV98/Game-Dev---Platformer-2.0/blob/master/WebFiles/TeamPic.png?raw=true)
+
 **Aitor Luque**
 
 Is the main component of the group. Leader programmer.
