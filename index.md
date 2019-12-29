@@ -7,7 +7,7 @@ This is a platform game made for the subject "Development of videogames" from th
 
 The title of this game talks about the objective of the character that you control. He have to find his deaf dog, which is lost into the woods.
 <p> <iframe width="560" height="315" src="https://youtu.be/aP_xjn812y0" frameborder="0" allow="accelerometer; autoplay;
- encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> </p>ç
+ encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> </p>
  
 ## Team Members
 ![](https://github.com/FranGV98/Game-Dev---Platformer-2.0/blob/master/WebFiles/TeamPic.png?raw=true)
