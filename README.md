@@ -39,10 +39,17 @@
 - UI scene
 - Bug fixing
 
-
+**Fran Guerrero**
+- GUI I+D
+- Web page
+- UI ULM
+- Interface designs
 
 **REPOSITORY:**
 https://github.com/Aitorlb7/Game-Dev---Platformer-2.0
+
+**WebSite**
+https://frangv98.github.io/Game-Dev---Platformer-2.0/
 
 ### License
 
